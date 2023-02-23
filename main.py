@@ -25,8 +25,8 @@ while runAgainBool == True:
     materialInput = input("Please enter the material number of the obsolete part\n") #user input
     materialInput = str(materialInput).upper() #convert input to uppercase
     materialInput = materialInput.strip() #remove whitespace from front and back
-    print("Finding successor product for %s...\n" % (materialInput)); #formatted string
-
+    print("Finding successor product for %s... " % (materialInput)); #formatted string
+    print("(Please note that this program does not check if the material number entered is real.)\n") #disclaimer
     #----- Products that don't use database lookup first -----#
 
 
@@ -49,7 +49,7 @@ while runAgainBool == True:
         #workerStr = strPartition[0].removeprefix("8I64T2") #eliminate the prefix so we can use isolate the rest of the model number
         #materialOutput = "8I66T2%s.0X-000" % (workerStr) #generate the successor model number (P66)
         
-        swChangesRequired = True #software changes not needed
+        swChangesRequired = True #software changes needed
         directSuccessor = False
         nonDirectMsg = "Transition to P66."
 
@@ -92,7 +92,7 @@ while runAgainBool == True:
         #workerStr = strPartition[0].removeprefix("8I64T2") #eliminate the prefix so we can use isolate the rest of the model number
         #materialOutput = "8I66T2%s.0X-000" % (workerStr) #generate the successor model number (P66)
         
-        swChangesRequired = True #software changes not needed
+        swChangesRequired = True #software changes needed
         directSuccessor = False
         nonDirectMsg = "Transition to P66."
 
@@ -104,7 +104,7 @@ while runAgainBool == True:
         #workerStr = strPartition[0].removeprefix("8I64T2") #eliminate the prefix so we can use isolate the rest of the model number
         #materialOutput = "8I66T2%s.0X-000" % (workerStr) #generate the successor model number (P66)
         
-        swChangesRequired = True #software changes not needed
+        swChangesRequired = True #software changes needed
         directSuccessor = False
         nonDirectMsg = "Transition to P66 or P86 depending on performance needed."
 
@@ -118,19 +118,44 @@ while runAgainBool == True:
         strPartition =  materialInput.partition("80") #break the string into pre-seperator, seperator, and post-seperator (seperator is ".")
         workerStr = strPartition[0].removeprefix("8I64S2") #eliminate the prefix so we can use isolate the rest of the model number
         materialOutput = "X20SL81%s" % (strPartition[2]) #generate the successor P64new model number
-        swChangesRequired = True #software changes not needed
+        swChangesRequired = True #software changes needed
 
 
     ### Motors ###
+    # 8LSA gen 0 -> 3
+    matchResult = re.match(r"^8LSA.+-0$", materialInput) #match if string matches format 8LSA*-0
+    if matchResult != None: #if match object is not None (meaning there is at least one match)
+        matchFound = True
+        strPartition =  materialInput.partition("-") #break the string into pre-seperator, seperator, and post-seperator (seperator is ".")
+        materialOutput = strPartition[0] + "-3"
+        swChangesRequired = True #software changes needed
+        directSuccessor = True
 
+    # 8LSC gen 0 -> 3
+    matchResult = re.match(r"^8LSC.+-0$", materialInput) #match if string matches format 8LSC*-0
+    if matchResult != None: #if match object is not None (meaning there is at least one match)
+        matchFound = True
+        strPartition =  materialInput.partition("-") #break the string into pre-seperator, seperator, and post-seperator (seperator is ".")
+        materialOutput = strPartition[0] + "-3"
+        swChangesRequired = True #software changes needed
+        directSuccessor = True
 
+    # 8MSA
+    matchResult = re.match(r"^8MSA.+", materialInput) #match if string matches format 8MSA*
+    if matchResult != None: #if match object is not None (meaning there is at least one match)
+        matchFound = True
+
+        swChangesRequired = True #software changes needed
+        directSuccessor = False
+        nonDirectMsg = "Go to Y:\Application\Support Team\KnowledgeBase\Hardware\Motors\MotorConversions\MSA Motor Lookup v01.1.xlsx"
+        
     ### 
 
 
     #----- Wrap Up and Output -----#
     if matchFound == True: #If a regex match was found
         if directSuccessor == True: #if successor was found
-            print("The replacement material number is %s\n" % (materialOutput)) #print output
+            print("The replacement material number is: %s\n" % (materialOutput)) #print output
         else:
             print("No direct successor. %s\n" % (nonDirectMsg)) 
 
@@ -141,7 +166,7 @@ while runAgainBool == True:
 
     else:
         #In cases that a successor could not be found there either is not a successor or there was a typo in the input
-        print("Unfortunately, there is no successor product for the entered material number. Please ensure there are no mistakes in your input.\n ") 
+        print("Unfortunately, a successor product for the entered material number was not found. Please ensure there are no mistakes in your input.\n ") 
     
     #----- Go Again? -----#
     validRunAgainInput = False
