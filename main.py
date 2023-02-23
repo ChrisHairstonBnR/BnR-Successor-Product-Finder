@@ -7,8 +7,8 @@ materialInput = '' #user input
 materialOutput = '' #successor material output
 matchFound = False #set to true when match is found
 swChangesRequired = False #true if software changes are required
-directSuccessor = False #true if there is a direct successor found
-nonDirectMsg = '' #message shown when there is no direct successor
+directSuccessor = False #true if there is a DIRECT or 1:1 successor found
+nonDirectMsg = '' #message shown when there is no DIRECT or 1:1 successor
 workerStr = '' #used for string manipulation operations
 runAgainBool = True
 runAgainInput = ''
@@ -126,7 +126,7 @@ while runAgainBool == True:
     matchResult = re.match(r"^8LSA.+-0$", materialInput) #match if string matches format 8LSA*-0
     if matchResult != None: #if match object is not None (meaning there is at least one match)
         matchFound = True
-        strPartition =  materialInput.partition("-") #break the string into pre-seperator, seperator, and post-seperator (seperator is ".")
+        strPartition =  materialInput.partition("-") #break the string into pre-seperator, seperator, and post-seperator (seperator is "-")
         materialOutput = strPartition[0] + "-3"
         swChangesRequired = True #software changes needed
         directSuccessor = True
@@ -148,16 +148,78 @@ while runAgainBool == True:
         swChangesRequired = True #software changes needed
         directSuccessor = False
         nonDirectMsg = "Go to Y:\Application\Support Team\KnowledgeBase\Hardware\Motors\MotorConversions\MSA Motor Lookup v01.1.xlsx"
-        
-    ### 
+    
+    
+    ### CompactFlash ###
+    # 5CFCRD.xxxx-02
+    matchResult = re.match(r"^5CFCRD\..{4}-02", materialInput) #match if string matches format*
+    if matchResult != None: #if match object is not None (meaning there is at least one match)
+        matchFound = True
+
+        #sqlite3 operations#
+
+        swChangesRequired = False #software changes needed
+        directSuccessor = True
+
+    # 5CFCRD.xxxx-03
+    matchResult = re.match(r"^5CFCRD\..{4}-03", materialInput) #match if string matches format
+    if matchResult != None: #if match object is not None (meaning there is at least one match)
+        matchFound = True
+
+        #sqlite3 operations#
+
+        swChangesRequired = False #software changes needed
+        directSuccessor = True
+
+    # 5CFCRD.xxxx-04
+    matchResult = re.match(r"^5CFCRD\..{4}-04", materialInput) #match if string matches format
+    if matchResult != None: #if match object is not None (meaning there is at least one match)
+        matchFound = True
+
+        workerStr = materialInput.removesuffix("-04") #remove "-04"
+        materialOutput = workerStr + "-06" #replace with "-06"
+        swChangesRequired = False #software changes needed
+        directSuccessor = True
+
+    # 0CFCRD.xxxx.02
+    matchResult = re.match(r"^0CFCRD\..{4}E\.01", materialInput) #match if string matches format*
+    if matchResult != None: #if match object is not None (meaning there is at least one match)
+        matchFound = True
+
+        #sqlite3 operations#
+
+        swChangesRequired = False #software changes needed
+        directSuccessor = True
+
+    ### Power Panels ###
+    matchResult = re.match(r"^5PP5.+", materialInput) #match if string matches format*
+    if matchResult != None: #if match object is not None (meaning there is at least one match)
+        matchFound = True
+
+        #sqlite3 operations#
+
+        swChangesRequired = False #software changes needed
+        if materialOutput != '': #if a direct replacement was found
+            directSuccessor = True
+        else:
+            directSuccessor = False
+
+            if materialInput == "5PP552.0573-00":
+                nonDirectMsg = "No 1:1 replacement available because of very low demand. Changeover recommendation: 5AP1151.0573-000\n"
+
+
+
 
 
     #----- Wrap Up and Output -----#
     if matchFound == True: #If a regex match was found
-        if directSuccessor == True: #if successor was found
+        if directSuccessor == True: #if direct successor was found
             print("The replacement material number is: %s\n" % (materialOutput)) #print output
+            
         else:
-            print("No direct successor. %s\n" % (nonDirectMsg)) 
+            print("No direct successor found. %s\n" % (nonDirectMsg)) 
+
+        print("(Please ensure that this successor is not obsolete itself.)\n") #disclaimer
 
         if swChangesRequired == True: #if software changes are required
             print("Software changes will be necessary in Automation Studio.\n")
