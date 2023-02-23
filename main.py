@@ -177,22 +177,38 @@ while runAgainBool == True:
     if matchResult != None: #if match object is not None (meaning there is at least one match)
         matchFound = True
 
-        #sqlite3 operations#
+        dbResult = dbCursor.execute("SELECT * FROM CompactFlash")
+        if dbResult != None:
+            for row in dbResult:
+                if row[0] == materialInput:
+                    materialOutput = row[1]
 
         swChangesRequired = False #software changes needed
-        anySuccessor = True
-        directSuccessor = True
+        if materialOutput != None: #if a direct replacement was found
+            anySuccessor = True
+            directSuccessor = True
+        else:
+            anySuccessor = False
+            directSuccessor = False
 
     # 5CFCRD.xxxx-03
     matchResult = re.match(r"^5CFCRD\..{4}-03", materialInput) #match if string matches format
     if matchResult != None: #if match object is not None (meaning there is at least one match)
         matchFound = True
 
-        #sqlite3 operations#
+        dbResult = dbCursor.execute("SELECT * FROM CompactFlash")
+        if dbResult != None:
+            for row in dbResult:
+                if row[0] == materialInput:
+                    materialOutput = row[1]
 
         swChangesRequired = False #software changes needed
-        anySuccessor = True
-        directSuccessor = True
+        if materialOutput != None: #if a direct replacement was found
+            anySuccessor = True
+            directSuccessor = True
+        else:
+            anySuccessor = False
+            directSuccessor = False
 
     # 5CFCRD.xxxx-04
     matchResult = re.match(r"^5CFCRD\..{4}-04", materialInput) #match if string matches format
@@ -210,11 +226,19 @@ while runAgainBool == True:
     if matchResult != None: #if match object is not None (meaning there is at least one match)
         matchFound = True
 
-        #sqlite3 operations#
+        dbResult = dbCursor.execute("SELECT * FROM CompactFlash")
+        if dbResult != None:
+            for row in dbResult:
+                if row[0] == materialInput:
+                    materialOutput = row[1]
 
         swChangesRequired = False #software changes needed
-        anySuccessor = True
-        directSuccessor = True
+        if materialOutput != None: #if a direct replacement was found
+            anySuccessor = True
+            directSuccessor = True
+        else:
+            anySuccessor = False
+            directSuccessor = False
 
     ### Power Panels ###
     # PP300 panels
@@ -228,7 +252,7 @@ while runAgainBool == True:
                 if row[0] == materialInput:
                     materialOutput = row[1]
 
-        swChangesRequired = False #software changes needed
+        swChangesRequired = True #software changes needed
         if materialOutput != None: #if a direct replacement was found
             anySuccessor = True
             directSuccessor = True
@@ -251,7 +275,7 @@ while runAgainBool == True:
                 if row[0] == materialInput:
                     materialOutput = row[1]
 
-        swChangesRequired = False #software changes needed
+        swChangesRequired = True #software changes needed
         if materialOutput != None: #if a direct replacement was found
             anySuccessor = True
             directSuccessor = True
@@ -270,7 +294,7 @@ while runAgainBool == True:
                 if row[0] == materialInput:
                     materialOutput = row[1]
 
-        swChangesRequired = False #software changes needed
+        swChangesRequired = True #software changes needed
         if materialOutput != None: #if a direct replacement was found
             directSuccessor = True
         else:
@@ -319,7 +343,7 @@ while runAgainBool == True:
             runAgainBool = False
         else:
             validRunAgainInput = False
-            print("Please enter a valid input (y/n).")
+            print("Please enter a valid input (y/n). ")
 
 
 
