@@ -27,8 +27,9 @@ while runAgainBool == True:
     materialInput = materialInput.strip() #remove whitespace from front and back
     print("Finding successor product for %s... " % (materialInput)); #formatted string
     print("(Please note that this program does not check if the material number entered is real.)\n") #disclaimer
-    #----- Products that don't use database lookup first -----#
 
+
+    #----- Products that don't use database lookup first -----#
 
     ### Inverters ###
     # P64 S2
@@ -192,6 +193,7 @@ while runAgainBool == True:
         directSuccessor = True
 
     ### Power Panels ###
+    # PP500 panels, cpus and interfaces
     matchResult = re.match(r"^5PP5.+", materialInput) #match if string matches format*
     if matchResult != None: #if match object is not None (meaning there is at least one match)
         matchFound = True
