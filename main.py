@@ -7,6 +7,7 @@ materialInput = '' #user input
 materialOutput = '' #successor material output
 matchFound = False #set to true when match is found
 swChangesRequired = False #true if software changes are required
+anySuccessor = False
 directSuccessor = False #true if there is a DIRECT or 1:1 successor found
 nonDirectMsg = '' #message shown when there is no DIRECT or 1:1 successor
 workerStr = '' #used for string manipulation operations
@@ -19,6 +20,13 @@ validRunAgainInput = False #True if Y/y/N/n is entered when asked if customer wo
 # "\.": escape input to use "."
 # ".": matches any character (except for line terminators)
 # "+": matches the previous token between one and unlimited times
+
+#----- SQLite3 Setup -----#
+dbConnection = sqlite3.connect("SuccessorProductDB.db")
+dbCursor = dbConnection.cursor()
+#dbConnection.row_factory = sqlite3.Row
+dbResult = None #query result variable
+
 
 while runAgainBool == True:
     #----- Get User Input -----#
@@ -40,6 +48,7 @@ while runAgainBool == True:
         workerStr = strPartition[0].removeprefix("8I64S2") #eliminate the prefix so we can use isolate the rest of the model number
         materialOutput = "8I64S2%s.0X-000" % (workerStr) #generate the successor model number
         swChangesRequired = False #software changes not needed
+        anySuccessor = True
         directSuccessor = True
 
     # P64 T2
@@ -51,6 +60,7 @@ while runAgainBool == True:
         #materialOutput = "8I66T2%s.0X-000" % (workerStr) #generate the successor model number (P66)
         
         swChangesRequired = True #software changes needed
+        anySuccessor = True
         directSuccessor = False
         nonDirectMsg = "Transition to P66."
 
@@ -62,6 +72,7 @@ while runAgainBool == True:
         workerStr = strPartition[0].removeprefix("8I64T4") #eliminate the prefix so we can use isolate the rest of the model number
         materialOutput = "8I64T4%s.0X-000" % (workerStr) #generate the successor model number
         swChangesRequired = False #software changes not needed
+        anySuccessor = True
         directSuccessor = True
 
     # P74 S2
@@ -72,6 +83,7 @@ while runAgainBool == True:
         workerStr = strPartition[0].removeprefix("8I74S2") #eliminate the prefix so we can use isolate the rest of the model number
         materialOutput = "8I74S2%s.0P-000" % (workerStr) #generate the successor model number
         swChangesRequired = False #software changes not needed
+        anySuccessor = True
         directSuccessor = True
 
 
@@ -83,6 +95,7 @@ while runAgainBool == True:
         workerStr = strPartition[0].removeprefix("8I74S2") #eliminate the prefix so we can use isolate the rest of the model number
         materialOutput = "8I74T4%s.0P-000" % (workerStr) #generate the successor model number
         swChangesRequired = False #software changes not needed
+        anySuccessor = True
         directSuccessor = True
 
     # P84 T2
@@ -94,6 +107,7 @@ while runAgainBool == True:
         #materialOutput = "8I66T2%s.0X-000" % (workerStr) #generate the successor model number (P66)
         
         swChangesRequired = True #software changes needed
+        anySuccessor = True
         directSuccessor = False
         nonDirectMsg = "Transition to P66."
 
@@ -106,6 +120,7 @@ while runAgainBool == True:
         #materialOutput = "8I66T2%s.0X-000" % (workerStr) #generate the successor model number (P66)
         
         swChangesRequired = True #software changes needed
+        anySuccessor = True
         directSuccessor = False
         nonDirectMsg = "Transition to P66 or P86 depending on performance needed."
 
@@ -120,6 +135,8 @@ while runAgainBool == True:
         workerStr = strPartition[0].removeprefix("8I64S2") #eliminate the prefix so we can use isolate the rest of the model number
         materialOutput = "X20SL81%s" % (strPartition[2]) #generate the successor P64new model number
         swChangesRequired = True #software changes needed
+        anySuccessor = True
+        directSuccessor = True
 
 
     ### Motors ###
@@ -130,6 +147,7 @@ while runAgainBool == True:
         strPartition =  materialInput.partition("-") #break the string into pre-seperator, seperator, and post-seperator (seperator is "-")
         materialOutput = strPartition[0] + "-3"
         swChangesRequired = True #software changes needed
+        anySuccessor = True
         directSuccessor = True
 
     # 8LSC gen 0 -> 3
@@ -139,6 +157,7 @@ while runAgainBool == True:
         strPartition =  materialInput.partition("-") #break the string into pre-seperator, seperator, and post-seperator (seperator is ".")
         materialOutput = strPartition[0] + "-3"
         swChangesRequired = True #software changes needed
+        anySuccessor = True
         directSuccessor = True
 
     # 8MSA
@@ -147,6 +166,7 @@ while runAgainBool == True:
         matchFound = True
 
         swChangesRequired = True #software changes needed
+        anySuccessor = True
         directSuccessor = False
         nonDirectMsg = "Go to Y:\Application\Support Team\KnowledgeBase\Hardware\Motors\MotorConversions\MSA Motor Lookup v01.1.xlsx"
     
@@ -160,6 +180,7 @@ while runAgainBool == True:
         #sqlite3 operations#
 
         swChangesRequired = False #software changes needed
+        anySuccessor = True
         directSuccessor = True
 
     # 5CFCRD.xxxx-03
@@ -170,6 +191,7 @@ while runAgainBool == True:
         #sqlite3 operations#
 
         swChangesRequired = False #software changes needed
+        anySuccessor = True
         directSuccessor = True
 
     # 5CFCRD.xxxx-04
@@ -180,6 +202,7 @@ while runAgainBool == True:
         workerStr = materialInput.removesuffix("-04") #remove "-04"
         materialOutput = workerStr + "-06" #replace with "-06"
         swChangesRequired = False #software changes needed
+        anySuccessor = True
         directSuccessor = True
 
     # 0CFCRD.xxxx.02
@@ -190,23 +213,72 @@ while runAgainBool == True:
         #sqlite3 operations#
 
         swChangesRequired = False #software changes needed
+        anySuccessor = True
         directSuccessor = True
 
     ### Power Panels ###
-    # PP500 panels, cpus and interfaces
+    # PP300 panels
+    matchResult = re.match(r"^[4|5]PP3.+", materialInput) #match if string matches format*
+    if matchResult != None: #if match object is not None (meaning there is at least one match)
+        matchFound = True
+
+        dbResult = dbCursor.execute("SELECT * FROM PP300")
+        if dbResult != None:
+            for row in dbResult:
+                if row[0] == materialInput:
+                    materialOutput = row[1]
+
+        swChangesRequired = False #software changes needed
+        if materialOutput != None: #if a direct replacement was found
+            anySuccessor = True
+            directSuccessor = True
+        else:
+            anySuccessor = False
+            directSuccessor = False
+
+            if materialInput == "4PP352.0571-35":
+                anySuccessor = True
+                nonDirectMsg = "No 1:1 replacement available because of very low demand. Changeover recommendation: 5AP1151.0573-000\n"
+
+    # PP400 panels
+    matchResult = re.match(r"^4PP4.+", materialInput) #match if string matches format*
+    if matchResult != None: #if match object is not None (meaning there is at least one match)
+        matchFound = True
+
+        dbResult = dbCursor.execute("SELECT * FROM PP400")
+        if dbResult != None:
+            for row in dbResult:
+                if row[0] == materialInput:
+                    materialOutput = row[1]
+
+        swChangesRequired = False #software changes needed
+        if materialOutput != None: #if a direct replacement was found
+            anySuccessor = True
+            directSuccessor = True
+        else:
+            anySuccessor = False
+            directSuccessor = False
+
+    # PP500 panels (display), cpus and interfaces
     matchResult = re.match(r"^5PP5.+", materialInput) #match if string matches format*
     if matchResult != None: #if match object is not None (meaning there is at least one match)
         matchFound = True
 
-        #sqlite3 operations#
+        dbResult = dbCursor.execute("SELECT * FROM PP500")
+        if dbResult != None:
+            for row in dbResult:
+                if row[0] == materialInput:
+                    materialOutput = row[1]
 
         swChangesRequired = False #software changes needed
-        if materialOutput != '': #if a direct replacement was found
+        if materialOutput != None: #if a direct replacement was found
             directSuccessor = True
         else:
+            anySuccessor = False
             directSuccessor = False
 
             if materialInput == "5PP552.0573-00":
+                anySuccessor = True
                 nonDirectMsg = "No 1:1 replacement available because of very low demand. Changeover recommendation: 5AP1151.0573-000\n"
 
 
@@ -214,9 +286,9 @@ while runAgainBool == True:
 
 
     #----- Wrap Up and Output -----#
-    if matchFound == True: #If a regex match was found
+    if anySuccessor == True: #If a regex match was found
         if directSuccessor == True: #if direct successor was found
-            print("The replacement material number is: %s\n" % (materialOutput)) #print output
+            print("The replacement material number(s) is (are):\n%s" % (materialOutput)) #print output
             
         else:
             print("No direct successor found. %s\n" % (nonDirectMsg)) 
@@ -230,7 +302,10 @@ while runAgainBool == True:
 
     else:
         #In cases that a successor could not be found there either is not a successor or there was a typo in the input
-        print("Unfortunately, a successor product for the entered material number was not found. Please ensure there are no mistakes in your input.\n ") 
+        print("Unfortunately, a successor product for the entered material number was not available. Please ensure there are no mistakes in your input.\n ") 
+
+    
+
     
     #----- Go Again? -----#
     validRunAgainInput = False
