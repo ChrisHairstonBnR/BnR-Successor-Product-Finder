@@ -5,9 +5,9 @@
 - [x] P84
 
 ## Motors
-- [ ] 8LSA (-0)
-- [ ] 8LSC (-0)
-- [ ] 8MSA
+- [x] 8LSA (-0)
+- [x] 8LSC (-0)
+- [x] 8MSA
 - [ ] ACOPOS original series
 
 ## PCs

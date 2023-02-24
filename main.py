@@ -308,11 +308,12 @@ while runAgainBool == True:
 
     ### HMI ###
     # AP9xD
-    matchResult = re.match(r"^5AP9\d\..{7}", materialInput) #match if string matches format*
+    matchResult = re.match(r"^5AP9\dD\..{7}", materialInput) #match if string matches format*
     if matchResult != None: #if match object is not None (meaning there is at least one match)
         matchFound = True
 
         dbResult = dbCursor.execute("SELECT * FROM AP9xD")
+        #dbResult = dbCursor.fetchall()
         if dbResult != None:
             for row in dbResult:
                 if row[0] == materialInput:
@@ -320,6 +321,7 @@ while runAgainBool == True:
 
         swChangesRequired = True #software changes needed
         if materialOutput != None: #if a direct replacement was found
+            anySuccessor = True
             directSuccessor = True
         else:
             anySuccessor = False
@@ -348,11 +350,9 @@ while runAgainBool == True:
     ### MISC ###
     # When no other regex matches, check the misc table
     # Use Misc table for series with mixed format model numbers such as SDL3
-
-    # SDL3
     if matchFound == False:
-        #sql code
-        dbResult = dbCursor.execute("SELECT * FROM MISC")
+        
+        dbResult = dbCursor.execute("SELECT * FROM Misc")
         if dbResult != None:
             for row in dbResult:
                 if row[0] == materialInput:
@@ -360,6 +360,7 @@ while runAgainBool == True:
 
         swChangesRequired = True #software changes needed
         if materialOutput != None: #if a direct replacement was found
+            anySuccessor = True
             directSuccessor = True
         else:
             anySuccessor = False
