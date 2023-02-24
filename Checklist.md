@@ -1,6 +1,6 @@
 # Discontinued Lines
 ## Drives/Inverters
-- [x] P64
+- [x] X64
 - [x] P74
 - [x] P84
 

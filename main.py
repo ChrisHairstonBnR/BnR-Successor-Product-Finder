@@ -40,7 +40,7 @@ while runAgainBool == True:
     #----- Products that don't use database lookup first -----#
 
     ### Inverters ###
-    # P64 S2
+    # X64 S2
     matchResult = re.match(r"^8I64S2.+\.00X-1$", materialInput) #match if string matches format 8I64S2*.00X-1
     if matchResult != None: #if match object is not None (meaning there is at least one match)
         matchFound = True
@@ -51,7 +51,7 @@ while runAgainBool == True:
         anySuccessor = True
         directSuccessor = True
 
-    # P64 T2
+    # X64 T2
     matchResult = re.match(r"^8I64T2.+\.00X-1$", materialInput) #match if string matches format 8I64T2*.00X-1
     if matchResult != None: #if match object is not None (meaning there is at least one match)
         matchFound = True
@@ -64,7 +64,7 @@ while runAgainBool == True:
         directSuccessor = False
         nonDirectMsg = "Transition to P66."
 
-    # P64 T4
+    # X64 T4
     matchResult = re.match(r"^8I64T4.+\.00X-1$", materialInput) #match if string starts with 8I64T4*.00X-1
     if matchResult != None: #if match object is not None (meaning there is at least one match)
         matchFound = True
