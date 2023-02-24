@@ -8,7 +8,7 @@ a = Analysis(
     ['main.py'],
     pathex=[],
     binaries=[],
-    datas=[('SuccessorProductDB.db', '.')],
+    datas=[('SuccessorProductDB.db','.')],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},
