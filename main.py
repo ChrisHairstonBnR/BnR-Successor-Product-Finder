@@ -305,7 +305,25 @@ while runAgainBool == True:
                 anySuccessor = True
                 nonDirectMsg = "No 1:1 replacement available because of very low demand. Changeover recommendation: 5AP1151.0573-000\n"
 
+    ### Misc ###
+    if matchFound == False:
+        #sql code
+        dbResult = dbCursor.execute("SELECT * FROM Misc")
+        if dbResult != None:
+            for row in dbResult:
+                if row[0] == materialInput:
+                    materialOutput = row[1]
 
+        swChangesRequired = True #software changes needed
+        if materialOutput != None: #if a direct replacement was found
+            directSuccessor = True
+        else:
+            anySuccessor = False
+            directSuccessor = False
+
+            #if materialInput == "5PP552.0573-00":
+            #    anySuccessor = True
+            #    nonDirectMsg = "No 1:1 replacement available because of very low demand. Changeover recommendation: 5AP1151.0573-000\n"
 
 
 
