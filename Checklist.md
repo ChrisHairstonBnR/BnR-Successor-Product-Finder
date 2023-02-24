@@ -6,8 +6,9 @@
 
 ## Motors
 - [ ] 8LSA (-0)
-- [ ] 8LSC
+- [ ] 8LSC (-0)
 - [ ] 8MSA
+- [ ] ACOPOS original series
 
 ## PCs
 - [ ] PPC300
@@ -43,6 +44,7 @@
 - [ ] SDL3
 - [ ] AP9xD
 - [ ] MP712x
+- [ ] MP50
 
 ## Misc
 - [ ] RFID modules

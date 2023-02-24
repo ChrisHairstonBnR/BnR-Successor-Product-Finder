@@ -296,6 +296,7 @@ while runAgainBool == True:
 
         swChangesRequired = True #software changes needed
         if materialOutput != None: #if a direct replacement was found
+            anySuccessor = True
             directSuccessor = True
         else:
             anySuccessor = False
@@ -305,10 +306,53 @@ while runAgainBool == True:
                 anySuccessor = True
                 nonDirectMsg = "No 1:1 replacement available because of very low demand. Changeover recommendation: 5AP1151.0573-000\n"
 
-    ### Misc ###
+    ### HMI ###
+    # AP9xD
+    matchResult = re.match(r"^5AP9\d\..{7}", materialInput) #match if string matches format*
+    if matchResult != None: #if match object is not None (meaning there is at least one match)
+        matchFound = True
+
+        dbResult = dbCursor.execute("SELECT * FROM AP9xD")
+        if dbResult != None:
+            for row in dbResult:
+                if row[0] == materialInput:
+                    materialOutput = row[1]
+
+        swChangesRequired = True #software changes needed
+        if materialOutput != None: #if a direct replacement was found
+            directSuccessor = True
+        else:
+            anySuccessor = False
+            directSuccessor = False
+
+    # AP9xD Handles 
+    matchResult = re.match(r"^5AC903\.HDL0-0\d", materialInput) #match if string matches format*
+    if matchResult != None: #if match object is not None (meaning there is at least one match)
+        matchFound = True
+
+        dbResult = dbCursor.execute("SELECT * FROM AP9xD")
+        if dbResult != None:
+            for row in dbResult:
+                if row[0] == materialInput:
+                    materialOutput = row[1]
+
+        swChangesRequired = True #software changes needed
+        if materialOutput != None: #if a direct replacement was found
+            anySuccessor = True
+            directSuccessor = True
+        else:
+            anySuccessor = False
+            directSuccessor = False
+
+           
+    ### MISC ###
+    # When no other regex matches, check the misc table
+    # Use Misc table for series with mixed format model numbers such as SDL3
+
+    # SDL3
     if matchFound == False:
         #sql code
-        dbResult = dbCursor.execute("SELECT * FROM Misc")
+        dbResult = dbCursor.execute("SELECT * FROM MISC")
         if dbResult != None:
             for row in dbResult:
                 if row[0] == materialInput:
@@ -324,7 +368,6 @@ while runAgainBool == True:
             #if materialInput == "5PP552.0573-00":
             #    anySuccessor = True
             #    nonDirectMsg = "No 1:1 replacement available because of very low demand. Changeover recommendation: 5AP1151.0573-000\n"
-
 
 
     #----- Wrap Up and Output -----#
