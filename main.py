@@ -221,6 +221,26 @@ while runAgainBool == True:
         anySuccessor = True
         directSuccessor = True
 
+    # 5CFCRD.xxxx-06
+    matchResult = re.match(r"^5CFCRD\..{4}-06", materialInput) #match if string matches format
+    if matchResult != None: #if match object is not None (meaning there is at least one match)
+        matchFound = True
+
+        dbResult = dbCursor.execute("SELECT * FROM CompactFlash")
+        if dbResult != None:
+            for row in dbResult:
+                if row[0] == materialInput:
+                    materialOutput = row[1]
+
+        swChangesRequired = False #software changes needed
+        if materialOutput != None: #if a direct replacement was found
+            anySuccessor = True
+            directSuccessor = True
+        else:
+            anySuccessor = False
+            directSuccessor = False
+    
+
     # 0CFCRD.xxxx.02
     matchResult = re.match(r"^0CFCRD\..{4}E\.01", materialInput) #match if string matches format*
     if matchResult != None: #if match object is not None (meaning there is at least one match)
