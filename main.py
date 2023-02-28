@@ -36,6 +36,7 @@ while runAgainBool == True:
     print("Finding successor product for %s... " % (materialInput)); #formatted string
     print("(Please note that this program does not check if the material number entered is real.)\n") #disclaimer
 
+    matchFound = False
 
     #----- Products that don't use database lookup first -----#
 
@@ -366,6 +367,25 @@ while runAgainBool == True:
             anySuccessor = False
             directSuccessor = False
 
+    # AP900
+    matchResult = re.match(r"^5AP9\d{2}\.\d{4}-01", materialInput) #match if string matches format*
+    if matchResult != None: #if match object is not None (meaning there is at least one match)
+        matchFound = True
+
+        dbResult = dbCursor.execute("SELECT * FROM AP900")
+        #dbResult = dbCursor.fetchall()
+        if dbResult != None:
+            for row in dbResult:
+                if row[0] == materialInput:
+                    materialOutput = row[1]
+
+        swChangesRequired = True #software changes needed
+        if materialOutput != None: #if a direct replacement was found
+            anySuccessor = True
+            directSuccessor = True
+        else:
+            anySuccessor = False
+            directSuccessor = False
            
     ### MISC ###
     # When no other regex matches, check the misc table

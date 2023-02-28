@@ -34,20 +34,21 @@
 - [x] 5CFCRD.xxxx-02
 - [x] 5CFCRD.xxxx-03
 - [x] 5CFCRD.xxxx-04
-- [ ] 5CFCRD.xxxx-06
+- [x] 5CFCRD.xxxx-06
 - [x] 0CFCRD.xxxx.01
 
 ## GPOS
 - [ ] Windows XP
 
 ## HMI
-- [ ] SDL3
-- [ ] AP9xD
+
+- [x] AP9xD
+- [ ] AP900
 - [ ] MP712x
 - [ ] MP50
 
 ## Misc
 - [ ] RFID modules
-
+- [x] SDL3 (Moved to Misc due to model number irregularities)
 
 
