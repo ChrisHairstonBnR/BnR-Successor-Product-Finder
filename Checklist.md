@@ -47,11 +47,11 @@
 
 - [x] AP9xD
 - [x] AP900
-- [ ] MP712x
+- [x] MP712x
 - [ ] MP50
 
 ## Misc
-- [ ] RFID modules
+- [x] RFID modules
 - [x] SDL3 (Moved to Misc due to model number irregularities)
 
 
