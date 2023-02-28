@@ -30,6 +30,9 @@
 ## PLCs
 - [ ] X201483 & X20CP1483-1
 
+## X2X (Non-PLCs)
+- [ ] X20DS4387
+
 ## CompactFlash
 - [x] 5CFCRD.xxxx-02
 - [x] 5CFCRD.xxxx-03
@@ -43,7 +46,7 @@
 ## HMI
 
 - [x] AP9xD
-- [ ] AP900
+- [x] AP900
 - [ ] MP712x
 - [ ] MP50
 

@@ -382,6 +382,15 @@ while runAgainBool == True:
             anySuccessor = False
             directSuccessor = False
 
+    # MP712x
+    matchResult = re.match(r"^5MP712\d\..{4}-000", materialInput) #match if string matches format*
+    if matchResult != None: #if match object is not None (meaning there is at least one match)
+        matchFound = True
+        swChangesRequired = True #software changes needed
+        anySuccessor = False
+        directSuccessor = False
+
+
     ### PCs ####
     # PPC300
     matchResult = re.match(r"5PC310\.L800-00", materialInput) #match if string matches format*
