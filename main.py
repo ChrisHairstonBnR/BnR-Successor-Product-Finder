@@ -15,11 +15,6 @@ runAgainBool = True
 runAgainInput = ''
 validRunAgainInput = False #True if Y/y/N/n is entered when asked if customer would like to enter another material number
 
-#----- Regex Cheat Sheet -----#
-# "^": Start of line/string
-# "\.": escape input to use "."
-# ".": matches any character (except for line terminators)
-# "+": matches the previous token between one and unlimited times
 
 #----- SQLite3 Setup -----#
 dbConnection = sqlite3.connect("SuccessorProductDB.db")
@@ -386,6 +381,20 @@ while runAgainBool == True:
         else:
             anySuccessor = False
             directSuccessor = False
+
+    ### PCs ####
+    # PPC300
+    matchResult = re.match(r"5PC310\.L800-00", materialInput) #match if string matches format*
+    if matchResult != None: #if match object is not None (meaning there is at least one match)
+        matchFound = True
+        materialOutput = "5PPC2100.BY01-000"
+        swChangesRequired = True #software changes needed
+        anySuccessor = True
+        directSuccessor = True
+
+    
+    ### GPOS ####
+
            
     ### MISC ###
     # When no other regex matches, check the misc table
