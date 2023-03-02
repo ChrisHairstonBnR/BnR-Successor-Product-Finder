@@ -10,7 +10,7 @@
 - [x] 8LSA (-0)
 - [x] 8LSC (-0)
 - [x] 8MSA
-- [ ] ACOPOS original series
+- [x] ACOPOS original series (8V)
 
 ## PCs
 - [x] PPC300

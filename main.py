@@ -2,9 +2,9 @@ import re #regular expressions
 import sqlite3 #https://docs.python.org/3/library/sqlite3.html
 
 #----- VERSION -----#
-sofwareVersion = 0.1
+sofwareVersion = '0.1a'
 
-#variable declaration
+#----- Variable Declaration -----#
 materialInput = '' #user input
 materialOutput = '' #successor material output
 matchFound = False #set to true when match is found
@@ -24,7 +24,7 @@ dbCursor = dbConnection.cursor()
 #dbConnection.row_factory = sqlite3.Row
 dbResult = None #query result variable
 
-print("***WELCOME TO THE B&R SUCCESSOR PRODUCT FINDER v%.2f***\nWritten by Chris Hairston\n" % sofwareVersion);
+print("***WELCOME TO THE B&R SUCCESSOR PRODUCT FINDER v%s***\nWritten by Chris Hairston" % sofwareVersion);
 
 
 
@@ -135,7 +135,24 @@ while runAgainBool == True: #core code is in while loop so user can do lookup as
         directSuccessor = False
         nonDirectMsg = "Transition to the ACOPOS P3 or ACOPOSmulti series."
     
+    # ACOPOSmulti
+    matchResult = re.match(r"^8BVI\d{4}H.{3}\.\d{3}-1", materialInput) #match if string matches format*
+    if matchResult != None: #if match object is not None (meaning there is at least one match)
+        matchFound = True
 
+        dbResult = dbCursor.execute("SELECT * FROM ACOPOSmulti")
+        if dbResult != None:
+            for row in dbResult:
+                if row[0] == materialInput:
+                    materialOutput = row[1]
+
+        swChangesRequired = False #software changes needed
+        if materialOutput != None and materialOutput != '': #if a direct replacement was found
+            anySuccessor = True
+            directSuccessor = True
+        else:
+            anySuccessor = False
+            directSuccessor = False
 
     ### Motors ###
     # 8LSA gen 0 -> 3
@@ -182,7 +199,7 @@ while runAgainBool == True: #core code is in while loop so user can do lookup as
                     materialOutput = row[1]
 
         swChangesRequired = False #software changes needed
-        if materialOutput != None: #if a direct replacement was found
+        if materialOutput != None and materialOutput != '': #if a direct replacement was found
             anySuccessor = True
             directSuccessor = True
         else:
@@ -201,7 +218,7 @@ while runAgainBool == True: #core code is in while loop so user can do lookup as
                     materialOutput = row[1]
 
         swChangesRequired = False #software changes needed
-        if materialOutput != None: #if a direct replacement was found
+        if materialOutput != None and materialOutput != '': #if a direct replacement was found
             anySuccessor = True
             directSuccessor = True
         else:
@@ -231,7 +248,7 @@ while runAgainBool == True: #core code is in while loop so user can do lookup as
                     materialOutput = row[1]
 
         swChangesRequired = False #software changes needed
-        if materialOutput != None: #if a direct replacement was found
+        if materialOutput != None and materialOutput != '': #if a direct replacement was found
             anySuccessor = True
             directSuccessor = True
         else:
@@ -251,7 +268,7 @@ while runAgainBool == True: #core code is in while loop so user can do lookup as
                     materialOutput = row[1]
 
         swChangesRequired = False #software changes needed
-        if materialOutput != None: #if a direct replacement was found
+        if materialOutput != None and materialOutput != '': #if a direct replacement was found
             anySuccessor = True
             directSuccessor = True
         else:
@@ -271,7 +288,7 @@ while runAgainBool == True: #core code is in while loop so user can do lookup as
                     materialOutput = row[1]
 
         swChangesRequired = True #software changes needed
-        if materialOutput != None: #if a direct replacement was found
+        if materialOutput != None and materialOutput != '': #if a direct replacement was found
             anySuccessor = True
             directSuccessor = True
         else:
@@ -294,7 +311,7 @@ while runAgainBool == True: #core code is in while loop so user can do lookup as
                     materialOutput = row[1]
 
         swChangesRequired = True #software changes needed
-        if materialOutput != None: #if a direct replacement was found
+        if materialOutput != None and materialOutput != '': #if a direct replacement was found
             anySuccessor = True
             directSuccessor = True
         else:
@@ -313,7 +330,7 @@ while runAgainBool == True: #core code is in while loop so user can do lookup as
                     materialOutput = row[1]
 
         swChangesRequired = True #software changes needed
-        if materialOutput != None: #if a direct replacement was found
+        if materialOutput != None and materialOutput != '': #if a direct replacement was found
             anySuccessor = True
             directSuccessor = True
         else:
@@ -338,7 +355,7 @@ while runAgainBool == True: #core code is in while loop so user can do lookup as
                     materialOutput = row[1]
 
         swChangesRequired = True #software changes needed
-        if materialOutput != None: #if a direct replacement was found
+        if materialOutput != None and materialOutput != '': #if a direct replacement was found
             anySuccessor = True
             directSuccessor = True
         else:
@@ -357,7 +374,7 @@ while runAgainBool == True: #core code is in while loop so user can do lookup as
                     materialOutput = row[1]
 
         swChangesRequired = True #software changes needed
-        if materialOutput != None: #if a direct replacement was found
+        if materialOutput != None and materialOutput != '': #if a direct replacement was found
             anySuccessor = True
             directSuccessor = True
         else:
@@ -377,7 +394,7 @@ while runAgainBool == True: #core code is in while loop so user can do lookup as
                     materialOutput = row[1]
 
         swChangesRequired = True #software changes needed
-        if materialOutput != None: #if a direct replacement was found
+        if materialOutput != None and materialOutput != '': #if a direct replacement was found
             anySuccessor = True
             directSuccessor = True
         else:
@@ -430,7 +447,7 @@ while runAgainBool == True: #core code is in while loop so user can do lookup as
                     materialOutput = row[1]
 
         swChangesRequired = True #software changes needed
-        if materialOutput != None: #if a direct replacement was found
+        if materialOutput != None and materialOutput != '': #if a direct replacement was found
             anySuccessor = True
             directSuccessor = True
         else:
@@ -461,7 +478,7 @@ while runAgainBool == True: #core code is in while loop so user can do lookup as
         #In cases that a successor could not be found there either is not a successor or there was a typo in the input
         print("Unfortunately, a successor product for the entered material number was not available. Please ensure there are no mistakes in your input.\n ") 
 
-    
+    print("To report an issue or missing material, create an issue at https://github.com/ChrisHairstonBnR/Python-Successor-Finder/issues\n")
 
     
     #----- Go Again? -----#
