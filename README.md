@@ -7,11 +7,16 @@
 ## Definitions
 **Direct Successor** - A product specifically listed as the successor for an obsolete product (e.g. If the successor is to be selected from a general series such as the Power Panel C-Series, it is NOT a direct successor.)
 
+## Installing Release Build
+1. Download .zip file to desired location and extract
+2. (Optional) Right click executable and select Send to -> Desktop to create a desktop shortcut
+
 ## Installing Source Using PyInstaller
 While in directory:
-`pyinstaller main.spec`
+`pyinstaller 'BnR SPF.spec'`
 
 ## How to Edit the Database
+https://sqlitebrowser.org/
 
 ## Regex Cheat Sheet
 - `^` Start of line/string
