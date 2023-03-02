@@ -2,7 +2,7 @@
  Enter an obsolete material to receive a successor.
 
 ## Overview
-*Only lines that have successors will be added*
+*Only materials that have successors will be added*
 
 ## Definitions
 **Direct Successor** - A product specifically listed as the successor for an obsolete product (e.g. If the successor is to be selected from a general series such as the Power Panel C-Series, it is NOT a direct successor.)

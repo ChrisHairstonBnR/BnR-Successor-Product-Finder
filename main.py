@@ -143,7 +143,7 @@ while runAgainBool == True: #core code is in while loop so user can do lookup as
         dbResult = dbCursor.execute("SELECT * FROM ACOPOSmulti")
         if dbResult != None:
             for row in dbResult:
-                if row[0] == materialInput:
+                if str(row[0]).strip() == materialInput:
                     materialOutput = row[1]
 
         swChangesRequired = False #software changes needed
@@ -195,7 +195,7 @@ while runAgainBool == True: #core code is in while loop so user can do lookup as
         dbResult = dbCursor.execute("SELECT * FROM CompactFlash")
         if dbResult != None:
             for row in dbResult:
-                if row[0] == materialInput:
+                if str(row[0]).strip() == materialInput:
                     materialOutput = row[1]
 
         swChangesRequired = False #software changes needed
@@ -214,7 +214,7 @@ while runAgainBool == True: #core code is in while loop so user can do lookup as
         dbResult = dbCursor.execute("SELECT * FROM CompactFlash")
         if dbResult != None:
             for row in dbResult:
-                if row[0] == materialInput:
+                if str(row[0]).strip() == materialInput:
                     materialOutput = row[1]
 
         swChangesRequired = False #software changes needed
@@ -244,7 +244,7 @@ while runAgainBool == True: #core code is in while loop so user can do lookup as
         dbResult = dbCursor.execute("SELECT * FROM CompactFlash")
         if dbResult != None:
             for row in dbResult:
-                if row[0] == materialInput:
+                if str(row[0]).strip() == materialInput:
                     materialOutput = row[1]
 
         swChangesRequired = False #software changes needed
@@ -264,7 +264,7 @@ while runAgainBool == True: #core code is in while loop so user can do lookup as
         dbResult = dbCursor.execute("SELECT * FROM CompactFlash")
         if dbResult != None:
             for row in dbResult:
-                if row[0] == materialInput:
+                if str(row[0]).strip() == materialInput:
                     materialOutput = row[1]
 
         swChangesRequired = False #software changes needed
@@ -284,7 +284,7 @@ while runAgainBool == True: #core code is in while loop so user can do lookup as
         dbResult = dbCursor.execute("SELECT * FROM PP300")
         if dbResult != None:
             for row in dbResult:
-                if row[0] == materialInput:
+                if str(row[0]).strip() == materialInput:
                     materialOutput = row[1]
 
         swChangesRequired = True #software changes needed
@@ -307,7 +307,7 @@ while runAgainBool == True: #core code is in while loop so user can do lookup as
         dbResult = dbCursor.execute("SELECT * FROM PP400")
         if dbResult != None:
             for row in dbResult:
-                if row[0] == materialInput:
+                if str(row[0]).strip() == materialInput:
                     materialOutput = row[1]
 
         swChangesRequired = True #software changes needed
@@ -326,7 +326,7 @@ while runAgainBool == True: #core code is in while loop so user can do lookup as
         dbResult = dbCursor.execute("SELECT * FROM PP500")
         if dbResult != None:
             for row in dbResult:
-                if row[0] == materialInput:
+                if str(row[0]).strip() == materialInput:
                     materialOutput = row[1]
 
         swChangesRequired = True #software changes needed
@@ -351,7 +351,7 @@ while runAgainBool == True: #core code is in while loop so user can do lookup as
         #dbResult = dbCursor.fetchall()
         if dbResult != None:
             for row in dbResult:
-                if row[0] == materialInput:
+                if str(row[0]).strip() == materialInput:
                     materialOutput = row[1]
 
         swChangesRequired = True #software changes needed
@@ -370,7 +370,7 @@ while runAgainBool == True: #core code is in while loop so user can do lookup as
         dbResult = dbCursor.execute("SELECT * FROM AP9xD")
         if dbResult != None:
             for row in dbResult:
-                if row[0] == materialInput:
+                if str(row[0]).strip() == materialInput:
                     materialOutput = row[1]
 
         swChangesRequired = True #software changes needed
@@ -390,7 +390,7 @@ while runAgainBool == True: #core code is in while loop so user can do lookup as
         #dbResult = dbCursor.fetchall()
         if dbResult != None:
             for row in dbResult:
-                if row[0] == materialInput:
+                if str(row[0]).strip() == materialInput:
                     materialOutput = row[1]
 
         swChangesRequired = True #software changes needed
@@ -443,7 +443,7 @@ while runAgainBool == True: #core code is in while loop so user can do lookup as
         dbResult = dbCursor.execute("SELECT * FROM Misc")
         if dbResult != None:
             for row in dbResult:
-                if row[0] == materialInput:
+                if str(row[0]).strip() == materialInput:
                     materialOutput = row[1]
 
         swChangesRequired = True #software changes needed
