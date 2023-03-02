@@ -1,4 +1,6 @@
 # Discontinued Lines
+*Only lines that have successors will be added*
+
 ## Drives/Inverters
 - [x] X64
 - [x] P74
@@ -11,7 +13,7 @@
 - [ ] ACOPOS original series
 
 ## PCs
-- [ ] PPC300
+- [x] PPC300
 - [ ] PPC725
 - [ ] PPC800
 - [ ] PPC700
@@ -28,7 +30,7 @@
 - [ ] PP65
 
 ## PLCs
-- [ ] X201483 & X20CP1483-1
+- [ ] X20CP1483 & X20CP1483-1
 
 ## X2X (Non-PLCs)
 - [ ] X20DS4387
@@ -53,5 +55,7 @@
 ## Misc
 - [x] RFID modules
 - [x] SDL3 (Moved to Misc due to model number irregularities)
+- [x] SLC USB sticks
+- [x] Line filter (8B0F0160H000.A00-1)
 
 
