@@ -11,6 +11,7 @@
 - [x] 8LSC (-0)
 - [x] 8MSA
 - [x] ACOPOS original series (8V)
+- [x] ACOPOSmulti 8BVx1650Hxxx.000-1/8BVx0880Hxxx.004-1/8BVI0660Hxxx.000-1
 
 ## PCs
 - [x] PPC300
