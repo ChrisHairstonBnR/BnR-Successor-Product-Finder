@@ -1,6 +1,8 @@
 import re #regular expressions
 import sqlite3 #https://docs.python.org/3/library/sqlite3.html
 
+#----- VERSION -----#
+sofwareVersion = 0.1
 
 #variable declaration
 materialInput = '' #user input
@@ -22,8 +24,11 @@ dbCursor = dbConnection.cursor()
 #dbConnection.row_factory = sqlite3.Row
 dbResult = None #query result variable
 
+print("***WELCOME TO THE B&R SUCCESSOR PRODUCT FINDER v%.2f***\nWritten by Chris Hairston\n" % sofwareVersion);
 
-while runAgainBool == True:
+
+
+while runAgainBool == True: #core code is in while loop so user can do lookup as many times as desired
     #----- Get User Input -----#
     materialInput = input("Please enter the material number of the obsolete part\n") #user input
     materialInput = str(materialInput).upper() #convert input to uppercase
@@ -33,9 +38,9 @@ while runAgainBool == True:
 
     matchFound = False
 
-    #----- Products that don't use database lookup first -----#
+    #----- Core Lookup Code -----#
 
-    ### Inverters ###
+    ### Drives/Inverters ###
     # X64 S2
     matchResult = re.match(r"^8I64S2.+\.00X-1$", materialInput) #match if string matches format 8I64S2*.00X-1
     if matchResult != None: #if match object is not None (meaning there is at least one match)
@@ -82,7 +87,6 @@ while runAgainBool == True:
         anySuccessor = True
         directSuccessor = True
 
-
     # P74 T4
     matchResult = re.match(r"^8I74T4.+\.01P-1$", materialInput) #match if string matches format 8I74T4*.00X-1
     if matchResult != None: #if match object is not None (meaning there is at least one match)
@@ -121,18 +125,16 @@ while runAgainBool == True:
         nonDirectMsg = "Transition to P66 or P86 depending on performance needed."
 
 
-
-    ### Safety PLCs ###
-    # X20SL80xx
-    matchResult = re.match(r"^X20SL80.{2}$", materialInput) #match if matches format X20SL80xx
+    # ACOPOS 8V
+    matchResult = re.match(r"^8V1\d{3}\.\d{2}-\d", materialInput) #match if string matches format 8I64T2*.00X-1
     if matchResult != None: #if match object is not None (meaning there is at least one match)
         matchFound = True
-        strPartition =  materialInput.partition("80") #break the string into pre-seperator, seperator, and post-seperator (seperator is ".")
-        workerStr = strPartition[0].removeprefix("8I64S2") #eliminate the prefix so we can use isolate the rest of the model number
-        materialOutput = "X20SL81%s" % (strPartition[2]) #generate the successor P64new model number
+       
         swChangesRequired = True #software changes needed
         anySuccessor = True
-        directSuccessor = True
+        directSuccessor = False
+        nonDirectMsg = "Transition to the ACOPOS P3 or ACOPOSmulti series."
+    
 
 
     ### Motors ###
@@ -401,6 +403,17 @@ while runAgainBool == True:
         anySuccessor = True
         directSuccessor = True
 
+    ### Safety PLCs ###
+    # X20SL80xx
+    matchResult = re.match(r"^X20SL80.{2}$", materialInput) #match if matches format X20SL80xx
+    if matchResult != None: #if match object is not None (meaning there is at least one match)
+        matchFound = True
+        strPartition =  materialInput.partition("80") #break the string into pre-seperator, seperator, and post-seperator (seperator is ".")
+        workerStr = strPartition[0].removeprefix("8I64S2") #eliminate the prefix so we can use isolate the rest of the model number
+        materialOutput = "X20SL81%s" % (strPartition[2]) #generate the successor P64new model number
+        swChangesRequired = True #software changes needed
+        anySuccessor = True
+        directSuccessor = True
     
     ### GPOS ####
 
