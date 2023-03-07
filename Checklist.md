@@ -16,12 +16,12 @@
 ## PCs
 - [x] PPC300
 - [ ] PPC725
-- [ ] PPC800
+- [x] PPC800
 - [x] PPC700
 - [ ] APC510/511
-- [ ] APC810
-- [ ] APC820
-- [ ] APC620
+- [x] APC810
+- [x] APC820
+- [x] APC620
 - [ ] APC910 (TS77)
 
 ## Power Panels
@@ -45,7 +45,7 @@
 - [x] 0CFCRD.xxxx.01
 
 ## Memory
-- [ ] 5MMDDR.xxxx-01
+- [x] 5MMDDR.xxxx-01
 
 ## GPOS
 - [ ] Windows XP

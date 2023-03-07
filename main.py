@@ -520,7 +520,7 @@ while runAgainBool == True: #core code is in while loop so user can do lookup as
             anySuccessor = False
             directSuccessor = False
 
-    #PC8xx Accessories
+    # PC8xx Accessories
     matchResult = re.match(r"^5AC8\d{2}\..{4}-\d{2}", materialInput) #match if string matches format*
     if matchResult != None: #if match object is not None (meaning there is at least one match)
         matchFound = True
@@ -539,6 +539,15 @@ while runAgainBool == True: #core code is in while loop so user can do lookup as
             anySuccessor = False
             directSuccessor = False
 
+    # PC9xx
+    matchResult = re.match(r"^5PC900\.TS77-\d{2}", materialInput) #match if string matches format 8I64T2*.00X-1
+    if matchResult != None: #if match object is not None (meaning there is at least one match)
+        matchFound = True
+        
+        swChangesRequired = True #software changes needed
+        anySuccessor = True
+        directSuccessor = False
+        nonDirectMsg = "Transition to the appropriate TS17 (5PC900.TS17-xx) CPU board depending on performance needed."
 
     ### Safety PLCs ###
     # X20SL80xx
