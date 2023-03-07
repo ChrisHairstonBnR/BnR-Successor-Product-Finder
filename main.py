@@ -439,7 +439,27 @@ while runAgainBool == True: #core code is in while loop so user can do lookup as
         anySuccessor = True
         directSuccessor = True
 
-    #xPC600/700 Accessories
+    # PC6xx
+    matchResult = re.match(r"^5PC600\..{4}-\d{2}", materialInput) #match if string matches format*
+    if matchResult != None: #if match object is not None (meaning there is at least one match)
+        matchFound = True
+
+        dbResult = dbCursor.execute("SELECT * FROM PC6xx")
+        if dbResult != None:
+            for row in dbResult:
+                if str(row[0]).strip() == materialInput:
+                    materialOutput = row[1]
+
+        swChangesRequired = True
+        if materialOutput != None and materialOutput != '': #if a direct replacement was found
+            anySuccessor = True
+            directSuccessor = True
+        else:
+            anySuccessor = False
+            directSuccessor = False
+
+
+    #PC600/700 Accessories
     matchResult = re.match(r"^5AC600\..{4}-\d{2}", materialInput) #match if string matches format*
     if matchResult != None: #if match object is not None (meaning there is at least one match)
         matchFound = True
@@ -460,12 +480,12 @@ while runAgainBool == True: #core code is in while loop so user can do lookup as
 
 
 
-    # PPC700
+    # PC7xx
     matchResult = re.match(r"^5PC7\d{2}\..{4}-\d{2}", materialInput) #match if string matches format*
     if matchResult != None: #if match object is not None (meaning there is at least one match)
         matchFound = True
 
-        dbResult = dbCursor.execute("SELECT * FROM PPC700")
+        dbResult = dbCursor.execute("SELECT * FROM PC7xx")
         #dbResult = dbCursor.fetchall()
         if dbResult != None:
             for row in dbResult:
@@ -479,6 +499,46 @@ while runAgainBool == True: #core code is in while loop so user can do lookup as
         else:
             anySuccessor = False
             directSuccessor = False
+
+    # PC8xx
+    matchResult = re.match(r"^5PC8\d{2}\..{4}-\d{2}", materialInput) #match if string matches format*
+    if matchResult != None: #if match object is not None (meaning there is at least one match)
+        matchFound = True
+
+        dbResult = dbCursor.execute("SELECT * FROM PC8xx")
+        #dbResult = dbCursor.fetchall()
+        if dbResult != None:
+            for row in dbResult:
+                if str(row[0]).strip() == materialInput:
+                    materialOutput = row[1]
+
+        swChangesRequired = True #software changes needed
+        if materialOutput != None and materialOutput != '': #if a direct replacement was found
+            anySuccessor = True
+            directSuccessor = True
+        else:
+            anySuccessor = False
+            directSuccessor = False
+
+    #PC8xx Accessories
+    matchResult = re.match(r"^5AC8\d{2}\..{4}-\d{2}", materialInput) #match if string matches format*
+    if matchResult != None: #if match object is not None (meaning there is at least one match)
+        matchFound = True
+
+        dbResult = dbCursor.execute("SELECT * FROM 'PC Accessories'")
+        if dbResult != None:
+            for row in dbResult:
+                if str(row[0]).strip() == materialInput:
+                    materialOutput = row[1]
+
+        swChangesRequired = False
+        if materialOutput != None and materialOutput != '': #if a direct replacement was found
+            anySuccessor = True
+            directSuccessor = True
+        else:
+            anySuccessor = False
+            directSuccessor = False
+
 
     ### Safety PLCs ###
     # X20SL80xx
