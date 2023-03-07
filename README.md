@@ -5,7 +5,7 @@
 *Only materials that have successors will be added*
 
 ## Definitions
-**Direct Successor** - A product specifically listed as the successor for an obsolete product (e.g. If the successor is to be selected from a general series such as the Power Panel C-Series, it is NOT a direct successor.)
+**Direct Successor** - A product specifically listed as the successor for an obsolete product. (e.g. If the successor is to be selected from a general series such as the Power Panel C-Series, it is NOT a direct successor.) DOES NOT have to be a 1:1 replacement.
 
 ## Installing Release Build
 1. Download .zip file to desired location and extract

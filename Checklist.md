@@ -37,6 +37,7 @@
 - [ ] X20DS4387
 
 ## CompactFlash
+*Double check the direct replacablilty*
 - [x] 5CFCRD.xxxx-02
 - [x] 5CFCRD.xxxx-03
 - [x] 5CFCRD.xxxx-04

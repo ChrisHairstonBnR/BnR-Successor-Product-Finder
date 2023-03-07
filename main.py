@@ -420,6 +420,26 @@ while runAgainBool == True: #core code is in while loop so user can do lookup as
         anySuccessor = True
         directSuccessor = True
 
+    # PPC700
+    matchResult = re.match(r"^5PC7\d{2}\.\d{4}-0\d", materialInput) #match if string matches format*
+    if matchResult != None: #if match object is not None (meaning there is at least one match)
+        matchFound = True
+
+        dbResult = dbCursor.execute("SELECT * FROM PPC700")
+        #dbResult = dbCursor.fetchall()
+        if dbResult != None:
+            for row in dbResult:
+                if str(row[0]).strip() == materialInput:
+                    materialOutput = row[1]
+
+        swChangesRequired = True #software changes needed
+        if materialOutput != None and materialOutput != '': #if a direct replacement was found
+            anySuccessor = True
+            directSuccessor = True
+        else:
+            anySuccessor = False
+            directSuccessor = False
+
     ### Safety PLCs ###
     # X20SL80xx
     matchResult = re.match(r"^X20SL80.{2}$", materialInput) #match if matches format X20SL80xx
@@ -476,7 +496,7 @@ while runAgainBool == True: #core code is in while loop so user can do lookup as
 
     else:
         #In cases that a successor could not be found there either is not a successor or there was a typo in the input
-        print("Unfortunately, a successor product for the entered material number was not available. Please ensure there are no mistakes in your input.\n ") 
+        print("Unfortunately, a successor product for the entered material number was not available. It either does not exist, or there are mistakes in your input.\n ") 
 
     print("To report an issue or missing material, create an issue at https://github.com/ChrisHairstonBnR/Python-Successor-Finder/issues\n")
 
