@@ -439,6 +439,27 @@ while runAgainBool == True: #core code is in while loop so user can do lookup as
         anySuccessor = True
         directSuccessor = True
 
+    #xPC600/700 Accessories
+    matchResult = re.match(r"^5AC600\..{4}-\d{2}", materialInput) #match if string matches format*
+    if matchResult != None: #if match object is not None (meaning there is at least one match)
+        matchFound = True
+
+        dbResult = dbCursor.execute("SELECT * FROM 'PC Accessories'")
+        if dbResult != None:
+            for row in dbResult:
+                if str(row[0]).strip() == materialInput:
+                    materialOutput = row[1]
+
+        swChangesRequired = False
+        if materialOutput != None and materialOutput != '': #if a direct replacement was found
+            anySuccessor = True
+            directSuccessor = True
+        else:
+            anySuccessor = False
+            directSuccessor = False
+
+
+
     # PPC700
     matchResult = re.match(r"^5PC7\d{2}\..{4}-\d{2}", materialInput) #match if string matches format*
     if matchResult != None: #if match object is not None (meaning there is at least one match)
