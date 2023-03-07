@@ -428,6 +428,19 @@ while runAgainBool == True: #core code is in while loop so user can do lookup as
         anySuccessor = False
         directSuccessor = False
 
+    # MP50
+    matchResult = re.match(r"^5MP050\.0653-\d{2}$", materialInput) #match if string matches format 8I64T2*.00X-1
+    if matchResult != None: #if match object is not None (meaning there is at least one match)
+        matchFound = True
+        #strPartition =  materialInput.partition(".") #break the string into pre-seperator, seperator, and post-seperator (seperator is ".")
+        #workerStr = strPartition[0].removeprefix("8I64T2") #eliminate the prefix so we can use isolate the rest of the model number
+        #materialOutput = "8I66T2%s.0X-000" % (workerStr) #generate the successor model number (P66)
+        
+        swChangesRequired = True #software changes needed
+        anySuccessor = True
+        directSuccessor = False
+        nonDirectMsg = "The possibilities for use of the MP7100 must be checked individually."
+
 
     ### PCs ####
     # PPC300

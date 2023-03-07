@@ -24,5 +24,6 @@ https://sqlitebrowser.org/
 - `.` matches any character (except for line terminators)
 - `+` matches the previous token between one and unlimited times
 - `{x}` matches the previous token x number of times
+- `\d` matches any digit (0-9)
  
  
