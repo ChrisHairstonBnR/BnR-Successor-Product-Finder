@@ -275,6 +275,25 @@ while runAgainBool == True: #core code is in while loop so user can do lookup as
             anySuccessor = False
             directSuccessor = False
 
+    ### Memory ###
+    matchResult = re.match(r"^5MMDDR\.\d{4}-01", materialInput) #match if string matches format*
+    if matchResult != None: #if match object is not None (meaning there is at least one match)
+        matchFound = True
+
+        dbResult = dbCursor.execute("SELECT * FROM Memory")
+        if dbResult != None:
+            for row in dbResult:
+                if str(row[0]).strip() == materialInput:
+                    materialOutput = row[1]
+
+        swChangesRequired = False #software changes needed
+        if materialOutput != None and materialOutput != '': #if a direct replacement was found
+            anySuccessor = True
+            directSuccessor = True
+        else:
+            anySuccessor = False
+            directSuccessor = False
+
     ### Power Panels ###
     # PP300 panels
     matchResult = re.match(r"^[4|5]PP3.+", materialInput) #match if string matches format*

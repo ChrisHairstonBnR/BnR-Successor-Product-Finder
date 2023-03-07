@@ -17,7 +17,7 @@
 - [x] PPC300
 - [ ] PPC725
 - [ ] PPC800
-- [ ] PPC700
+- [x] PPC700
 - [ ] APC510/511
 - [ ] APC810
 - [ ] APC820
@@ -43,6 +43,9 @@
 - [x] 5CFCRD.xxxx-04
 - [x] 5CFCRD.xxxx-06
 - [x] 0CFCRD.xxxx.01
+
+## Memory
+- [ ] 5MMDDR.xxxx-01
 
 ## GPOS
 - [ ] Windows XP
