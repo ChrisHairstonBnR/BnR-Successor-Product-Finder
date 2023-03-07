@@ -440,7 +440,7 @@ while runAgainBool == True: #core code is in while loop so user can do lookup as
         directSuccessor = True
 
     # PPC700
-    matchResult = re.match(r"^5PC7\d{2}\.\d{4}-0\d", materialInput) #match if string matches format*
+    matchResult = re.match(r"^5PC7\d{2}\..{4}-\d{2}", materialInput) #match if string matches format*
     if matchResult != None: #if match object is not None (meaning there is at least one match)
         matchFound = True
 
