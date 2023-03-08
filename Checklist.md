@@ -22,7 +22,7 @@
 - [x] APC810
 - [x] APC820
 - [x] APC620
-- [ ] APC910 (TS77)
+- [x] APC910 (TS77)
 
 ## Power Panels
 - [x] PP300
@@ -55,7 +55,7 @@
 - [x] AP9xD
 - [x] AP900
 - [x] MP712x
-- [ ] MP50
+- [x] MP50
 
 ## Misc
 - [x] RFID modules

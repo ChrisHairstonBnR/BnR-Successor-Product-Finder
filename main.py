@@ -35,7 +35,8 @@ while runAgainBool == True: #core code is in while loop so user can do lookup as
     materialInput = materialInput.strip() #remove whitespace from front and back
     print("Finding successor product for %s... " % (materialInput)); #formatted string
     print("(Please note that this program does not check if the material number entered is real.)\n") #disclaimer
-
+    #Reset variables
+    materialOutput = ''
     matchFound = False
 
     #----- Core Lookup Code -----#
