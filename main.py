@@ -43,7 +43,7 @@ while runAgainBool == True: #core code is in while loop so user can do lookup as
 
     ### Drives/Inverters ###
     # X64 S2
-    matchResult = re.match(r"^8I64S2.+\.00X-1$", materialInput) #match if string matches format 8I64S2*.00X-1
+    matchResult = re.match(r"^8I64S2.+\.00.-1$", materialInput) #match if string matches format 8I64S2*.00X-1
     if matchResult != None: #if match object is not None (meaning there is at least one match)
         matchFound = True
         strPartition =  materialInput.partition(".") #break the string into pre-seperator, seperator, and post-seperator (seperator is ".")
@@ -54,7 +54,7 @@ while runAgainBool == True: #core code is in while loop so user can do lookup as
         directSuccessor = True
 
     # X64 T2
-    matchResult = re.match(r"^8I64T2.+\.00X-1$", materialInput) #match if string matches format 8I64T2*.00X-1
+    matchResult = re.match(r"^8I64T2.+\.00.-1$", materialInput) #match if string matches format 8I64T2*.00X-1
     if matchResult != None: #if match object is not None (meaning there is at least one match)
         matchFound = True
         #strPartition =  materialInput.partition(".") #break the string into pre-seperator, seperator, and post-seperator (seperator is ".")
@@ -67,7 +67,7 @@ while runAgainBool == True: #core code is in while loop so user can do lookup as
         nonDirectMsg = "Transition to P66."
 
     # X64 T4
-    matchResult = re.match(r"^8I64T4.+\.00X-1$", materialInput) #match if string starts with 8I64T4*.00X-1
+    matchResult = re.match(r"^8I64T4.+\.00.-1$", materialInput) #match if string starts with 8I64T4*.00X-1
     if matchResult != None: #if match object is not None (meaning there is at least one match)
         matchFound = True
         strPartition =  materialInput.partition(".") #break the string into pre-seperator, seperator, and post-seperator (seperator is ".")
@@ -78,7 +78,7 @@ while runAgainBool == True: #core code is in while loop so user can do lookup as
         directSuccessor = True
 
     # P74 S2
-    matchResult = re.match(r"^8I74S2.+\.01P-1$", materialInput) #match if string matches format 8I74S2*.00X-1
+    matchResult = re.match(r"^8I74S2.+\.01.-1$", materialInput) #match if string matches format 8I74S2*.00X-1
     if matchResult != None: #if match object is not None (meaning there is at least one match)
         matchFound = True
         strPartition =  materialInput.partition(".") #break the string into pre-seperator, seperator, and post-seperator (seperator is ".")
@@ -89,7 +89,7 @@ while runAgainBool == True: #core code is in while loop so user can do lookup as
         directSuccessor = True
 
     # P74 T4
-    matchResult = re.match(r"^8I74T4.+\.01P-1$", materialInput) #match if string matches format 8I74T4*.00X-1
+    matchResult = re.match(r"^8I74T4.+\.01.-1$", materialInput) #match if string matches format 8I74T4*.00X-1
     if matchResult != None: #if match object is not None (meaning there is at least one match)
         matchFound = True
         strPartition =  materialInput.partition(".") #break the string into pre-seperator, seperator, and post-seperator (seperator is ".")
@@ -100,7 +100,7 @@ while runAgainBool == True: #core code is in while loop so user can do lookup as
         directSuccessor = True
 
     # P84 T2
-    matchResult = re.match(r"^8I84T2.+\.01P-1$", materialInput) #match if string matches format 8I64T2*.00X-1
+    matchResult = re.match(r"^8I84T2.+\.01.-1$", materialInput) #match if string matches format 8I64T2*.00X-1
     if matchResult != None: #if match object is not None (meaning there is at least one match)
         matchFound = True
         #strPartition =  materialInput.partition(".") #break the string into pre-seperator, seperator, and post-seperator (seperator is ".")
@@ -113,7 +113,7 @@ while runAgainBool == True: #core code is in while loop so user can do lookup as
         nonDirectMsg = "Transition to P66."
 
     # P84 T4
-    matchResult = re.match(r"^8I84T4.+\.01P-1$", materialInput) #match if string matches format 8I64T2*.00X-1
+    matchResult = re.match(r"^8I84T4.+\.01.-1$", materialInput) #match if string matches format 8I64T2*.00X-1
     if matchResult != None: #if match object is not None (meaning there is at least one match)
         matchFound = True
         #strPartition =  materialInput.partition(".") #break the string into pre-seperator, seperator, and post-seperator (seperator is ".")
