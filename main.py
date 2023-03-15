@@ -17,7 +17,7 @@ workerStr = '' #used for string manipulation operations
 runAgainBool = True
 runAgainInput = ''
 validRunAgainInput = False #True if Y/y/N/n is entered when asked if customer would like to enter another material number
-
+validInput = False #True if the input material was found in the database
 
 #----- SQLite3 Setup -----#
 dbConnection = sqlite3.connect("SuccessorProductDB.db")
@@ -31,7 +31,7 @@ print("***WELCOME TO THE B&R SUCCESSOR PRODUCT FINDER v%s***\nWritten by Chris H
 
 while runAgainBool == True: #core code is in while loop so user can do lookup as many times as desired
     #----- Get User Input -----#
-    materialInput = input("Please enter the material number of the obsolete part\n") #user input
+    materialInput = input("Please enter the material number of the obsolete part (PC configurations must be broken down into individual component materials)\n") #user input
     materialInput = str(materialInput).upper() #convert input to uppercase
     materialInput = materialInput.strip() #remove whitespace from front and back
     print("Finding successor product for %s... " % (materialInput)); #formatted string
@@ -44,6 +44,7 @@ while runAgainBool == True: #core code is in while loop so user can do lookup as
     matchFound = False 
     directSuccessor = False 
     anySuccessor = False 
+    validInput = False
 
     #----- Core Lookup Code -----#
 
@@ -172,6 +173,8 @@ while runAgainBool == True: #core code is in while loop so user can do lookup as
             for row in dbResult:
                 if str(row[0]).strip() == materialInput:
                     materialOutput = row[1]
+                    validInput = True
+
 
         swChangesRequired = False #software changes needed
         if materialOutput != None and materialOutput != '': #if a direct replacement was found
@@ -224,6 +227,7 @@ while runAgainBool == True: #core code is in while loop so user can do lookup as
             for row in dbResult:
                 if str(row[0]).strip() == materialInput:
                     materialOutput = row[1]
+                    validInput = True
 
         swChangesRequired = False #software changes needed
         if materialOutput != None and materialOutput != '': #if a direct replacement was found
@@ -243,6 +247,7 @@ while runAgainBool == True: #core code is in while loop so user can do lookup as
             for row in dbResult:
                 if str(row[0]).strip() == materialInput:
                     materialOutput = row[1]
+                    validInput = True
 
         swChangesRequired = False #software changes needed
         if materialOutput != None and materialOutput != '': #if a direct replacement was found
@@ -273,6 +278,7 @@ while runAgainBool == True: #core code is in while loop so user can do lookup as
             for row in dbResult:
                 if str(row[0]).strip() == materialInput:
                     materialOutput = row[1]
+                    validInput = True
 
         swChangesRequired = False #software changes needed
         if materialOutput != None and materialOutput != '': #if a direct replacement was found
@@ -293,6 +299,7 @@ while runAgainBool == True: #core code is in while loop so user can do lookup as
             for row in dbResult:
                 if str(row[0]).strip() == materialInput:
                     materialOutput = row[1]
+                    validInput = True
 
         swChangesRequired = False #software changes needed
         if materialOutput != None and materialOutput != '': #if a direct replacement was found
@@ -312,6 +319,7 @@ while runAgainBool == True: #core code is in while loop so user can do lookup as
             for row in dbResult:
                 if str(row[0]).strip() == materialInput:
                     materialOutput = row[1]
+                    validInput = True
 
         swChangesRequired = False #software changes needed
         if materialOutput != None and materialOutput != '': #if a direct replacement was found
@@ -332,6 +340,7 @@ while runAgainBool == True: #core code is in while loop so user can do lookup as
             for row in dbResult:
                 if str(row[0]).strip() == materialInput:
                     materialOutput = row[1]
+                    validInput = True
 
         swChangesRequired = True #software changes needed
         if materialOutput != None and materialOutput != '': #if a direct replacement was found
@@ -355,6 +364,7 @@ while runAgainBool == True: #core code is in while loop so user can do lookup as
             for row in dbResult:
                 if str(row[0]).strip() == materialInput:
                     materialOutput = row[1]
+                    validInput = True
 
         swChangesRequired = True #software changes needed
         if materialOutput != None and materialOutput != '': #if a direct replacement was found
@@ -374,6 +384,7 @@ while runAgainBool == True: #core code is in while loop so user can do lookup as
             for row in dbResult:
                 if str(row[0]).strip() == materialInput:
                     materialOutput = row[1]
+                    validInput = True
 
         swChangesRequired = True #software changes needed
         if materialOutput != None and materialOutput != '': #if a direct replacement was found
@@ -399,6 +410,7 @@ while runAgainBool == True: #core code is in while loop so user can do lookup as
             for row in dbResult:
                 if str(row[0]).strip() == materialInput:
                     materialOutput = row[1]
+                    validInput = True
 
         swChangesRequired = True #software changes needed
         if materialOutput != None and materialOutput != '': #if a direct replacement was found
@@ -418,6 +430,7 @@ while runAgainBool == True: #core code is in while loop so user can do lookup as
             for row in dbResult:
                 if str(row[0]).strip() == materialInput:
                     materialOutput = row[1]
+                    validInput = True
 
         swChangesRequired = True #software changes needed
         if materialOutput != None and materialOutput != '': #if a direct replacement was found
@@ -438,6 +451,7 @@ while runAgainBool == True: #core code is in while loop so user can do lookup as
             for row in dbResult:
                 if str(row[0]).strip() == materialInput:
                     materialOutput = row[1]
+                    validInput = True
 
         swChangesRequired = True #software changes needed
         if materialOutput != None and materialOutput != '': #if a direct replacement was found
@@ -448,12 +462,13 @@ while runAgainBool == True: #core code is in while loop so user can do lookup as
             directSuccessor = False
 
     # MP712x
-    matchResult = re.match(r"^5MP712\d\..{4}-000", materialInput) #match if string matches format*
+    matchResult = re.match(r"^5MP712[0|1]\..{4}-000", materialInput) #match if string matches format*
     if matchResult != None: #if match object is not None (meaning there is at least one match)
         matchFound = True
         swChangesRequired = True #software changes needed
         anySuccessor = False
         directSuccessor = False
+        validInput = True
 
     # MP50
     matchResult = re.match(r"^5MP050\.0653-\d{2}$", materialInput) #match if string matches format 8I64T2*.00X-1
@@ -489,6 +504,7 @@ while runAgainBool == True: #core code is in while loop so user can do lookup as
             for row in dbResult:
                 if str(row[0]).strip() == materialInput:
                     materialOutput = row[1]
+                    validInput = True
 
         swChangesRequired = True
         if materialOutput != None and materialOutput != '': #if a direct replacement was found
@@ -509,6 +525,7 @@ while runAgainBool == True: #core code is in while loop so user can do lookup as
             for row in dbResult:
                 if str(row[0]).strip() == materialInput:
                     materialOutput = row[1]
+                    validInput = True
 
         swChangesRequired = False
         if materialOutput != None and materialOutput != '': #if a direct replacement was found
@@ -531,6 +548,7 @@ while runAgainBool == True: #core code is in while loop so user can do lookup as
             for row in dbResult:
                 if str(row[0]).strip() == materialInput:
                     materialOutput = row[1]
+                    validInput = True
 
         swChangesRequired = True #software changes needed
         if materialOutput != None and materialOutput != '': #if a direct replacement was found
@@ -551,6 +569,7 @@ while runAgainBool == True: #core code is in while loop so user can do lookup as
             for row in dbResult:
                 if str(row[0]).strip() == materialInput:
                     materialOutput = row[1]
+                    validInput = True
 
         swChangesRequired = True #software changes needed
         if materialOutput != None and materialOutput != '': #if a direct replacement was found
@@ -570,6 +589,7 @@ while runAgainBool == True: #core code is in while loop so user can do lookup as
             for row in dbResult:
                 if str(row[0]).strip() == materialInput:
                     materialOutput = row[1]
+                    validInput = True
 
         swChangesRequired = False
         if materialOutput != None and materialOutput != '': #if a direct replacement was found
@@ -595,7 +615,6 @@ while runAgainBool == True: #core code is in while loop so user can do lookup as
     if matchResult != None: #if match object is not None (meaning there is at least one match)
         matchFound = True
         strPartition =  materialInput.partition("80") #break the string into pre-seperator, seperator, and post-seperator (seperator is ".")
-        workerStr = strPartition[0].removeprefix("8I64S2") #eliminate the prefix so we can use isolate the rest of the model number
         materialOutput = "X20SL81%s" % (strPartition[2]) #generate the successor P64new model number
         swChangesRequired = True #software changes needed
         anySuccessor = True
@@ -642,7 +661,7 @@ while runAgainBool == True: #core code is in while loop so user can do lookup as
     #----- Wrap Up and Output -----#
     if situationalMsg != '' and situationalMsg != None:
         print(situationalMsg) 
-    elif anySuccessor == True: #If a regex match was found
+    elif anySuccessor == True: #If any successor is available
         if directSuccessor == True: #if direct successor was found
             print("The replacement material number(s) is (are):\n%s" % (materialOutput)) #print output
             
@@ -656,8 +675,11 @@ while runAgainBool == True: #core code is in while loop so user can do lookup as
         else: 
             print("No software changes required.\n")
     else:
-        #In cases that a successor could not be found there either is not a successor or there was a typo in the input
-        print("Unfortunately, a successor product for the entered material number was not available. The successor either does not exist, the entered material is not obsolete, or there are mistakes in your input.\n ") 
+        if validInput:
+            print("The input material was valid. However, there unfortunately is no successor product.")
+        else:    
+            #In cases there was a typo in the input, the input is not obsolete, or the material is missing from the program
+            print("Unfortunately, a successor product for the entered material number is not available. The entered material is either not obsolete, there are mistakes in your input or this program is missing this material.\n ") 
 
     print("To report an issue or missing material, create an issue at https://github.com/ChrisHairstonBnR/Python-Successor-Finder/issues\n")
 
