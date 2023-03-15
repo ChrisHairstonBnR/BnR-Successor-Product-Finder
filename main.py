@@ -679,14 +679,36 @@ while runAgainBool == True: #core code is in while loop so user can do lookup as
         matchFound = True
         situationalMsg = "The material number entered was for a Linux operating system. It's successor operating system is dependent on the compatibility of the target PC."
 
-    ### PLCs ###
+    ### X20 ###
+    # X20CP1483 & X20CP1483-1
+    matchResult = re.match(r"^X20CP1483.*", materialInput) #match if string matches format 8I64T2*.00X-1
+    if matchResult != None: #if match object is not None (meaning there is at least one match)
+        matchFound = True
+        anySuccessor = True
+        directSuccessor = False
+        nonDirectMsg = "The Compact-S PLC series is the ideal successor."
+    
+    # X20DS4387
+    matchResult = re.match(r"^X20DS4387", materialInput) #match if string matches format 8I64T2*.00X-1
+    if matchResult != None: #if match object is not None (meaning there is at least one match)
+        matchFound = True
+        anySuccessor = True
+        materialOutput = 'X20DS438A'
+        directSuccessor = True
+        swChangesRequired = True
+        
+
+    
+    
+    ### Other PLCs ###
     # 7EC020 & 7EC021
     matchResult = re.match(r"^7EC02[0|1].+", materialInput) #match if string matches format 8I64T2*.00X-1
     if matchResult != None: #if match object is not None (meaning there is at least one match)
         matchFound = True
         anySuccessor = True
         directSuccessor = False
-        nonDirectMsg = "There is no direct successor for the 7EC020 and 7EC021. Projects should be changed over to X20.."
+        nonDirectMsg = "There is no direct successor for the 7EC020 and 7EC021. Projects should be changed over to X20."
+
 
            
     ### MISC ###
