@@ -398,6 +398,24 @@ while runAgainBool == True: #core code is in while loop so user can do lookup as
                 anySuccessor = True
                 nonDirectMsg = "No 1:1 replacement available because of very low demand. Changeover recommendation: 5AP1151.0573-000\n"
 
+    # PP45 (device)
+    matchResult = re.match(r"^4PP045\.\d{4}-.+", materialInput) #match if string matches format*
+    if matchResult != None: #if match object is not None (meaning there is at least one match)
+        matchFound = True
+        anySuccessor = True
+        directSuccessor = False
+        swChangesRequired = True #software changes needed
+        nonDirectMsg = 'The listed successor is the Power Panel 65 series. However, that series is also obsolete. Transition to a Power Panel C-Series device or a Power Panel T30 with a X20CP Compact-S depending on demands of the application. See sales notice 38/2021.'
+
+    # PP45 (interfaces)
+    matchResult = re.match(r"^4PP045\.IF.+", materialInput) #match if string matches format*
+    if matchResult != None: #if match object is not None (meaning there is at least one match)
+        matchFound = True
+        anySuccessor = False
+        directSuccessor = False
+        swChangesRequired = True #software changes needed
+        validInput = True
+
     # PP65 (device)
     matchResult = re.match(r"^4PP065\.\d{4}-.{3}", materialInput) #match if string matches format*
     if matchResult != None: #if match object is not None (meaning there is at least one match)
@@ -655,11 +673,20 @@ while runAgainBool == True: #core code is in while loop so user can do lookup as
         matchFound = True
         situationalMsg = "The material number entered was for a Windows operating system. It's successor operating system is dependent on the compatibility of the target PC."
 
-    # Windows
+    # Linux
     matchResult = re.match(r"^5SWLIN.+", materialInput) #match if string matches format 8I64T2*.00X-1
     if matchResult != None: #if match object is not None (meaning there is at least one match)
         matchFound = True
         situationalMsg = "The material number entered was for a Linux operating system. It's successor operating system is dependent on the compatibility of the target PC."
+
+    ### PLCs ###
+    # 7EC020 & 7EC021
+    matchResult = re.match(r"^7EC02[0|1].+", materialInput) #match if string matches format 8I64T2*.00X-1
+    if matchResult != None: #if match object is not None (meaning there is at least one match)
+        matchFound = True
+        anySuccessor = True
+        directSuccessor = False
+        nonDirectMsg = "There is no direct successor for the 7EC020 and 7EC021. Projects should be changed over to X20.."
 
            
     ### MISC ###
