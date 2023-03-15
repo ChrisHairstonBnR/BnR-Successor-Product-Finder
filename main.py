@@ -540,6 +540,71 @@ while runAgainBool == True: #core code is in while loop so user can do lookup as
         anySuccessor = True
         directSuccessor = True
 
+    # PC5xx (system units)
+    matchResult = re.match(r"^5PC51[0|1]\.SX01-00", materialInput) #match if string matches format*
+    if matchResult != None: #if match object is not None (meaning there is at least one match)
+        matchFound = True
+
+        dbResult = dbCursor.execute("SELECT * FROM PC5xx")
+        if dbResult != None:
+            for row in dbResult:
+                if str(row[0]).strip() == materialInput:
+                    materialOutput = row[1]
+                    validInput = True
+
+        swChangesRequired = True
+        if materialOutput != None and materialOutput != '': #if a direct replacement was found
+            anySuccessor = True
+            directSuccessor = True
+        else:
+            anySuccessor = False
+            directSuccessor = False
+            
+    # PC5xx (cpus)
+    matchResult = re.match(r"^5PP5CP\.US15-\d{2}", materialInput) #match if string matches format*
+    if matchResult != None: #if match object is not None (meaning there is at least one match)
+        matchFound = True
+
+        dbResult = dbCursor.execute("SELECT * FROM PC5xx")
+        if dbResult != None:
+            for row in dbResult:
+                if str(row[0]).strip() == materialInput:
+                    materialOutput = row[1]
+                    validInput = True
+
+        swChangesRequired = True
+        if materialOutput != None and materialOutput != '': #if a direct replacement was found
+            anySuccessor = True
+            directSuccessor = True
+        else:
+            anySuccessor = False
+            directSuccessor = False
+
+    # PC5xx (accessories)
+    matchResult = re.match(r"^5PP5I[F|O]\.G[M|N]AC-00", materialInput) #match if string matches format*
+    if matchResult != None: #if match object is not None (meaning there is at least one match)
+        matchFound = True
+
+        dbResult = dbCursor.execute("SELECT * FROM PC5xx")
+        if dbResult != None:
+            for row in dbResult:
+                if str(row[0]).strip() == materialInput:
+                    materialOutput = row[1]
+                    validInput = True
+
+        swChangesRequired = True
+        if materialOutput != None and materialOutput != '': #if a direct replacement was found
+            anySuccessor = True
+            directSuccessor = True
+        else:
+            anySuccessor = False
+            directSuccessor = False
+            if materialInput == "5PP5IO.GMAC-00" or materialInput == "5PP5IO.GNAC-00":
+                anySuccessor = True
+                nonDirectMsg = "Changing over the I/O board is dependent on the interfaces used."
+
+              
+
     # PC6xx
     matchResult = re.match(r"^5PC600\..{4}-\d{2}", materialInput) #match if string matches format*
     if matchResult != None: #if match object is not None (meaning there is at least one match)
@@ -562,7 +627,7 @@ while runAgainBool == True: #core code is in while loop so user can do lookup as
 
 
     #PC600/700 Accessories
-    matchResult = re.match(r"^5AC600\..{4}-\d{2}", materialInput) #match if string matches format*
+    matchResult = re.match(r"^5AC[6|7]\d{2}\..{4}-\d{2}", materialInput) #match if string matches format*
     if matchResult != None: #if match object is not None (meaning there is at least one match)
         matchFound = True
 
@@ -603,6 +668,10 @@ while runAgainBool == True: #core code is in while loop so user can do lookup as
         else:
             anySuccessor = False
             directSuccessor = False
+            if materialInput == "5PC725.1505-00" or materialInput == "5PC725.1505-01":
+                anySuccessor = True
+                nonDirectMsg = "Panel PC 725 units can be replaced by the combination of the support arm variant of the Automation Panel 900 and the new Panel PC based on Intel Bay Trail technology."
+
 
     # PC8xx
     matchResult = re.match(r"^5PC8\d{2}\..{4}-\d{2}", materialInput) #match if string matches format*
@@ -696,8 +765,6 @@ while runAgainBool == True: #core code is in while loop so user can do lookup as
         materialOutput = 'X20DS438A'
         directSuccessor = True
         swChangesRequired = True
-        
-
     
     
     ### Other PLCs ###

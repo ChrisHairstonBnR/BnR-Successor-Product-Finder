@@ -15,10 +15,10 @@
 
 ## PCs
 - [x] PPC300
-- [ ] PPC725
+- [x] PPC725
 - [x] PPC800
 - [x] PPC700
-- [ ] APC510/511
+- [x] APC510/511
 - [x] APC810
 - [x] APC820
 - [x] APC620
@@ -28,13 +28,12 @@
 - [x] PP300
 - [x] PP400
 - [x] PP500
-- [ ] PP65
+- [x] PP45
+- [x] PP65
 
-## PLCs
-- [ ] X20CP1483 & X20CP1483-1
-
-## X2X (Non-PLCs)
-- [ ] X20DS4387
+## X20
+- [x] X20CP1483 & X20CP1483-1
+- [x] X20DS4387
 
 ## CompactFlash
 *Double check the direct replacablilty*
@@ -52,12 +51,14 @@
 - [x] Linux (all 5SWLIN*)
 
 ## HMI
-
 - [x] AP9xD
 - [x] AP900
 - [x] MP712x
 - [x] MP50
 - [x] 5MP7151.101E-001
+
+## Other PLCs
+- [x] 7EC020 & 7EC021
 
 ## Misc
 - [x] RFID modules
