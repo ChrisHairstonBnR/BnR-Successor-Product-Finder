@@ -22,6 +22,7 @@ https://sqlitebrowser.org/
 - `^` Start of line/string
 - `\.` escape input to use "."
 - `.` matches any character (except for line terminators)
+- `*` matches the previous token between zero and unlimited times
 - `+` matches the previous token between one and unlimited times
 - `{x}` matches the previous token x number of times
 - `\d` matches any digit (0-9)
