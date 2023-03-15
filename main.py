@@ -36,13 +36,14 @@ while runAgainBool == True: #core code is in while loop so user can do lookup as
     materialInput = materialInput.strip() #remove whitespace from front and back
     print("Finding successor product for %s... " % (materialInput)); #formatted string
     print("(Please note that this program does not check if the material number entered is real.)\n") #disclaimer
-    #Reset variables
-    materialOutput = ''
-    nonDirectMsg = ''
-    situationalMsg = ''
-    matchFound = False
-    directSuccessor = False
-    anySuccessor = False
+    
+    #Reset variables for new loop
+    materialOutput = '' 
+    nonDirectMsg = '' 
+    situationalMsg = '' 
+    matchFound = False 
+    directSuccessor = False 
+    anySuccessor = False 
 
     #----- Core Lookup Code -----#
 
@@ -601,6 +602,17 @@ while runAgainBool == True: #core code is in while loop so user can do lookup as
         directSuccessor = True
     
     ### GPOS ####
+    # Windows
+    matchResult = re.match(r"^5SWW.+", materialInput) #match if string matches format 8I64T2*.00X-1
+    if matchResult != None: #if match object is not None (meaning there is at least one match)
+        matchFound = True
+        situationalMsg = "The material number entered was for a Windows operating system. It's successor operating system is dependent on the compatibility of the target PC."
+
+    # Windows
+    matchResult = re.match(r"^5SWLIN.+", materialInput) #match if string matches format 8I64T2*.00X-1
+    if matchResult != None: #if match object is not None (meaning there is at least one match)
+        matchFound = True
+        situationalMsg = "The material number entered was for a Linux operating system. It's successor operating system is dependent on the compatibility of the target PC."
 
            
     ### MISC ###

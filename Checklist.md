@@ -48,7 +48,8 @@
 - [x] 5MMDDR.xxxx-01
 
 ## GPOS
-- [ ] Windows XP
+- [x] Windows (all 5SWW*)
+- [x] Linux (all 5SWLIN*)
 
 ## HMI
 
