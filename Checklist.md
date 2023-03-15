@@ -57,6 +57,7 @@
 - [x] AP900
 - [x] MP712x
 - [x] MP50
+- [x] 5MP7151.101E-001
 
 ## Misc
 - [x] RFID modules

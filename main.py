@@ -398,6 +398,25 @@ while runAgainBool == True: #core code is in while loop so user can do lookup as
                 anySuccessor = True
                 nonDirectMsg = "No 1:1 replacement available because of very low demand. Changeover recommendation: 5AP1151.0573-000\n"
 
+    # PP65 (device)
+    matchResult = re.match(r"^4PP065\.\d{4}-.{3}", materialInput) #match if string matches format*
+    if matchResult != None: #if match object is not None (meaning there is at least one match)
+        matchFound = True
+        anySuccessor = True
+        directSuccessor = False
+        swChangesRequired = True #software changes needed
+        nonDirectMsg = 'Transition to a Power Panel C-Series device or a Power Panel T30 with a X20CP Compact-S depending on demands of the application. See sales notice 38/2021.'
+
+    # PP65 (interfaces)
+    matchResult = re.match(r"^4PP065\.IF\d{2}-1", materialInput) #match if string matches format*
+    if matchResult != None: #if match object is not None (meaning there is at least one match)
+        matchFound = True
+        anySuccessor = False
+        directSuccessor = False
+        swChangesRequired = True #software changes needed
+        validInput = True
+
+
     ### HMI ###
     # AP9xD
     matchResult = re.match(r"^5AP9\dD\..{7}", materialInput) #match if string matches format*
@@ -463,6 +482,15 @@ while runAgainBool == True: #core code is in while loop so user can do lookup as
 
     # MP712x
     matchResult = re.match(r"^5MP712[0|1]\..{4}-000", materialInput) #match if string matches format*
+    if matchResult != None: #if match object is not None (meaning there is at least one match)
+        matchFound = True
+        swChangesRequired = True #software changes needed
+        anySuccessor = False
+        directSuccessor = False
+        validInput = True
+
+    # 5MP7151.101E-001
+    matchResult = re.match(r"^5MP7151.101E-001", materialInput) #match if string matches format*
     if matchResult != None: #if match object is not None (meaning there is at least one match)
         matchFound = True
         swChangesRequired = True #software changes needed
@@ -676,7 +704,7 @@ while runAgainBool == True: #core code is in while loop so user can do lookup as
             print("No software changes required.\n")
     else:
         if validInput:
-            print("The input material was valid. However, there unfortunately is no successor product.")
+            print("The input material appears to be valid. However, there unfortunately is no successor product.")
         else:    
             #In cases there was a typo in the input, the input is not obsolete, or the material is missing from the program
             print("Unfortunately, a successor product for the entered material number is not available. The entered material is either not obsolete, there are mistakes in your input or this program is missing this material.\n ") 
