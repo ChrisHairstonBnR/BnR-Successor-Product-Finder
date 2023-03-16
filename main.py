@@ -625,29 +625,6 @@ while runAgainBool == True: #core code is in while loop so user can do lookup as
             anySuccessor = False
             directSuccessor = False
 
-
-    #PC600/700 Accessories
-    matchResult = re.match(r"^5AC[6|7]\d{2}\..{4}-\d{2}", materialInput) #match if string matches format*
-    if matchResult != None: #if match object is not None (meaning there is at least one match)
-        matchFound = True
-
-        dbResult = dbCursor.execute("SELECT * FROM 'PC Accessories'")
-        if dbResult != None:
-            for row in dbResult:
-                if str(row[0]).strip() == materialInput:
-                    materialOutput = row[1]
-                    validInput = True
-
-        swChangesRequired = False
-        if materialOutput != None and materialOutput != '': #if a direct replacement was found
-            anySuccessor = True
-            directSuccessor = True
-        else:
-            anySuccessor = False
-            directSuccessor = False
-
-
-
     # PC7xx
     matchResult = re.match(r"^5PC7\d{2}\..{4}-\d{2}", materialInput) #match if string matches format*
     if matchResult != None: #if match object is not None (meaning there is at least one match)
@@ -694,8 +671,18 @@ while runAgainBool == True: #core code is in while loop so user can do lookup as
             anySuccessor = False
             directSuccessor = False
 
-    # PC8xx Accessories
-    matchResult = re.match(r"^5AC8\d{2}\..{4}-\d{2}", materialInput) #match if string matches format*
+    # PC9xx
+    matchResult = re.match(r"^5PC900\.TS77-\d{2}", materialInput) #match if string matches format 8I64T2*.00X-1
+    if matchResult != None: #if match object is not None (meaning there is at least one match)
+        matchFound = True
+        
+        swChangesRequired = True #software changes needed
+        anySuccessor = True
+        directSuccessor = False
+        nonDirectMsg = "Transition to the appropriate TS17 (5PC900.TS17-xx) CPU board depending on performance needed."
+
+    # PC Accessories
+    matchResult = re.match(r"^5AC\d{3}\..{4}-\d{2}", materialInput) #match if string matches format*
     if matchResult != None: #if match object is not None (meaning there is at least one match)
         matchFound = True
 
@@ -713,16 +700,6 @@ while runAgainBool == True: #core code is in while loop so user can do lookup as
         else:
             anySuccessor = False
             directSuccessor = False
-
-    # PC9xx
-    matchResult = re.match(r"^5PC900\.TS77-\d{2}", materialInput) #match if string matches format 8I64T2*.00X-1
-    if matchResult != None: #if match object is not None (meaning there is at least one match)
-        matchFound = True
-        
-        swChangesRequired = True #software changes needed
-        anySuccessor = True
-        directSuccessor = False
-        nonDirectMsg = "Transition to the appropriate TS17 (5PC900.TS17-xx) CPU board depending on performance needed."
 
     ### Safety PLCs ###
     # X20SL80xx
