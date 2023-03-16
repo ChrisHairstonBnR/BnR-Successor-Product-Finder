@@ -1,5 +1,4 @@
 # Discontinued Lines
-*Only materials that have successors will be added*
 
 ## Drives/Inverters
 - [x] X64
