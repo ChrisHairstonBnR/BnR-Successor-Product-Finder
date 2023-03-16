@@ -769,6 +769,27 @@ while runAgainBool == True: #core code is in while loop so user can do lookup as
         directSuccessor = False
         nonDirectMsg = "There is no direct successor for the 7EC020 and 7EC021. Projects should be changed over to X20."
 
+    ### Cables ###
+    # AP800 Cables
+    matchResult = re.match(r"^5CA.{3}\.\d{4}-\d{2}", materialInput) #match if string matches format*
+    if matchResult != None: #if match object is not None (meaning there is at least one match)
+        matchFound = True
+
+        dbResult = dbCursor.execute("SELECT * FROM Cables")
+        #dbResult = dbCursor.fetchall()
+        if dbResult != None:
+            for row in dbResult:
+                if str(row[0]).strip() == materialInput:
+                    materialOutput = row[1]
+                    validInput = True
+
+        swChangesRequired = True #software changes needed
+        if materialOutput != None and materialOutput != '': #if a direct replacement was found
+            anySuccessor = True
+            directSuccessor = True
+        else:
+            anySuccessor = False
+            directSuccessor = False
            
     ### MISC ###
     # When no other regex matches, check the misc table
