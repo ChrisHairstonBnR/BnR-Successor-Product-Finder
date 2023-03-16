@@ -6,6 +6,7 @@
 - [x] P74
 - [x] P84
 
+
 ## Motors
 - [x] 8LSA (-0)
 - [x] 8LSC (-0)
@@ -13,7 +14,10 @@
 - [x] ACOPOS original series (8V)
 - [x] ACOPOSmulti 8BVx1650Hxxx.000-1/8BVx0880Hxxx.004-1/8BVI0660Hxxx.000-1
 
-## PCs
+## Other Motion
+- [x] 8B0F0160H000.A00-1
+
+## PCs (& Accessories)
 - [x] PPC300
 - [x] PPC725
 - [x] PPC800
@@ -23,6 +27,7 @@
 - [x] APC820
 - [x] APC620
 - [x] APC910 (TS77)
+- [x] 5AC902.PS00-00
 
 ## Power Panels
 - [x] PP300
@@ -34,6 +39,7 @@
 ## X20
 - [x] X20CP1483 & X20CP1483-1
 - [x] X20DS4387
+- [x] X20CPx58x
 
 ## CompactFlash
 *Double check the direct replacablilty*
@@ -56,6 +62,7 @@
 - [x] MP712x
 - [x] MP50
 - [x] 5MP7151.101E-001
+- [ ] AP800 cables
 
 ## Other PLCs
 - [x] 7EC020 & 7EC021
@@ -65,5 +72,6 @@
 - [x] SDL3 (Moved to Misc due to model number irregularities)
 - [x] SLC USB sticks
 - [x] Line filter (8B0F0160H000.A00-1)
+- [ ] Low runner products
 
 

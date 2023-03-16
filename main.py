@@ -681,7 +681,7 @@ while runAgainBool == True: #core code is in while loop so user can do lookup as
         directSuccessor = False
         nonDirectMsg = "Transition to the appropriate TS17 (5PC900.TS17-xx) CPU board depending on performance needed."
 
-    # PC Accessories
+    # PC 6xx+ Accessories
     matchResult = re.match(r"^5AC\d{3}\..{4}-\d{2}", materialInput) #match if string matches format*
     if matchResult != None: #if match object is not None (meaning there is at least one match)
         matchFound = True
@@ -726,22 +726,48 @@ while runAgainBool == True: #core code is in while loop so user can do lookup as
         situationalMsg = "The material number entered was for a Linux operating system. It's successor operating system is dependent on the compatibility of the target PC."
 
     ### X20 ###
-    # X20CP1483 & X20CP1483-1
-    matchResult = re.match(r"^X20CP1483.*", materialInput) #match if string matches format 8I64T2*.00X-1
-    if matchResult != None: #if match object is not None (meaning there is at least one match)
-        matchFound = True
-        anySuccessor = True
-        directSuccessor = False
-        nonDirectMsg = "The Compact-S PLC series is the ideal successor."
+    # # X20CP1483 & X20CP1483-1
+    # matchResult = re.match(r"^X20CP1483.*", materialInput) #match if string matches format 8I64T2*.00X-1
+    # if matchResult != None: #if match object is not None (meaning there is at least one match)
+    #     matchFound = True
+    #     anySuccessor = True
+    #     directSuccessor = False
+    #     nonDirectMsg = "The Compact-S PLC series is the ideal successor."
     
-    # X20DS4387
-    matchResult = re.match(r"^X20DS4387", materialInput) #match if string matches format 8I64T2*.00X-1
+    # # X20DS4387
+    # matchResult = re.match(r"^X20DS4387", materialInput) #match if string matches format 8I64T2*.00X-1
+    # if matchResult != None: #if match object is not None (meaning there is at least one match)
+    #     matchFound = True
+    #     anySuccessor = True
+    #     materialOutput = 'X20DS438A'
+    #     directSuccessor = True
+    #     swChangesRequired = True
+
+    # X20 Umbrella
+    matchResult = re.match(r"^X20.+", materialInput) #match if string matches format*
     if matchResult != None: #if match object is not None (meaning there is at least one match)
         matchFound = True
-        anySuccessor = True
-        materialOutput = 'X20DS438A'
-        directSuccessor = True
-        swChangesRequired = True
+
+        dbResult = dbCursor.execute("SELECT * FROM X20")
+        #dbResult = dbCursor.fetchall()
+        if dbResult != None:
+            for row in dbResult:
+                if str(row[0]).strip() == materialInput:
+                    materialOutput = row[1]
+                    validInput = True
+
+        swChangesRequired = True #software changes needed
+        if materialOutput != None and materialOutput != '': #if a direct replacement was found
+            anySuccessor = True
+            directSuccessor = True
+        else:
+            anySuccessor = False
+            directSuccessor = False
+            if materialInput == "X20CP1483":
+                anySuccessor = True
+                nonDirectMsg = "The Compact-S PLC series is the ideal successor."
+
+
     
     
     ### Other PLCs ###
