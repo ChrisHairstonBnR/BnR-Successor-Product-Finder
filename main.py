@@ -215,7 +215,16 @@ while runAgainBool == True: #core code is in while loop so user can do lookup as
         directSuccessor = False
         nonDirectMsg = "Go to Y:\Application\Support Team\KnowledgeBase\Hardware\Motors\MotorConversions\MSA Motor Lookup v01.1.xlsx"
     
-    
+    ### Other Motion ###
+    # 8B0F0160H000.A00-1
+    matchResult = re.match(r"8B0F0160H000.A00-1", materialInput) #match if string matches format*
+    if matchResult != None: #if match object is not None (meaning there is at least one match)
+        matchFound = True
+        materialOutput = "8B0F0160H000.000-1"
+        swChangesRequired = True #software changes needed
+        anySuccessor = True
+        directSuccessor = True
+
     ### CompactFlash ###
     # 5CFCRD.xxxx-02
     matchResult = re.match(r"^5CFCRD\..{4}-02", materialInput) #match if string matches format*
@@ -726,23 +735,6 @@ while runAgainBool == True: #core code is in while loop so user can do lookup as
         situationalMsg = "The material number entered was for a Linux operating system. It's successor operating system is dependent on the compatibility of the target PC."
 
     ### X20 ###
-    # # X20CP1483 & X20CP1483-1
-    # matchResult = re.match(r"^X20CP1483.*", materialInput) #match if string matches format 8I64T2*.00X-1
-    # if matchResult != None: #if match object is not None (meaning there is at least one match)
-    #     matchFound = True
-    #     anySuccessor = True
-    #     directSuccessor = False
-    #     nonDirectMsg = "The Compact-S PLC series is the ideal successor."
-    
-    # # X20DS4387
-    # matchResult = re.match(r"^X20DS4387", materialInput) #match if string matches format 8I64T2*.00X-1
-    # if matchResult != None: #if match object is not None (meaning there is at least one match)
-    #     matchFound = True
-    #     anySuccessor = True
-    #     materialOutput = 'X20DS438A'
-    #     directSuccessor = True
-    #     swChangesRequired = True
-
     # X20 Umbrella
     matchResult = re.match(r"^X20.+", materialInput) #match if string matches format*
     if matchResult != None: #if match object is not None (meaning there is at least one match)
@@ -767,8 +759,6 @@ while runAgainBool == True: #core code is in while loop so user can do lookup as
                 anySuccessor = True
                 nonDirectMsg = "The Compact-S PLC series is the ideal successor."
 
-
-    
     
     ### Other PLCs ###
     # 7EC020 & 7EC021
@@ -778,7 +768,6 @@ while runAgainBool == True: #core code is in while loop so user can do lookup as
         anySuccessor = True
         directSuccessor = False
         nonDirectMsg = "There is no direct successor for the 7EC020 and 7EC021. Projects should be changed over to X20."
-
 
            
     ### MISC ###
