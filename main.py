@@ -2,7 +2,7 @@ import re #regular expressions
 import sqlite3 #https://docs.python.org/3/library/sqlite3.html
 
 #----- VERSION -----#
-sofwareVersion = '0.2a'
+sofwareVersion = '0.3b'
 
 #----- Variable Declaration -----#
 materialInput = '' #user input
@@ -770,7 +770,7 @@ while runAgainBool == True: #core code is in while loop so user can do lookup as
         nonDirectMsg = "There is no direct successor for the 7EC020 and 7EC021. Projects should be changed over to X20."
 
     ### Cables ###
-    # AP800 Cables
+    # 5CAxxx.xxxx-xx Cables (AP800, APC/PPC, etc.)
     matchResult = re.match(r"^5CA.{3}\.\d{4}-\d{2}", materialInput) #match if string matches format*
     if matchResult != None: #if match object is not None (meaning there is at least one match)
         matchFound = True

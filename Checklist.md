@@ -62,7 +62,9 @@
 - [x] MP712x
 - [x] MP50
 - [x] 5MP7151.101E-001
-- [ ] AP800 cables
+
+## Cables
+- [x] AP800 cables
 
 ## Other PLCs
 - [x] 7EC020 & 7EC021
@@ -72,6 +74,7 @@
 - [x] SDL3 (Moved to Misc due to model number irregularities)
 - [x] SLC USB sticks
 - [x] Line filter (8B0F0160H000.A00-1)
-- [ ] Low runner products
+- [x] Low runner products
+- [x] Logic Scanner (5LS)
 
 
