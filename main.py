@@ -35,7 +35,7 @@ while runAgainBool == True: #core code is in while loop so user can do lookup as
     materialInput = str(materialInput).upper() #convert input to uppercase
     materialInput = materialInput.strip() #remove whitespace from front and back
     print("Finding successor product for %s... " % (materialInput)); #formatted string
-    print("(Please note that this program does not check if the material number entered is real.)\n") #disclaimer
+    print("(Please note that this program does not check if the material number entered is actually obsolete or real.)\n") #disclaimer
     
     #Reset variables for new loop
     materialOutput = '' 
@@ -734,7 +734,7 @@ while runAgainBool == True: #core code is in while loop so user can do lookup as
         matchFound = True
         situationalMsg = "The material number entered was for a Linux operating system. It's successor operating system is dependent on the compatibility of the target PC."
 
-    ### X20 ###
+    ### X2X ###
     # X20 Umbrella
     matchResult = re.match(r"^X20.+", materialInput) #match if string matches format*
     if matchResult != None: #if match object is not None (meaning there is at least one match)
@@ -758,6 +758,28 @@ while runAgainBool == True: #core code is in while loop so user can do lookup as
             if materialInput == "X20CP1483":
                 anySuccessor = True
                 nonDirectMsg = "The Compact-S PLC series is the ideal successor."
+
+    # X67 Umbrella
+    matchResult = re.match(r"^X67.+", materialInput) #match if string matches format*
+    if matchResult != None: #if match object is not None (meaning there is at least one match)
+        matchFound = True
+
+        dbResult = dbCursor.execute("SELECT * FROM X67")
+        #dbResult = dbCursor.fetchall()
+        if dbResult != None:
+            for row in dbResult:
+                if str(row[0]).strip() == materialInput:
+                    materialOutput = row[1]
+                    validInput = True
+
+        swChangesRequired = True #software changes needed
+        if materialOutput != None and materialOutput != '': #if a direct replacement was found
+            anySuccessor = True
+            directSuccessor = True
+        else:
+            anySuccessor = False
+            directSuccessor = False
+
 
     
     ### Other PLCs ###

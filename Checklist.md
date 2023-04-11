@@ -40,6 +40,12 @@
 - [x] X20DS4387
 - [x] X20CPx58x
 
+## X67
+- [x] X67BCJ321
+- [x] X67BC5321
+- [x] X67DM1321-1
+
+
 ## CompactFlash
 *Double check the direct replacablilty*
 - [x] 5CFCRD.xxxx-02
