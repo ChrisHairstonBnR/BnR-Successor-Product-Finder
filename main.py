@@ -2,7 +2,7 @@ import re #regular expressions
 import sqlite3 #https://docs.python.org/3/library/sqlite3.html
 
 #----- VERSION -----#
-sofwareVersion = '0.3b'
+sofwareVersion = '0.4b'
 
 #----- Variable Declaration -----#
 materialInput = '' #user input

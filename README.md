@@ -14,6 +14,8 @@
 ## Installing Source Using PyInstaller
 While in directory:
 `pyinstaller 'BnR SPF.spec'`
+or if you want to build the executable and dependncies sepereately in one folder,
+`pyinstaller 'BnR SPF (Folder).spec'`
 
 ## How to Edit the Database
 https://sqlitebrowser.org/
