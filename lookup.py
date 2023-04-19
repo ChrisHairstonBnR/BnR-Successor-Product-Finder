@@ -8,7 +8,7 @@ dbCursor = dbConnection.cursor()
 dbResult = None #query result variable
 
 class Lookup:
-    def __init__(self, materialOutput, nonDirectMsg, situationalMsg, matchFound, directSuccessor, anySuccessor, validInput):
+    def __init__(self, materialOutput, nonDirectMsg, situationalMsg, matchFound, directSuccessor, anySuccessor, validInput, swChangesRequired):
         self.materialOutput = materialOutput
         self.nonDirectMsg = nonDirectMsg
         self.situationalMsg = situationalMsg
@@ -16,12 +16,43 @@ class Lookup:
         self.directSuccessor = directSuccessor
         self.anySuccessor = anySuccessor
         self.validInput = validInput
+        self.swChangesRequired = swChangesRequired
+
+def getNotes(l: Lookup):
+        
+    outputNotes = ''
+
+    #----- Wrap Up and Output -----#
+    if l.situationalMsg != '' and l.situationalMsg != None:
+        outputNotes += l.situationalMsg
+    elif l.anySuccessor == True: #If any successor is available
+        if l.directSuccessor == True: #if direct successor was found
+            #outputNotes += "The replacement material number(s) is (are):\n%s" % (l.materialOutput) #print output
+            pass
+        
+        else:
+            outputNotes += "No direct successor found. %s" % (l.nonDirectMsg)
+
+        outputNotes += "(Please ensure that this successor is not obsolete itself.) " #disclaimer
+
+        if l.swChangesRequired == True: #if software changes are required
+            outputNotes += "Software changes will be necessary in Automation Studio. "
+        else: 
+            outputNotes += "No software changes required. "
+    else:
+        if l.validInput:
+            outputNotes += "The input material appears to be valid. However, there unfortunately is no successor product."
+        else:    
+            #In cases there was a typo in the input, the input is not obsolete, or the material is missing from the program
+            outputNotes += "Unfortunately, a successor product for the entered material number is not available. The entered material is either not obsolete, there are mistakes in your input or this program is missing this material. " 
+    return outputNotes
+
 
 
 def getSuccessor(materialInput):
         materialInput = materialInput.strip() #remove whitespace from front and back
-        print("Finding successor product for %s... " % (materialInput)); #formatted string
-        print("(Please note that this program does not check if the material number entered is actually obsolete or real.)\n") #disclaimer
+        #print("Finding successor product for %s... " % (materialInput)); #formatted string
+        #print("(Please note that this program does not check if the material number entered is actually obsolete or real.)\n") #disclaimer
         
         #Reset variables for new loop
         materialOutput = '' 
@@ -822,4 +853,4 @@ def getSuccessor(materialInput):
                 #    anySuccessor = True
                 #    nonDirectMsg = "No 1:1 replacement available because of very low demand. Changeover recommendation: 5AP1151.0573-000\n"
 
-        return Lookup(materialOutput, nonDirectMsg, situationalMsg, matchFound, directSuccessor, anySuccessor, validInput)
+        return Lookup(materialOutput, nonDirectMsg, situationalMsg, matchFound, directSuccessor, anySuccessor, validInput, swChangesRequired)
