@@ -1,4 +1,6 @@
 import tkinter as tk
+from tkinter import ttk
+import numpy as np
 #import guiFun
 from lookup import *
 import webbrowser
@@ -37,7 +39,23 @@ root.title("Part Number Lookup")
 #Triggers when search button is clicked
 def on_button_click():
     rawInput = entry_obsolete_part.get('1.0', tk.END)
+    rawInput = str(rawInput).upper() #convert input to uppercase
     materialInputList = rawInput.split()
+
+    #clear current outputs
+    text_successor_output.config(state= 'normal')
+    text_successor_output.delete('1.0', tk.END)
+    text_successor_output.config(state= 'disabled')
+
+    text_sw_changes_required.config(state= 'normal')
+    text_sw_changes_required.delete('1.0', tk.END)
+    text_sw_changes_required.config(state= 'disabled')
+
+    text_successor_notes.config(state= 'normal')
+    text_successor_notes.delete('1.0', tk.END)
+    text_successor_notes.config(state= 'disabled')
+
+
     for materialInput in materialInputList:
         lookupResult = getSuccessor(materialInput)
 
@@ -45,18 +63,37 @@ def on_button_click():
 
         #keep material output
         materialOutput = lookupResult.materialOutput
+        if materialOutput == '' or materialOutput == None:
+            materialOutput = 'N/A'
 
+        #format the output to clearly show input and successor
+        outputSuccessor = '%s -> %s' % (materialInput, materialOutput)
 
         #Output Note
-        outputNote = getNotes(lookupResult)
+        outputNote = getNotes(materialInput, lookupResult)
+
+        #Sw changes required output
+        if lookupResult.swChangesRequired:
+            outputSwChanges = '%s: yes' % materialInput
+        else:
+            outputSwChanges = '%s: no' % materialInput
 
 
         text_successor_output.config(state= 'normal')
-        text_successor_output.insert(tk.END, materialOutput + '\n')
+        text_successor_output.insert(tk.END, outputSuccessor + '\n')
         text_successor_output.config(state= 'disabled')
-        text_successor_notes.config(state= 'normal')
-        text_successor_notes.insert(tk.END, outputNote + '\n')
-        text_successor_notes.config(state= 'disabled')
+        text_sw_changes_required.config(state= 'normal')
+        text_sw_changes_required.insert(tk.END, outputSwChanges + '\n')
+        text_sw_changes_required.config(state= 'disabled')
+        if outputNote != '' and outputNote != None:
+            text_successor_notes.config(state= 'normal')
+            text_successor_notes.insert(tk.END, outputNote + '\n')
+            text_successor_notes.config(state= 'disabled')
+
+    text_successor_notes.config(state= 'normal')
+    text_successor_notes.insert(tk.END, 'Please ensure successor(s) is (are) not obsolete too.')
+    text_successor_notes.config(state= 'disabled')
+    
 
 
 
@@ -64,19 +101,31 @@ def on_button_click():
 def on_github_link_click():
     webbrowser.open_new_tab('https://github.com/ChrisHairstonBnR/Python-Successor-Finder/issues')
 
+
+
 # Create the GUI widgets
 label_obsolete_part = tk.Label(root, text="Obsolete Part Number(s):")
-entry_obsolete_part = tk.Text(root, height= 10, width= 20)
+entry_obsolete_part = tk.Text(root, height= 10, width= 15)
 button_search = tk.Button(root, text="Search", command=on_button_click)
 label_successor_part = tk.Label(root, text="Successor Part Number(s):")
-text_successor_output = tk.Text(root, height= 10, width= 50, bg='#D3D3D3')
+text_successor_output = tk.Text(root, height= 10, width= 35, bg='#D3D3D3')
 label_successor_notes = tk.Label(root, text= "Notes:")
-text_successor_notes = tk.Text(root, height = 10, width= 125, bg="#FFFDD0")
+text_successor_notes = tk.Text(root, height = 10, width= 50, bg="#FFFDD0")
 button_github_link = tk.Button(root, text= "To report an issue or missing material, create an issue at https://github.com/ChrisHairstonBnR/Python-Successor-Finder/issues or click here.", command=on_github_link_click, border=0)
+notes_scrollbar = tk.Scrollbar(root, orient='horizontal')
+output_scrollbar = tk.Scrollbar(root, orient='horizontal')
+label_sw_changes_required = tk.Label(root, text= "Software Changes Required?")
+text_sw_changes_required = tk.Text(root, height= 10, width= 20)
 
-#Set text boxes as read only
-text_successor_output.config(state= 'disabled')
-text_successor_notes.config(state= 'disabled')
+
+#Widget configuration
+text_successor_notes.config(xscrollcommand=notes_scrollbar.set, wrap="none", state= 'disabled')
+text_successor_output.config(xscrollcommand=output_scrollbar.set, state= 'disabled', wrap='none') #Set text boxes as read only
+text_sw_changes_required.config(state='disabled', wrap='none')
+notes_scrollbar.config(command=text_successor_notes.xview)
+output_scrollbar.config(command=text_successor_output.xview)
+
+
 
 
 
@@ -86,9 +135,13 @@ entry_obsolete_part.grid(row=1, column=0, padx=5, pady=5)
 button_search.grid(row=2, column=0, columnspan=1, padx=5, pady=5)
 label_successor_part.grid(row=0, column=1, padx=5, pady=5)
 text_successor_output.grid(row=1, column=1, padx=5, pady=5)
-label_successor_notes.grid(row=0, column=2, padx=5, pady=5)
-text_successor_notes.grid(row=1, column=2, padx=5, pady=5)
-button_github_link.grid(row=3, column=0, columnspan=3, padx=5, pady=5)
+label_successor_notes.grid(row=0, column=3, padx=5, pady=5)
+text_successor_notes.grid(row=1, column=3, padx=5, pady=5)
+button_github_link.grid(row=3, column=0, columnspan=4, padx=5, pady=5, sticky='e')
+notes_scrollbar.grid(row=2, column=3, sticky='ew')
+output_scrollbar.grid(row=2, column=1, sticky='ew')
+label_sw_changes_required.grid(row=0, column=2, padx=5, pady=5)
+text_sw_changes_required.grid(row=1, column=2, padx=5, pady=5)
 
 # Start the main loop
 root.mainloop()
