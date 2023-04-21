@@ -46,5 +46,5 @@ coll = COLLECT(
     strip=False,
     upx=True,
     upx_exclude=[],
-    name='BnR SPF v0.5b',
+    name='BnR SPF v0.6b',
 )

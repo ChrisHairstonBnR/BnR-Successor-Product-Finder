@@ -9,7 +9,7 @@ import settings
 
 
 #----- VERSION -----#
-sofwareVersion = '0.5b'
+sofwareVersion = '0.6b'
 
 #----- Variable Declaration -----#
 rawInput = None
@@ -180,7 +180,6 @@ text_sw_changes_required.grid(row=1, column=2, padx=5, pady=5)
 
 # Start the main loop
 root.mainloop()
-
 
 
 

@@ -15,4 +15,5 @@ def invertHexColor(hexColor):
     gHex = '%02x' % gInv
     bHex = '%02x' % bInv
 
+    return '#%s%s%s' % (rHex, gHex, bHex)
     #return '#%s%s%s' % (hex(rInv).lstrip('0x'),  hex(gInv).lstrip('0x'), hex(bInv).lstrip('0x'))
