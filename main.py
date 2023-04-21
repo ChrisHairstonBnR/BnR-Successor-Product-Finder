@@ -1,9 +1,11 @@
 import tkinter as tk
 from tkinter import ttk
+from ttkthemes import ThemedTk
 import numpy as np
-#import guiFun
+from guiFun import *
 from lookup import *
 import webbrowser
+
 
 #----- VERSION -----#
 sofwareVersion = '0.41b'
@@ -28,13 +30,15 @@ validInput = False #True if the input material was found in the database
 
 
 #print("***WELCOME TO THE B&R SUCCESSOR PRODUCT FINDER v%s***\nWritten by Chris Hairston" % sofwareVersion);
-#----- GUI -----#
 
 
+def selectTheme():
+    root.set_theme(theme_name=optionTheme.get(), themebg= True, toplevel= True)
+    button_github_link.config(bg= root['background'], fg= invertHexColor(root['background']))
 
-# Create the main window
-root = tk.Tk()
-root.title("Part Number Lookup")
+def closeApp():
+    root.quit()
+
 
 #Triggers when search button is clicked
 def on_button_click():
@@ -78,7 +82,7 @@ def on_button_click():
         else:
             outputSwChanges = '%s: no' % materialInput
 
-
+        #append text outputs
         text_successor_output.config(state= 'normal')
         text_successor_output.insert(tk.END, outputSuccessor + '\n')
         text_successor_output.config(state= 'disabled')
@@ -89,11 +93,11 @@ def on_button_click():
             text_successor_notes.config(state= 'normal')
             text_successor_notes.insert(tk.END, outputNote + '\n')
             text_successor_notes.config(state= 'disabled')
-
+    
+    #final note to append
     text_successor_notes.config(state= 'normal')
     text_successor_notes.insert(tk.END, 'Please ensure successor(s) is (are) not obsolete too.')
     text_successor_notes.config(state= 'disabled')
-    
 
 
 
@@ -101,20 +105,47 @@ def on_button_click():
 def on_github_link_click():
     webbrowser.open_new_tab('https://github.com/ChrisHairstonBnR/Python-Successor-Finder/issues')
 
+#----- GUI -----#
+
+
+
+# Create the main window
+root = ThemedTk(theme='black', toplevel= True, themebg=True)
+#root.config(theme= 'black')
+root.title("BnR SPF")
+
+optionTheme = tk.StringVar(value='black')
+themeList = ['Light', 'Dark']
+optionThemeList = root.get_themes()
+
+
+
+# Menu Setup
+menubar = tk.Menu(root)
+optionMenu = tk.Menu(menubar, tearoff=0)
+themeMenu = tk.Menu(optionMenu, tearoff=0)
+for theme in optionThemeList:
+    themeMenu.add_radiobutton(label=theme.capitalize(), variable=optionTheme, value=theme, command=selectTheme)
+
+optionMenu.add_cascade(label="Theme", menu=themeMenu)
+optionMenu.add_separator()
+optionMenu.add_command(label="Exit", command=closeApp)
+
+menubar.add_cascade(label="Options", menu=optionMenu)
 
 
 # Create the GUI widgets
-label_obsolete_part = tk.Label(root, text="Obsolete Part Number(s):")
+label_obsolete_part = ttk.Label(root, text="Obsolete Part Number(s):")
 entry_obsolete_part = tk.Text(root, height= 10, width= 15)
-button_search = tk.Button(root, text="Search", command=on_button_click)
-label_successor_part = tk.Label(root, text="Successor Part Number(s):")
-text_successor_output = tk.Text(root, height= 10, width= 35, bg='#D3D3D3')
-label_successor_notes = tk.Label(root, text= "Notes:")
+button_search = ttk.Button(root, text="Search", command=on_button_click)
+label_successor_part = ttk.Label(root, text="Successor Part Number(s):")
+text_successor_output = tk.Text(root, height= 10, width= 40, bg='#D3D3D3')
+label_successor_notes = ttk.Label(root, text= "Notes:")
 text_successor_notes = tk.Text(root, height = 10, width= 50, bg="#FFFDD0")
-button_github_link = tk.Button(root, text= "To report an issue or missing material, create an issue at https://github.com/ChrisHairstonBnR/Python-Successor-Finder/issues or click here.", command=on_github_link_click, border=0)
-notes_scrollbar = tk.Scrollbar(root, orient='horizontal')
-output_scrollbar = tk.Scrollbar(root, orient='horizontal')
-label_sw_changes_required = tk.Label(root, text= "Software Changes Required?")
+button_github_link = tk.Button(root, text= "To report an issue or missing material, create an issue at https://github.com/ChrisHairstonBnR/Python-Successor-Finder/issues or click here.", command=on_github_link_click, border=0, bg=root['background'], fg=invertHexColor(root['background']))
+notes_scrollbar = ttk.Scrollbar(root, orient='horizontal')
+output_scrollbar = ttk.Scrollbar(root, orient='horizontal')
+label_sw_changes_required = ttk.Label(root, text= "Software Changes Required?")
 text_sw_changes_required = tk.Text(root, height= 10, width= 20)
 
 
@@ -124,8 +155,8 @@ text_successor_output.config(xscrollcommand=output_scrollbar.set, state= 'disabl
 text_sw_changes_required.config(state='disabled', wrap='none')
 notes_scrollbar.config(command=text_successor_notes.xview)
 output_scrollbar.config(command=text_successor_output.xview)
-
-
+button_github_link.config()
+root.config(menu= menubar)
 
 
 
@@ -142,6 +173,7 @@ notes_scrollbar.grid(row=2, column=3, sticky='ew')
 output_scrollbar.grid(row=2, column=1, sticky='ew')
 label_sw_changes_required.grid(row=0, column=2, padx=5, pady=5)
 text_sw_changes_required.grid(row=1, column=2, padx=5, pady=5)
+
 
 # Start the main loop
 root.mainloop()
