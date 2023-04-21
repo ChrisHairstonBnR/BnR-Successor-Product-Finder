@@ -5,10 +5,11 @@ import numpy as np
 from guiFun import *
 from lookup import *
 import webbrowser
+import settings
 
 
 #----- VERSION -----#
-sofwareVersion = '0.41b'
+sofwareVersion = '0.5b'
 
 #----- Variable Declaration -----#
 rawInput = None
@@ -35,6 +36,7 @@ validInput = False #True if the input material was found in the database
 def selectTheme():
     root.set_theme(theme_name=optionTheme.get(), themebg= True, toplevel= True)
     button_github_link.config(bg= root['background'], fg= invertHexColor(root['background']))
+    initSettings.setDefaultTheme(optionTheme.get())
 
 def closeApp():
     root.quit()
@@ -106,17 +108,18 @@ def on_github_link_click():
     webbrowser.open_new_tab('https://github.com/ChrisHairstonBnR/Python-Successor-Finder/issues')
 
 #----- GUI -----#
-
+initSettings = settings.appSettings()
 
 
 # Create the main window
-root = ThemedTk(theme='black', toplevel= True, themebg=True)
+root = ThemedTk(theme=initSettings.defaultTheme, toplevel= True, themebg=True)
 #root.config(theme= 'black')
-root.title("BnR SPF")
+root.title("BnR SPF v%s" % sofwareVersion)
 
-optionTheme = tk.StringVar(value='black')
+optionTheme = tk.StringVar(value=initSettings.defaultTheme)
 themeList = ['Light', 'Dark']
 optionThemeList = root.get_themes()
+optionThemeList.sort()
 
 
 
