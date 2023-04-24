@@ -12,15 +12,15 @@
 
 ## Installing Release Build
 1. Download .zip file to desired location and extract
-2. (Optional) Right click executable and select Send to -> Desktop to create a desktop shortcut
+2. *(Optional) Right click executable and select Send to -> Desktop to create a desktop shortcut*
 
 ## Installing Source Using PyInstaller
 ### Installing Dependency Libraries
-|Library | Installation Command|
-|---|---|
-|pyinstaller| pip install -U pyinstaller |
-|tkkthemes | pip install ttkthemes|
-|numpy | pip install numpy|
+|Library        | Installation Command      |
+|---------------|---------------------------|
+|pyinstaller    | pip install -U pyinstaller|
+|tkkthemes      | pip install ttkthemes     |
+|numpy          | pip install numpy         |
 
 
 ### Installation Process

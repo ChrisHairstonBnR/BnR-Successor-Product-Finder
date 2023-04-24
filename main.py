@@ -1,11 +1,13 @@
 import tkinter as tk
 from tkinter import ttk
+from tkinter import messagebox
 from ttkthemes import ThemedTk
 import numpy as np
 from guiFun import *
 from lookup import *
 import webbrowser
 import settings
+from update import *
 
 
 #----- VERSION -----#
@@ -89,11 +91,13 @@ def on_github_link_click():
 #----- GUI -----#
 initSettings = settings.appSettings()
 
-
 # Create the main window
 root = ThemedTk(theme=initSettings.defaultTheme, toplevel= True, themebg=True)
 root.title("BnR SPF v%s" % sofwareVersion)
 
+
+
+#get and sort themes
 optionTheme = tk.StringVar(value=initSettings.defaultTheme)
 optionThemeList = root.get_themes()
 optionThemeList.sort()
@@ -154,6 +158,24 @@ notes_scrollbar.grid(row=2, column=3, sticky='ew')
 output_scrollbar.grid(row=2, column=1, sticky='ew')
 label_sw_changes_required.grid(row=0, column=2, padx=5, pady=5)
 text_sw_changes_required.grid(row=1, column=2, padx=5, pady=5)
+
+#Check for Update
+u = Updater()
+latestRelease = u.latestVersion[1:]
+while str(latestRelease)[-1].isalpha(): #removes characters such as 'a' or 'b' from software version
+    latestRelease = latestRelease[:-1]
+
+sofwareVersionNum = sofwareVersion[1:]
+while str(sofwareVersionNum)[-1].isalpha(): #removes characters such as 'a' or 'b' from software version
+    sofwareVersionNum = sofwareVersionNum[:-1]
+
+if float(sofwareVersionNum) < float(latestRelease):
+    updateResponse = messagebox.askokcancel('Update Available', 'Please download the latest release %s.' % u.latestVersion)
+
+    if updateResponse == True:
+        webbrowser.open_new_tab(u.latestVersionLink)
+    else:
+        pass
 
 
 # Start the main loop
