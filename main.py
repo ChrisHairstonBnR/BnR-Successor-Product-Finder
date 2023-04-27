@@ -102,6 +102,10 @@ optionTheme = tk.StringVar(value=initSettings.defaultTheme)
 optionThemeList = root.get_themes()
 optionThemeList.sort()
 
+# Application Icon
+icon = tk.PhotoImage(file= 'assets\BnR SPF Logo.png')
+root.wm_iconphoto(True, icon)
+
 
 
 # Menu Setup

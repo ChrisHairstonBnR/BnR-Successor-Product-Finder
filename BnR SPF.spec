@@ -8,7 +8,7 @@ a = Analysis(
     ['main.py'],
     pathex=[],
     binaries=[],
-    datas=[('SuccessorProductDB.db','.'), ('settings.ini', '.')],
+    datas=[('SuccessorProductDB.db','.'), ('settings.ini', '.'), ('assets/BnR SPF Logo.png', 'assets')],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},
@@ -37,6 +37,7 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
+    icon=['assets\\BnR SPF Logo.png'],
 )
 coll = COLLECT(
     exe,
