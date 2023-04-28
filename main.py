@@ -60,7 +60,11 @@ def on_button_click():
         outputNote = getNotes(materialInput, lookupResult)
 
         #Sw changes required output
-        if lookupResult.swChangesRequired:
+        if materialOutput == 'N/A' and (lookupResult.nonDirectMsg == '' or lookupResult.nonDirectMsg == None) :
+            outputSwChanges = '%s: N/A' % materialInput
+        elif lookupResult.nonDirectMsg != '' and lookupResult.nonDirectMsg != None:
+            outputSwChanges = '%s: yes' % materialInput
+        elif lookupResult.swChangesRequired:
             outputSwChanges = '%s: yes' % materialInput
         else:
             outputSwChanges = '%s: no' % materialInput
@@ -124,7 +128,7 @@ menubar.add_cascade(label="Options", menu=optionMenu)
 
 # Create the GUI widgets
 label_obsolete_part = ttk.Label(root, text="Obsolete Part Number(s):")
-entry_obsolete_part = tk.Text(root, height= 10, width= 15)
+entry_obsolete_part = tk.Text(root, height= 10, width= 20)
 button_search = ttk.Button(root, text="Search", command=on_button_click)
 label_successor_part = ttk.Label(root, text="Successor Part Number(s):")
 text_successor_output = tk.Text(root, height= 10, width= 40, bg='#D3D3D3')
@@ -134,13 +138,14 @@ button_github_link = tk.Button(root, text= "To report an issue or missing materi
 notes_scrollbar = ttk.Scrollbar(root, orient='horizontal')
 output_scrollbar = ttk.Scrollbar(root, orient='horizontal')
 label_sw_changes_required = ttk.Label(root, text= "Software Changes Required?")
-text_sw_changes_required = tk.Text(root, height= 10, width= 20, bg='#D3D3D3')
+text_sw_changes_required = tk.Text(root, height= 10, width= 25, bg='#D3D3D3')
 
 
 #Widget configuration
 text_successor_notes.config(xscrollcommand=notes_scrollbar.set, wrap="none", state= 'disabled')
 text_successor_output.config(xscrollcommand=output_scrollbar.set, state= 'disabled', wrap='none') #Set text boxes as read only
 text_sw_changes_required.config(state='disabled', wrap='none')
+entry_obsolete_part.config(wrap='none')
 notes_scrollbar.config(command=text_successor_notes.xview)
 output_scrollbar.config(command=text_successor_output.xview)
 button_github_link.config()

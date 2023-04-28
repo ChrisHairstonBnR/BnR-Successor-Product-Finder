@@ -24,7 +24,7 @@ def getNotes(materialInput, l: Lookup):
 
     #----- Wrap Up and Output -----#
     if l.situationalMsg != '' and l.situationalMsg != None:
-        outputNotes += l.situationalMsg
+        noteText += l.situationalMsg
     elif l.anySuccessor == True: #If any successor is available
         if l.directSuccessor == True: #if direct successor was found
             pass
@@ -61,6 +61,7 @@ def getSuccessor(materialInput):
         directSuccessor = False 
         anySuccessor = False 
         validInput = False
+        swChangesRequired = False
 
         #----- Core Lookup Code -----#
 
