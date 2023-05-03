@@ -10,6 +10,5 @@ class Updater:
         responseJSON = response.json()
         self.latestVersion = responseJSON[0]['tag_name']
         self.latestVersionLink = responseJSON[0]['assets'][0]['browser_download_url']
-
-        
-        
+        publishDateTime = responseJSON[0]['published_at']
+        self.publishDate = publishDateTime.split('T')[0]

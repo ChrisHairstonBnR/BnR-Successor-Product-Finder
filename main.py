@@ -23,6 +23,24 @@ def closeApp():
     root.quit()
 
 
+
+def openAbout():
+
+    def closeAbout():
+        child_about.destroy()
+
+    child_about = tk.Toplevel(root)
+    child_about.title("About BnR SPF")
+    child_about.grab_set()
+    aboutText = "BnR SPF\nVersion: %s (%s)\n \nCreated By: Chris Hairston \nhttps://github.com/ChrisHairstonBnR/Python-Successor-Finder/" % (sofwareVersion, u.publishDate)
+    label_child = ttk.Label(child_about, text=aboutText)
+    label_child.grid(row=0, column=0, padx=5, pady=5)
+    button_close_child = ttk.Button(child_about, text='OK', command=closeAbout)
+    button_close_child.grid(row=1, column=0)
+
+    
+
+
 #Triggers when search button is clicked
 def on_button_click():
     rawInput = entry_obsolete_part.get('1.0', tk.END)
@@ -120,8 +138,10 @@ for theme in optionThemeList:
     themeMenu.add_radiobutton(label=theme.capitalize(), variable=optionTheme, value=theme, command=selectTheme)
 
 optionMenu.add_cascade(label="Theme", menu=themeMenu)
+optionMenu.add_command(label="About", command=openAbout)
 optionMenu.add_separator()
 optionMenu.add_command(label="Exit", command=closeApp)
+
 
 menubar.add_cascade(label="Options", menu=optionMenu)
 
