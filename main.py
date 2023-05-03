@@ -224,7 +224,7 @@ if not u.error:
             webbrowser.open_new_tab(u.latestVersionLink)
         else:
             pass
-    else:
+    elif float(sofwareVersionNum) == float(latestRelease):
         hasLatestVersion = True
 else:
     offlineMode = True
