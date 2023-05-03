@@ -5,10 +5,13 @@ class Updater:
         # releases = repo.get_releases()
         # self.latestVersion = releases[0].title
         # self.latestVersionLink = releases[0].zipball_url
-        
-        response = requests.get("https://api.github.com/repos/ChrisHairstonBnR/Python-Successor-Finder/releases", verify=False)
-        responseJSON = response.json()
-        self.latestVersion = responseJSON[0]['tag_name']
-        self.latestVersionLink = responseJSON[0]['assets'][0]['browser_download_url']
-        publishDateTime = responseJSON[0]['published_at']
-        self.publishDate = publishDateTime.split('T')[0]
+        try:
+            response = requests.get("https://api.github.com/repos/ChrisHairstonBnR/Python-Successor-Finder/releases", verify=False)
+            responseJSON = response.json()
+            self.latestVersion = responseJSON[0]['tag_name']
+            self.latestVersionLink = responseJSON[0]['assets'][0]['browser_download_url']
+            publishDateTime = responseJSON[0]['published_at']
+            self.latestVersionDate = publishDateTime.split('T')[0]
+            self.error = False
+        except:
+            self.error = True

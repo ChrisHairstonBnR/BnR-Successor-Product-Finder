@@ -12,6 +12,9 @@ from update import *
 
 #----- VERSION -----#
 sofwareVersion = '0.6b'
+updateAvailable = False
+offlineMode = False
+hasLatestVersion = False
 
 
 def selectTheme():
@@ -28,16 +31,30 @@ def openAbout():
 
     def closeAbout():
         child_about.destroy()
+    
+    def clickUpdate():
+        webbrowser.open_new_tab(u.latestVersionLink)
+
 
     child_about = tk.Toplevel(root)
     child_about.title("About BnR SPF")
     child_about.grab_set()
-    aboutText = "BnR SPF\nVersion: %s (%s)\n \nCreated By: Chris Hairston \nhttps://github.com/ChrisHairstonBnR/Python-Successor-Finder/" % (sofwareVersion, u.publishDate)
-    label_child = ttk.Label(child_about, text=aboutText)
-    label_child.grid(row=0, column=0, padx=5, pady=5)
+    if hasLatestVersion:
+        aboutTextTop = "BnR SPF\nVersion: %s (Latest)\n" % sofwareVersion
+    else: aboutTextTop = "BnR SPF\nVersion: %s\n" % sofwareVersion
+    label_child_top = ttk.Label(child_about, text=aboutTextTop)
+    label_child_top.grid(row=0, column=0, padx=5, pady=5, sticky='w')
+    aboutTextBot = 'Created By: Chris Hairston \nhttps://github.com/ChrisHairstonBnR/Python-Successor-Finder/'
+    label_child_bot = ttk.Label(child_about, text=aboutTextBot)
+    label_child_bot.grid(row=1, column=0, columnspan=2,  padx=5, pady=5, sticky='w')
+    
     button_close_child = ttk.Button(child_about, text='OK', command=closeAbout)
-    button_close_child.grid(row=1, column=0)
+    button_close_child.grid(row=2, column=0, columnspan=2, padx=5, pady=5)
+    button_update_child = ttk.Button(child_about, text="Download Update", command=clickUpdate)
+    button_update_child.grid(row=0, column=1, padx=5, pady=5)
 
+    if not updateAvailable:
+        button_update_child.config(state='disabled')
     
 
 
@@ -190,22 +207,29 @@ text_sw_changes_required.grid(row=1, column=2, padx=5, pady=5)
 
 #Check for Update
 u = Updater()
-latestRelease = u.latestVersion[1:]
-while str(latestRelease)[-1].isalpha(): #removes characters such as 'a' or 'b' from software version
-    latestRelease = latestRelease[:-1]
+if not u.error:
+    latestRelease = u.latestVersion[1:]
+    while str(latestRelease)[-1].isalpha(): #removes characters such as 'a' or 'b' from software version
+        latestRelease = latestRelease[:-1]
 
-sofwareVersionNum = sofwareVersion[1:]
-while str(sofwareVersionNum)[-1].isalpha(): #removes characters such as 'a' or 'b' from software version
-    sofwareVersionNum = sofwareVersionNum[:-1]
+    sofwareVersionNum = sofwareVersion[1:]
+    while str(sofwareVersionNum)[-1].isalpha(): #removes characters such as 'a' or 'b' from software version
+        sofwareVersionNum = sofwareVersionNum[:-1]
 
-if float(sofwareVersionNum) < float(latestRelease):
-    updateResponse = messagebox.askokcancel('Update Available', 'Please download the latest release %s.' % u.latestVersion)
+    if float(sofwareVersionNum) < float(latestRelease):
+        updateAvailable = True
+        updateResponse = messagebox.askokcancel('Update Available', 'Please download the latest release %s.' % u.latestVersion)
 
-    if updateResponse == True:
-        webbrowser.open_new_tab(u.latestVersionLink)
+        if updateResponse == True:
+            webbrowser.open_new_tab(u.latestVersionLink)
+        else:
+            pass
     else:
-        pass
-
+        hasLatestVersion = True
+else:
+    offlineMode = True
+    messagebox.showwarning("Offline Mode", "The application could not connect in order to check for updates.")
+    root.title("BnR SPF v%s (Offline)" % sofwareVersion)
 
 # Start the main loop
 root.mainloop()
