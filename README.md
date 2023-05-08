@@ -57,3 +57,6 @@ The theme of the application can be changed at any point via the Options->Theme 
 
 ### Offline Mode
 If the application is unable to make a connection to the GitHub api upon startup, it will enter "Offline Mode". The only different between this state and normal operation is that in the "About" menu the "Download Update" button is disabled and "(Latest)" will not appear next to the version number even if it is the latest version.
+
+## List of Covered Materials
+[Planned Materials List](Checklist.md)
