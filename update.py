@@ -6,7 +6,7 @@ class Updater:
         # self.latestVersion = releases[0].title
         # self.latestVersionLink = releases[0].zipball_url
         try:
-            response = requests.get("aahttps://api.github.com/repos/ChrisHairstonBnR/Python-Successor-Finder/releases", verify=False)
+            response = requests.get("https://api.github.com/repos/ChrisHairstonBnR/Python-Successor-Finder/releases", verify=False)
             responseJSON = response.json()
             self.latestVersion = responseJSON[0]['tag_name']
             self.latestVersionLink = responseJSON[0]['assets'][0]['browser_download_url']
