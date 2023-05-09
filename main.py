@@ -228,6 +228,7 @@ if not u.error:
         hasLatestVersion = True
 else:
     offlineMode = True
+    root.update()
     messagebox.showwarning("Offline Mode", "The application could not connect in order to check for updates.")
     root.title("BnR SPF v%s (Offline)" % sofwareVersion)
 
