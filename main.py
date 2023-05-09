@@ -15,6 +15,7 @@ sofwareVersion = '0.72b'
 updateAvailable = False
 offlineMode = False
 hasLatestVersion = False
+hasDevVersion = False
 
 
 def selectTheme():
@@ -41,6 +42,8 @@ def openAbout():
     child_about.grab_set()
     if hasLatestVersion:
         aboutTextTop = "BnR SPF\nVersion: %s (Latest)\n" % sofwareVersion
+    elif hasDevVersion:
+        aboutTextTop = "BnR SPF\nVersion: %s (Developement)\n" % sofwareVersion
     else: aboutTextTop = "BnR SPF\nVersion: %s\n" % sofwareVersion
     label_child_top = ttk.Label(child_about, text=aboutTextTop)
     label_child_top.grid(row=0, column=0, padx=5, pady=5, sticky='w')
@@ -224,6 +227,9 @@ if not u.error:
             webbrowser.open_new_tab(u.latestVersionLink)
         else:
             pass
+    elif float(sofwareVersionNum) > float(latestRelease):
+        hasDevVersion = True
+
     elif float(sofwareVersionNum) == float(latestRelease):
         hasLatestVersion = True
 else:
