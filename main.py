@@ -11,7 +11,7 @@ from update import *
 
 
 #----- VERSION -----#
-sofwareVersion = '0.72b'
+sofwareVersion = '0.8b'
 updateAvailable = False
 offlineMode = False
 hasLatestVersion = False
@@ -221,9 +221,10 @@ if not u.error:
 
     if float(sofwareVersionNum) < float(latestRelease):
         updateAvailable = True
-        updateResponse = messagebox.askokcancel('Update Available', 'Please download the latest release %s.' % u.latestVersion)
+        #updateResponse = messagebox.askokcancel('WARNING: UPDATE AVAILABLE', 'IT IS STRONGLY RECOMMENDED THAT YOU DOWNLOAD THE LATEST VERSION, %s. USING AN OUTDATED VERSION OF THIS SOFTWARE WILL LEAD TO MISINFORMATION.' % u.latestVersion)
+        updateResponse = messagebox.showwarning ('WARNING: UPDATE AVAILABLE', 'IT IS STRONGLY RECOMMENDED THAT YOU DOWNLOAD THE LATEST VERSION, %s. USING AN OUTDATED VERSION OF THIS SOFTWARE WILL LEAD TO MISINFORMATION.\n\n Would you like to download the update now?' % u.latestVersion, type = 'yesno')
 
-        if updateResponse == True:
+        if updateResponse == True or updateResponse == 'yes':
             webbrowser.open_new_tab(u.latestVersionLink)
         else:
             pass
