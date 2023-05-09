@@ -67,6 +67,7 @@
 - [x] MP712x
 - [x] MP50
 - [x] 5MP7151.101E-001
+- [x] PANELWARE Gen 1 (in MISC database)
 
 ## Cables
 - [x] AP800 cables

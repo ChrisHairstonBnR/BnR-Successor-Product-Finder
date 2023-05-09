@@ -556,6 +556,7 @@ def getSuccessor(materialInput):
             nonDirectMsg = "The possibilities for use of the MP7100 must be checked individually."
 
 
+
         ### PCs ####
         # PPC300
         matchResult = re.match(r"5PC310\.L800-00", materialInput) #match if string matches format*
@@ -840,6 +841,7 @@ def getSuccessor(materialInput):
                 for row in dbResult:
                     if str(row[0]).strip() == materialInput:
                         materialOutput = row[1]
+                        validInput = True
 
             swChangesRequired = True #software changes needed
             if materialOutput != None and materialOutput != '': #if a direct replacement was found
