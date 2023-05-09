@@ -11,7 +11,7 @@ from update import *
 
 
 #----- VERSION -----#
-sofwareVersion = '0.71b'
+sofwareVersion = '0.72b'
 updateAvailable = False
 offlineMode = False
 hasLatestVersion = False
