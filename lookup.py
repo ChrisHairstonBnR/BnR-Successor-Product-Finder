@@ -24,22 +24,22 @@ def getNotes(materialInput, l: Lookup):
     noteText = ''
 
     #----- Wrap Up and Output -----#
+    if l.situationalMsg != '' and l.situationalMsg != None:
+        noteText += l.situationalMsg
+
     if l.customMaterial:
-        noteText = "The input material is custom, please speak with the machine manufacturer for upgrade options."
-    elif l.situationalMsg != '' and l.situationalMsg != None:
-        noteText = l.situationalMsg
+        noteText += "The input material is custom, please speak with the machine manufacturer for upgrade options."
     elif l.anySuccessor == True: #If any successor is available
         if l.directSuccessor == True: #if direct successor was found
             pass
         else:
-            noteText = "No direct successor. %s" % (l.nonDirectMsg)
-
+            noteText += "No direct successor. %s" % (l.nonDirectMsg)
     else:
         if l.validInput:
-            noteText = "The input material is valid. However, there unfortunately is no successor product."
+            noteText += "The input material is valid. However, there unfortunately is no successor product."
         else:    
             #In cases there was a typo in the input, the input is not obsolete, or the material is missing from the program
-            noteText = "Unfortunately, a successor product for the entered material number is not available. The entered material is either not obsolete, there are mistakes in your input or this program is missing this material. " 
+            noteText += "Unfortunately, a successor product for the entered material number is not available. The entered material is either not obsolete, there are mistakes in your input or this program is missing this material. " 
     
     if noteText == '' or noteText == None:
         outputNotes = ''
@@ -572,6 +572,7 @@ def getSuccessor(materialInput):
             anySuccessor = False
             directSuccessor = False
             validInput = True
+            #materialOutput = ''
 
         # 5MP7151.101E-001
         matchResult = re.match(r"^5MP7151.101E-001", materialInput) #match if string matches format*
@@ -581,6 +582,7 @@ def getSuccessor(materialInput):
             anySuccessor = False
             directSuccessor = False
             validInput = True
+            #materialOutput = ''
 
         # MP50
         matchResult = re.match(r"^5MP050\.0653-\d{2}$", materialInput) #match if string matches format 8I64T2*.00X-1
