@@ -9,11 +9,11 @@
 - [x] 8LSA (-0)
 - [x] 8LSC (-0)
 - [x] 8MSA
-- [x] ACOPOS original series (8V)
+- [x] ACOPOS original series (8V) & Plugin Cards
 - [x] ACOPOSmulti 8BVx1650Hxxx.000-1/8BVx0880Hxxx.004-1/8BVI0660Hxxx.000-1
 
 ## Other Motion
-- [x] 8B0F0160H000.A00-1
+- [x] 8B0F0160H000.A00
 
 ## PCs (& Accessories)
 - [x] PPC300
@@ -39,6 +39,7 @@
 - [x] X20DS4387
 - [x] X20CPx58x
 - [x] X20CPx48x
+- [x] X20CP138x *-RT*
 
 ## X67
 - [x] X67BCJ321

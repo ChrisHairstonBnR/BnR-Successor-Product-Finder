@@ -8,7 +8,7 @@ dbCursor = dbConnection.cursor()
 dbResult = None #query result variable
 
 class Lookup:
-    def __init__(self, materialOutput, nonDirectMsg, situationalMsg, matchFound, directSuccessor, anySuccessor, validInput, swChangesRequired):
+    def __init__(self, materialOutput, nonDirectMsg, situationalMsg, matchFound, directSuccessor, anySuccessor, validInput, swChangesRequired, customMaterial):
         self.materialOutput = materialOutput
         self.nonDirectMsg = nonDirectMsg
         self.situationalMsg = situationalMsg
@@ -17,26 +17,29 @@ class Lookup:
         self.anySuccessor = anySuccessor
         self.validInput = validInput
         self.swChangesRequired = swChangesRequired
+        self.customMaterial = customMaterial
 
 def getNotes(materialInput, l: Lookup):
     notePrefix = "%s: " % materialInput   
     noteText = ''
 
     #----- Wrap Up and Output -----#
-    if l.situationalMsg != '' and l.situationalMsg != None:
-        noteText += l.situationalMsg
+    if l.customMaterial:
+        noteText = "The input material is custom, please speak with the machine manufacturer for upgrade options."
+    elif l.situationalMsg != '' and l.situationalMsg != None:
+        noteText = l.situationalMsg
     elif l.anySuccessor == True: #If any successor is available
         if l.directSuccessor == True: #if direct successor was found
             pass
         else:
-            noteText += "No direct successor. %s" % (l.nonDirectMsg)
+            noteText = "No direct successor. %s" % (l.nonDirectMsg)
 
     else:
         if l.validInput:
-            noteText += "The input material is valid. However, there unfortunately is no successor product."
+            noteText = "The input material is valid. However, there unfortunately is no successor product."
         else:    
             #In cases there was a typo in the input, the input is not obsolete, or the material is missing from the program
-            noteText += "Unfortunately, a successor product for the entered material number is not available. The entered material is either not obsolete, there are mistakes in your input or this program is missing this material. " 
+            noteText = "Unfortunately, a successor product for the entered material number is not available. The entered material is either not obsolete, there are mistakes in your input or this program is missing this material. " 
     
     if noteText == '' or noteText == None:
         outputNotes = ''
@@ -61,6 +64,12 @@ def getSuccessor(materialInput):
         anySuccessor = False 
         validInput = False
         swChangesRequired = False
+        customMaterial = False
+
+        # Check if material is custom
+        if str(materialInput).split('-')[1][0] == 'K':
+            customMaterial = True
+
 
         #----- Core Lookup Code -----#
 
@@ -801,6 +810,9 @@ def getSuccessor(materialInput):
                 if materialInput == "X20CP1483":
                     anySuccessor = True
                     nonDirectMsg = "The Compact-S PLC series is the ideal successor."
+                elif materialInput == "X20CP1301" or materialInput == "X20CP1381" or materialInput == "X20CP1382" or materialInput == "X20CP1381-RT" or materialInput == "X20CP1382-RT":
+                    anySuccessor = True
+                    nonDirectMsg = "Look at X20 PLCs for the appropriate successor."
 
         # X67 Umbrella
         matchResult = re.match(r"^X67.+", materialInput) #match if string matches format*
@@ -926,4 +938,4 @@ def getSuccessor(materialInput):
                 #    anySuccessor = True
                 #    nonDirectMsg = "No 1:1 replacement available because of very low demand. Changeover recommendation: 5AP1151.0573-000\n"
 
-        return Lookup(materialOutput, nonDirectMsg, situationalMsg, matchFound, directSuccessor, anySuccessor, validInput, swChangesRequired)
+        return Lookup(materialOutput, nonDirectMsg, situationalMsg, matchFound, directSuccessor, anySuccessor, validInput, swChangesRequired, customMaterial)
