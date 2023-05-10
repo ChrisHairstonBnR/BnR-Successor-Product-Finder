@@ -5,7 +5,6 @@
 - [x] P74
 - [x] P84
 
-
 ## Motors
 - [x] 8LSA (-0)
 - [x] 8LSC (-0)
@@ -46,7 +45,6 @@
 - [x] X67BC5321
 - [x] X67DM1321-1
 
-
 ## CompactFlash
 *Double check the direct replacablilty*
 - [x] 5CFCRD.xxxx-02
@@ -74,8 +72,10 @@
 ## Cables
 - [x] AP800 cables
 
-## Other PLCs
-- [x] 7EC020 & 7EC021
+## Other Systems
+- [x] B&R 2003
+- [x] B&R 2005
+- [x] B&R 2010
 
 ## Misc
 - [x] RFID modules

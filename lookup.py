@@ -179,6 +179,26 @@ def getSuccessor(materialInput):
             directSuccessor = False
             nonDirectMsg = "Transition to the ACOPOS P3 or ACOPOSmulti series."
         
+        #ACOPOS Plug in Cards
+        matchResult = re.match(r"^8AC\d{3}\.\d{2}-\d", materialInput) #match if string matches format*
+        if matchResult != None: #if match object is not None (meaning there is at least one match)
+            matchFound = True
+            dbResult = dbCursor.execute("SELECT * FROM 'ACOPOS Plugin'")
+            if dbResult != None:
+                for row in dbResult:
+                    if str(row[0]).strip() == materialInput:
+                        materialOutput = row[1]
+                        validInput = True
+
+
+            swChangesRequired = True #software changes needed
+            if materialOutput != None and materialOutput != '': #if a direct replacement was found
+                anySuccessor = True
+                directSuccessor = True
+            else:
+                anySuccessor = False
+                directSuccessor = False
+        
         # ACOPOSmulti
         matchResult = re.match(r"^8BVI\d{4}H.{3}\.\d{3}-1", materialInput) #match if string matches format*
         if matchResult != None: #if match object is not None (meaning there is at least one match)
@@ -240,6 +260,8 @@ def getSuccessor(materialInput):
             swChangesRequired = True #software changes needed
             anySuccessor = True
             directSuccessor = True
+
+        
 
         ### CompactFlash ###
         # 5CFCRD.xxxx-02
@@ -803,14 +825,6 @@ def getSuccessor(materialInput):
 
 
         
-        ### Other PLCs ###
-        # 7EC020 & 7EC021
-        matchResult = re.match(r"^7EC02[0|1].+", materialInput) #match if string matches format 8I64T2*.00X-1
-        if matchResult != None: #if match object is not None (meaning there is at least one match)
-            matchFound = True
-            anySuccessor = True
-            directSuccessor = False
-            nonDirectMsg = "There is no direct successor for the 7EC020 and 7EC021. Projects should be changed over to X20."
 
         ### Cables ###
         # 5CAxxx.xxxx-xx Cables (AP800, APC/PPC, etc.)
@@ -834,16 +848,59 @@ def getSuccessor(materialInput):
                 anySuccessor = False
                 directSuccessor = False
 
-        ### Other Interfaces & Accessories ###
-        # 3IF
-        matchResult = re.match(r"^3IF\d{3}\.\d", materialInput) #match if string matches format 8I64T2*.00X-1
+        ### Other Systems ###
+        # B&R 2003
+        matchResult = re.match(r"^7.{2}\d{3}\.\d", materialInput) #match if string matches format 8I64T2*.00X-1
+        if matchResult != None: #if match object is not None (meaning there is at least one match)
+            matchFound = True
+            anySuccessor = True
+            directSuccessor = False
+            nonDirectMsg = "The B&R 2003 system is too outdated to provide a comparable successor. Projects should be changed over to X20."
+
+        matchResult = re.match(r"^7.{2}\d{3}\.\d{2}-\d", materialInput) #match if string matches format 8I64T2*.00X-1
+        if matchResult != None: #if match object is not None (meaning there is at least one match)
+            matchFound = True
+            anySuccessor = True
+            directSuccessor = False
+            nonDirectMsg = "The B&R 2003 system is too outdated to provide a comparable successor. Projects should be changed over to X20."
+
+        # B&R 2005
+        matchResult = re.match(r"^3.{2}\d{3}\.\d", materialInput) #match if string matches format 8I64T2*.00X-1
+        if matchResult != None: #if match object is not None (meaning there is at least one match)
+            matchFound = True
+            anySuccessor = True
+            directSuccessor = False
+            nonDirectMsg = "The B&R 2005 system is too outdated to provide a comparable successor. Projects should be changed over to X20."
+
+        matchResult = re.match(r"^3.{2}\d{3}\.\d{2}-\d", materialInput) #match if string matches format 8I64T2*.00X-1
+        if matchResult != None: #if match object is not None (meaning there is at least one match)
+            matchFound = True
+            anySuccessor = True
+            directSuccessor = False
+            nonDirectMsg = "The B&R 2005 system is too outdated to provide a comparable successor. Projects should be changed over to X20."
+
+        # B&R 2010
+        matchResult = re.match(r"^2.{2}\d{3}\.\d", materialInput) #match if string matches format 8I64T2*.00X-1
+        if matchResult != None: #if match object is not None (meaning there is at least one match)
+            matchFound = True
+            anySuccessor = True
+            directSuccessor = False
+            nonDirectMsg = "The B&R 2010 system is too outdated to provide a comparable successor. Projects should be changed over to X20."
+
+        matchResult = re.match(r"^2.{2}\d{3}\.\d{2}-\d", materialInput) #match if string matches format 8I64T2*.00X-1
+        if matchResult != None: #if match object is not None (meaning there is at least one match)
+            matchFound = True
+            anySuccessor = True
+            directSuccessor = False
+            nonDirectMsg = "The B&R 2010 system is too outdated to provide a comparable successor. Projects should be changed over to X20."
+
+        # Interfaces (must go after 2003, 2005 and 2010 so that it can overwrite)
+        matchResult = re.match(r"^.IF\d{3}\.\d", materialInput) #match if string matches format 8I64T2*.00X-1
         if matchResult != None: #if match object is not None (meaning there is at least one match)
             matchFound = True
             anySuccessor = True
             directSuccessor = False
             nonDirectMsg = "Look into the appropriate interfaces for the system you are upgrading to."
-
-
             
         ### MISC ###
         # When no other regex matches, check the misc table
