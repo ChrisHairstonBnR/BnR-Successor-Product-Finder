@@ -39,6 +39,7 @@
 - [x] X20CP1483 & X20CP1483-1
 - [x] X20DS4387
 - [x] X20CPx58x
+- [x] X20CPx48x
 
 ## X67
 - [x] X67BCJ321
@@ -83,5 +84,6 @@
 - [x] Line filter (8B0F0160H000.A00-1)
 - [x] Low runner products
 - [x] Logic Scanner (5LS)
+- [x] 3IFxxx.9
 
 

@@ -29,11 +29,11 @@ def getNotes(materialInput, l: Lookup):
         if l.directSuccessor == True: #if direct successor was found
             pass
         else:
-            noteText += "No direct successor found. %s" % (l.nonDirectMsg)
+            noteText += "No direct successor. %s" % (l.nonDirectMsg)
 
     else:
         if l.validInput:
-            noteText += "The input material appears to be valid. However, there unfortunately is no successor product."
+            noteText += "The input material is valid. However, there unfortunately is no successor product."
         else:    
             #In cases there was a typo in the input, the input is not obsolete, or the material is missing from the program
             noteText += "Unfortunately, a successor product for the entered material number is not available. The entered material is either not obsolete, there are mistakes in your input or this program is missing this material. " 
@@ -833,6 +833,17 @@ def getSuccessor(materialInput):
             else:
                 anySuccessor = False
                 directSuccessor = False
+
+        ### Other Interfaces & Accessories ###
+        # 3IF
+        matchResult = re.match(r"^3IF\d{3}\.\d", materialInput) #match if string matches format 8I64T2*.00X-1
+        if matchResult != None: #if match object is not None (meaning there is at least one match)
+            matchFound = True
+            anySuccessor = True
+            directSuccessor = False
+            nonDirectMsg = "Look into the appropriate interfaces for the system you are upgrading to."
+
+
             
         ### MISC ###
         # When no other regex matches, check the misc table
