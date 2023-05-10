@@ -228,6 +228,16 @@ def getSuccessor(materialInput):
             else:
                 anySuccessor = False
                 directSuccessor = False
+        
+        # ACOPOSinverter Plugin
+        matchResult = re.match(r"^8I0AC123\.\d{3}-\d", materialInput) #match if string matches format 8I64T2*.00X-1
+        if matchResult != None: #if match object is not None (meaning there is at least one match)
+            matchFound = True
+            
+            swChangesRequired = True #software changes needed
+            anySuccessor = True
+            directSuccessor = False
+            nonDirectMsg = "The appropriate successor will be one of the P86 8I0IFENC.xxx-1 encoder interfaces."
 
         ### Motors ###
         # 8LSA gen 0 -> 3

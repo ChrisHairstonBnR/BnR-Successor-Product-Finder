@@ -4,13 +4,14 @@
 - [x] X64
 - [x] P74
 - [x] P84
+- [x] ACOPOS original series (8V) & Plugin Cards
+- [x] ACOPOSmulti 8BVx1650Hxxx.000-1/8BVx0880Hxxx.004-1/8BVI0660Hxxx.000-1
+- [x] ACOPOSinverter (P84) plugin cards
 
 ## Motors
 - [x] 8LSA (-0)
 - [x] 8LSC (-0)
 - [x] 8MSA
-- [x] ACOPOS original series (8V) & Plugin Cards
-- [x] ACOPOSmulti 8BVx1650Hxxx.000-1/8BVx0880Hxxx.004-1/8BVI0660Hxxx.000-1
 
 ## Other Motion
 - [x] 8B0F0160H000.A00
@@ -85,6 +86,5 @@
 - [x] Line filter (8B0F0160H000.A00-1)
 - [x] Low runner products
 - [x] Logic Scanner (5LS)
-- [x] 3IFxxx.9
 
 
