@@ -28,7 +28,6 @@ def getNotes(materialInput, l: Lookup):
     elif l.anySuccessor == True: #If any successor is available
         if l.directSuccessor == True: #if direct successor was found
             pass
-        
         else:
             noteText += "No direct successor found. %s" % (l.nonDirectMsg)
 
@@ -724,9 +723,13 @@ def getSuccessor(materialInput):
             if materialOutput != None and materialOutput != '': #if a direct replacement was found
                 anySuccessor = True
                 directSuccessor = True
+                if materialOutput == '5AC901.HS00-01':
+                    situationalMsg = 'This successor is intended for the TS-17 (QM170/HM170) system units.'
+
             else:
                 anySuccessor = False
                 directSuccessor = False
+                
 
         ### Safety PLCs ###
         # X20SL80xx

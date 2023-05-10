@@ -56,7 +56,7 @@
 
 ## Memory
 - [x] 5MMDDR.xxxx-01
-- [ ] 5MMDDR.xxxx-03
+- [x] 5MMDDR.xxxx-03
 
 ## GPOS
 - [x] Windows (all 5SWW*)
