@@ -336,7 +336,7 @@ def getSuccessor(materialInput):
                 directSuccessor = False
 
         ### Memory ###
-        matchResult = re.match(r"^5MMDDR\.\d{4}-01", materialInput) #match if string matches format*
+        matchResult = re.match(r"^5MMDDR\.\d{4}-0\d", materialInput) #match if string matches format*
         if matchResult != None: #if match object is not None (meaning there is at least one match)
             matchFound = True
 
