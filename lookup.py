@@ -67,8 +67,13 @@ def getSuccessor(materialInput):
         customMaterial = False
 
         # Check if material is custom
-        if str(materialInput).split('-')[1][0] == 'K':
-            customMaterial = True
+        hyphenFindResult = str(materialInput).find('-')
+        if hyphenFindResult != -1:
+            if str(materialInput).split('-')[1][0] == 'K':
+                customMaterial = True
+        else: 
+            pass
+
 
 
         #----- Core Lookup Code -----#
