@@ -225,7 +225,7 @@ def getSuccessor(materialInput):
                         validInput = True
 
 
-            swChangesRequired = False #software changes needed
+            swChangesRequired = False #software changes not needed, check SN20/2020
             if materialOutput != None and materialOutput != '': #if a direct replacement was found
                 anySuccessor = True
                 directSuccessor = True
@@ -481,10 +481,11 @@ def getSuccessor(materialInput):
         matchResult = re.match(r"^4PP045\.IF.+", materialInput) #match if string matches format*
         if matchResult != None: #if match object is not None (meaning there is at least one match)
             matchFound = True
-            anySuccessor = False
+            anySuccessor = True
             directSuccessor = False
             swChangesRequired = True #software changes needed
             validInput = True
+            nonDirectMsg = "Look into the appropriate interfaces for the system you are upgrading to."
 
         # PP65 (device)
         matchResult = re.match(r"^4PP065\.\d{4}-.{3}", materialInput) #match if string matches format*
@@ -499,10 +500,11 @@ def getSuccessor(materialInput):
         matchResult = re.match(r"^4PP065\.IF\d{2}-1", materialInput) #match if string matches format*
         if matchResult != None: #if match object is not None (meaning there is at least one match)
             matchFound = True
-            anySuccessor = False
+            anySuccessor = True
             directSuccessor = False
             swChangesRequired = True #software changes needed
             validInput = True
+            nonDirectMsg = "Look into the appropriate interfaces for the system you are upgrading to."
 
 
         ### HMI ###
@@ -655,28 +657,24 @@ def getSuccessor(materialInput):
                 anySuccessor = False
                 directSuccessor = False
 
-        # PC5xx (accessories)
-        matchResult = re.match(r"^5PP5I[F|O]\.G[M|N]AC-00", materialInput) #match if string matches format*
+
+        # PC5xx Interfaces
+        matchResult = re.match(r"^5PP5IF\..{4}-00", materialInput) #match if string matches format*
         if matchResult != None: #if match object is not None (meaning there is at least one match)
             matchFound = True
-
-            dbResult = dbCursor.execute("SELECT * FROM PC5xx")
-            if dbResult != None:
-                for row in dbResult:
-                    if str(row[0]).strip() == materialInput:
-                        materialOutput = row[1]
-                        validInput = True
-
+            anySuccessor = True
+            directSuccessor = False
             swChangesRequired = True
-            if materialOutput != None and materialOutput != '': #if a direct replacement was found
-                anySuccessor = True
-                directSuccessor = True
-            else:
-                anySuccessor = False
-                directSuccessor = False
-                if materialInput == "5PP5IO.GMAC-00" or materialInput == "5PP5IO.GNAC-00":
-                    anySuccessor = True
-                    nonDirectMsg = "Changing over the I/O board is dependent on the interfaces used."
+            nonDirectMsg = "Look into the appropriate interfaces for the system you are upgrading to."
+
+        # PC5xx I/O
+        matchResult = re.match(r"^5PP5IO\.G[M|N]AC-00", materialInput) #match if string matches format*
+        if matchResult != None: #if match object is not None (meaning there is at least one match)
+            matchFound = True
+            anySuccessor = True
+            directSuccessor = False
+            swChangesRequired = True
+            nonDirectMsg = "Changing over the I/O board is dependent on the interfaces used."
 
                 
 
@@ -760,24 +758,52 @@ def getSuccessor(materialInput):
         matchResult = re.match(r"^5AC\d{3}\..{4}-\d{2}", materialInput) #match if string matches format*
         if matchResult != None: #if match object is not None (meaning there is at least one match)
             matchFound = True
-
-            dbResult = dbCursor.execute("SELECT * FROM 'PC Accessories'")
-            if dbResult != None:
-                for row in dbResult:
-                    if str(row[0]).strip() == materialInput:
-                        materialOutput = row[1]
-                        validInput = True
-
-            swChangesRequired = False
-            if materialOutput != None and materialOutput != '': #if a direct replacement was found
-                anySuccessor = True
-                directSuccessor = True
-                if materialOutput == '5AC901.HS00-01':
-                    situationalMsg = 'This successor is intended for the TS-17 (QM170/HM170) system units.'
-
+            anySuccessor = True
+            directSuccessor = False
+            dotSplit = str(materialInput).split('.')
+            if dotSplit[1][0:2] == 'HS':
+                nonDirectMsg = "The appropriate heatsink will be associated with the successor PC."
+                swChangesRequired = False
+            elif dotSplit[1][0:3] == 'HDD':
+                nonDirectMsg = "The appropriate hard drive is dependent on the successor PC."
+                swChangesRequired = False
+            elif dotSplit[1][0:3] == 'SSD':
+                nonDirectMsg = "The appropriate solid state drive is dependent on the successor PC."
+                swChangesRequired = False
+            elif dotSplit[1][0:2] == 'DV':
+                nonDirectMsg = "The appropriate DVD drive will be associated with the successor PC."
+                swChangesRequired = False
+            elif dotSplit[1][0:2] == 'FA':
+                nonDirectMsg = "The appropriate fan will be associated with the successor PC."
+                swChangesRequired = False
+            elif dotSplit[1][1:4] == 'RAM':
+                nonDirectMsg = "'The appropriate memory option is dependent on the successor PC."
+                swChangesRequired = False
+            elif dotSplit[1][3] == 'X':
+                nonDirectMsg = "'The appropriate labels are dependent on the successor PC."
+                swChangesRequired = False
             else:
-                anySuccessor = False
-                directSuccessor = False
+                nonDirectMsg = 'The appropriate successor is dependent on the successor PC.'
+                swChangesRequired = True
+
+            # OLD CODE    
+            # dbResult = dbCursor.execute("SELECT * FROM 'PC Accessories'")
+            # if dbResult != None:
+            #     for row in dbResult:
+            #         if str(row[0]).strip() == materialInput:
+            #             materialOutput = row[1]
+            #             validInput = True
+
+            # swChangesRequired = False
+            # if materialOutput != None and materialOutput != '': #if a direct replacement was found
+            #     anySuccessor = True
+            #     directSuccessor = True
+            #     if materialOutput == '5AC901.HS00-01':
+            #         situationalMsg = 'This successor is intended for the TS-17 (QM170/HM170) system units.'
+
+            # else:
+            #     anySuccessor = False
+            #     directSuccessor = False
                 
 
         ### Safety PLCs ###
