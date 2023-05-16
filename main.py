@@ -201,21 +201,35 @@ button_github_link.config()
 menubar.config(bg=root['background'], fg= invertHexColor(root['background']))
 root.config(menu= menubar)
 
+#Grid configuration
+#rows
+root.rowconfigure(index=0, weight=0)
+root.rowconfigure(index=1, weight=1)
+root.rowconfigure(index=2, weight=0)
+root.rowconfigure(index=3, weight=0)
+
+#columns
+root.columnconfigure(index=0, weight=0)
+root.columnconfigure(index=1, weight=0)
+root.columnconfigure(index=2, weight=0)
+root.columnconfigure(index=3, weight=1)
+
+
 
 
 # Position the widgets using the grid geometry manager
 label_obsolete_part.grid(row=0, column=0, padx=5, pady=5)
-entry_obsolete_part.grid(row=1, column=0, padx=5, pady=5)
+entry_obsolete_part.grid(row=1, column=0, padx=5, pady=5, sticky='ns')
 button_search.grid(row=2, column=0, padx=5, pady=5)
 label_successor_part.grid(row=0, column=1, padx=5, pady=5)
-text_successor_output.grid(row=1, column=1, padx=5, pady=5)
+text_successor_output.grid(row=1, column=1, padx=5, pady=5, sticky='ns')
 label_successor_notes.grid(row=0, column=3, padx=5, pady=5)
-text_successor_notes.grid(row=1, column=3, padx=5, pady=5)
+text_successor_notes.grid(row=1, column=3, padx=5, pady=5, sticky='news')
 button_github_link.grid(row=3, column=0, columnspan=4, padx=5, pady=5, sticky='e')
 notes_scrollbar.grid(row=2, column=3, sticky='ew')
 output_scrollbar.grid(row=2, column=1, sticky='ew')
 label_sw_changes_required.grid(row=0, column=2, padx=5, pady=5)
-text_sw_changes_required.grid(row=1, column=2, padx=5, pady=5)
+text_sw_changes_required.grid(row=1, column=2, padx=5, pady=5, sticky='ns')
 button_clearOutputs.grid(row=3, column=0, padx=5, pady=5, sticky= 'e')
 button_clearAll.grid(row=3, column=0, padx=5, pady=5, sticky= 'w')
 
