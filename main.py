@@ -11,7 +11,7 @@ from update import *
 
 
 #----- VERSION -----#
-sofwareVersion = '0.8b'
+sofwareVersion = '0.81b'
 updateAvailable = False
 offlineMode = False
 hasLatestVersion = False
@@ -43,7 +43,7 @@ def openAbout():
     if hasLatestVersion:
         aboutTextTop = "BnR SPF\nVersion: %s (Latest)\n" % sofwareVersion
     elif hasDevVersion:
-        aboutTextTop = "BnR SPF\nVersion: %s (Developement)\n" % sofwareVersion
+        aboutTextTop = "BnR SPF\nVersion: %s (Development)\n" % sofwareVersion
     else: aboutTextTop = "BnR SPF\nVersion: %s\n" % sofwareVersion
     label_child_top = ttk.Label(child_about, text=aboutTextTop)
     label_child_top.grid(row=0, column=0, padx=5, pady=5, sticky='w')
@@ -60,6 +60,19 @@ def openAbout():
         button_update_child.config(state='disabled')
     
 
+def clearOutputs():
+
+    text_successor_output.config(state= 'normal') #must enable output to change and then redisable after
+    text_successor_output.delete('1.0', tk.END) #clear output materials
+    text_successor_output.config(state= 'disabled')
+
+    text_sw_changes_required.config(state= 'normal') #must enable output to change and then redisable after
+    text_sw_changes_required.delete('1.0', tk.END) #clear software changes panel
+    text_sw_changes_required.config(state= 'disabled')
+
+    text_successor_notes.config(state= 'normal') #must enable output to change and then redisable after
+    text_successor_notes.delete('1.0', tk.END) #clear notes
+    text_successor_notes.config(state= 'disabled')
 
 #Triggers when search button is clicked
 def on_button_click():
@@ -68,17 +81,7 @@ def on_button_click():
     materialInputList = rawInput.split()
 
     #clear current outputs
-    text_successor_output.config(state= 'normal')
-    text_successor_output.delete('1.0', tk.END)
-    text_successor_output.config(state= 'disabled')
-
-    text_sw_changes_required.config(state= 'normal')
-    text_sw_changes_required.delete('1.0', tk.END)
-    text_sw_changes_required.config(state= 'disabled')
-
-    text_successor_notes.config(state= 'normal')
-    text_successor_notes.delete('1.0', tk.END)
-    text_successor_notes.config(state= 'disabled')
+    clearOutputs()
 
 
     for materialInput in materialInputList:
@@ -179,6 +182,7 @@ notes_scrollbar = ttk.Scrollbar(root, orient='horizontal')
 output_scrollbar = ttk.Scrollbar(root, orient='horizontal')
 label_sw_changes_required = ttk.Label(root, text= "Software Changes Required?")
 text_sw_changes_required = tk.Text(root, height= 10, width= 25, bg='#D3D3D3')
+button_clear = ttk.Button(root, text="Clear Outputs", command=clearOutputs)
 
 
 #Widget configuration
@@ -197,7 +201,7 @@ root.config(menu= menubar)
 # Position the widgets using the grid geometry manager
 label_obsolete_part.grid(row=0, column=0, padx=5, pady=5)
 entry_obsolete_part.grid(row=1, column=0, padx=5, pady=5)
-button_search.grid(row=2, column=0, columnspan=1, padx=5, pady=5)
+button_search.grid(row=2, column=0, padx=5, pady=5)
 label_successor_part.grid(row=0, column=1, padx=5, pady=5)
 text_successor_output.grid(row=1, column=1, padx=5, pady=5)
 label_successor_notes.grid(row=0, column=3, padx=5, pady=5)
@@ -207,6 +211,7 @@ notes_scrollbar.grid(row=2, column=3, sticky='ew')
 output_scrollbar.grid(row=2, column=1, sticky='ew')
 label_sw_changes_required.grid(row=0, column=2, padx=5, pady=5)
 text_sw_changes_required.grid(row=1, column=2, padx=5, pady=5)
+button_clear.grid(row=3, column=0, padx=5, pady=5)
 
 #Check for Update
 u = Updater()

@@ -25,9 +25,8 @@ def getNotes(materialInput, l: Lookup):
 
     #----- Wrap Up and Output -----#
     if l.situationalMsg != '' and l.situationalMsg != None:
-        noteText += l.situationalMsg
-
-    if l.customMaterial:
+        noteText += l.situationalMsg + ' '
+    elif l.customMaterial:
         noteText += "The input material is custom, please speak with the machine manufacturer for upgrade options."
     elif l.anySuccessor == True: #If any successor is available
         if l.directSuccessor == True: #if direct successor was found
@@ -524,6 +523,7 @@ def getSuccessor(materialInput):
             if materialOutput != None and materialOutput != '': #if a direct replacement was found
                 anySuccessor = True
                 directSuccessor = True
+                situationalMsg = "Software changes are not necessary if the panel is connected to an APC via SDL."
             else:
                 anySuccessor = False
                 directSuccessor = False
@@ -540,7 +540,7 @@ def getSuccessor(materialInput):
                         materialOutput = row[1]
                         validInput = True
 
-            swChangesRequired = True #software changes needed
+            swChangesRequired = False #software changes needed
             if materialOutput != None and materialOutput != '': #if a direct replacement was found
                 anySuccessor = True
                 directSuccessor = True
@@ -565,6 +565,7 @@ def getSuccessor(materialInput):
             if materialOutput != None and materialOutput != '': #if a direct replacement was found
                 anySuccessor = True
                 directSuccessor = True
+                situationalMsg = "Software changes are not necessary if the panel is connected to an APC via SDL."
             else:
                 anySuccessor = False
                 directSuccessor = False
