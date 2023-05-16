@@ -60,7 +60,10 @@ def openAbout():
         button_update_child.config(state='disabled')
     
 
-def clearOutputs():
+def clearAll(clearEntry: bool):
+
+    if clearEntry:
+        entry_obsolete_part.delete('1.0', tk.END)
 
     text_successor_output.config(state= 'normal') #must enable output to change and then redisable after
     text_successor_output.delete('1.0', tk.END) #clear output materials
@@ -81,7 +84,7 @@ def on_button_click():
     materialInputList = rawInput.split()
 
     #clear current outputs
-    clearOutputs()
+    clearAll(clearEntry=False)
 
 
     for materialInput in materialInputList:
@@ -182,7 +185,8 @@ notes_scrollbar = ttk.Scrollbar(root, orient='horizontal')
 output_scrollbar = ttk.Scrollbar(root, orient='horizontal')
 label_sw_changes_required = ttk.Label(root, text= "Software Changes Required?")
 text_sw_changes_required = tk.Text(root, height= 10, width= 25, bg='#D3D3D3')
-button_clear = ttk.Button(root, text="Clear Outputs", command=clearOutputs)
+button_clearOutputs = ttk.Button(root, text="Clear Outputs", command=lambda: clearAll(False))
+button_clearAll = ttk.Button(root, text="Clear All", command=lambda: clearAll(True))
 
 
 #Widget configuration
@@ -211,7 +215,9 @@ notes_scrollbar.grid(row=2, column=3, sticky='ew')
 output_scrollbar.grid(row=2, column=1, sticky='ew')
 label_sw_changes_required.grid(row=0, column=2, padx=5, pady=5)
 text_sw_changes_required.grid(row=1, column=2, padx=5, pady=5)
-button_clear.grid(row=3, column=0, padx=5, pady=5)
+button_clearOutputs.grid(row=3, column=0, padx=5, pady=5, sticky= 'e')
+button_clearAll.grid(row=3, column=0, padx=5, pady=5, sticky= 'w')
+
 
 #Check for Update
 u = Updater()
