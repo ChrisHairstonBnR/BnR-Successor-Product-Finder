@@ -28,6 +28,17 @@ def closeApp():
 
 
 
+def syncScroll(*args):
+    #entry_obsolete_part.yview(*args)
+    entry_obsolete_part.yview('moveto', args[0])
+    text_successor_output.yview('moveto', args[0])
+    text_sw_changes_required.yview('moveto', args[0])
+    text_successor_notes.yview('moveto', args[0])
+
+
+
+
+
 def openAbout():
 
     def closeAbout():
@@ -190,10 +201,10 @@ button_clearAll = ttk.Button(root, text="Clear All", command=lambda: clearAll(Tr
 
 
 #Widget configuration
-text_successor_notes.config(xscrollcommand=notes_scrollbar.set, wrap="none", state= 'disabled')
-text_successor_output.config(xscrollcommand=output_scrollbar.set, state= 'disabled', wrap='none') #Set text boxes as read only
-text_sw_changes_required.config(state='disabled', wrap='none')
-entry_obsolete_part.config(wrap='none')
+text_successor_notes.config(xscrollcommand=notes_scrollbar.set, wrap="none", state= 'disabled', yscrollcommand=syncScroll)
+text_successor_output.config(xscrollcommand=output_scrollbar.set, state= 'disabled', wrap='none', yscrollcommand=syncScroll) #Set text boxes as read only
+text_sw_changes_required.config(state='disabled', wrap='none', yscrollcommand=syncScroll)
+entry_obsolete_part.config(wrap='none', yscrollcommand=syncScroll)
 notes_scrollbar.config(command=text_successor_notes.xview)
 output_scrollbar.config(command=text_successor_output.xview)
 button_github_link.config()
