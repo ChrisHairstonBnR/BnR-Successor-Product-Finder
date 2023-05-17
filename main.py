@@ -121,10 +121,9 @@ def on_button_click():
         text_sw_changes_required.config(state= 'normal')
         text_sw_changes_required.insert(tk.END, outputSwChanges + '\n')
         text_sw_changes_required.config(state= 'disabled')
-        if outputNote != '' and outputNote != None:
-            text_successor_notes.config(state= 'normal')
-            text_successor_notes.insert(tk.END, outputNote + '\n')
-            text_successor_notes.config(state= 'disabled')
+        text_successor_notes.config(state= 'normal')
+        text_successor_notes.insert(tk.END, outputNote + '\n')
+        text_successor_notes.config(state= 'disabled')
     
     #final note to append
     text_successor_notes.config(state= 'normal')
