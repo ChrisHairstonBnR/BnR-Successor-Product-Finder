@@ -11,7 +11,7 @@ from update import *
 
 
 #----- VERSION -----#
-sofwareVersion = '0.81b'
+sofwareVersion = '0.82b'
 updateAvailable = False
 offlineMode = False
 hasLatestVersion = False
@@ -179,7 +179,6 @@ optionMenu.add_command(label="About", command=openAbout)
 optionMenu.add_separator()
 optionMenu.add_command(label="Exit", command=closeApp)
 
-
 menubar.add_cascade(label="Options", menu=optionMenu)
 
 
@@ -191,7 +190,7 @@ label_successor_part = ttk.Label(root, text="Successor Part Number(s):")
 text_successor_output = tk.Text(root, height= 10, width= 40, bg='#D3D3D3')
 label_successor_notes = ttk.Label(root, text= "Notes:")
 text_successor_notes = tk.Text(root, height = 10, width= 50, bg="#FFFDD0")
-button_github_link = tk.Button(root, text= "To report an issue or missing material, create an issue at https://github.com/ChrisHairstonBnR/Python-Successor-Finder/issues or click here.", command=on_github_link_click, border=0, bg=root['background'], fg=invertHexColor(root['background']))
+button_github_link = tk.Button(root, text= "To report a bug or missing material, or to request a feature or note, create an issue at https://github.com/ChrisHairstonBnR/Python-Successor-Finder/issues or click here.", command=on_github_link_click, border=0, bg=root['background'], fg=invertHexColor(root['background']))
 notes_scrollbar = ttk.Scrollbar(root, orient='horizontal')
 output_scrollbar = ttk.Scrollbar(root, orient='horizontal')
 label_sw_changes_required = ttk.Label(root, text= "Software Changes Required?")

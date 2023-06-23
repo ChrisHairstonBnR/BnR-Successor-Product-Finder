@@ -84,13 +84,10 @@ def getSuccessor(materialInput):
             matchFound = True
             strPartition =  materialInput.partition(".") #break the string into pre-seperator, seperator, and post-seperator (seperator is ".")
             workerStr = strPartition[0].removeprefix("8I64S2") #eliminate the prefix so we can use isolate the rest of the model number
-            if strPartition[2][2] == 'X':
-                materialOutput = "8I64S2%s.0X-000" % (workerStr) #generate the successor model number
-                swChangesRequired = False #software changes not needed
-                anySuccessor = True
-                directSuccessor = True
-            else:
-                situationalMsg = 'The material numbered entered is the base module for the ACOPOS inverter and is still in production. Please enter the 8I64S2xxxxx.00X-1 material number.'
+            materialOutput = "8I64S2%s.0X-000 + 8I66S2%s.00-000" % (workerStr, workerStr) #generate the successor model numbers for base device and communication card
+            anySuccessor = True
+            directSuccessor = True
+            situationalMsg = 'The base device and communication card %s must be ordered together.' % (materialOutput)
 
         # X64 T2
         matchResult = re.match(r"^8I64T2.+\.00[X|0]-1$", materialInput) #match if string matches format 8I64T2*.00X-1
@@ -98,14 +95,19 @@ def getSuccessor(materialInput):
             matchFound = True
             strPartition =  materialInput.partition(".") #break the string into pre-seperator, seperator, and post-seperator (seperator is ".")
             workerStr = strPartition[0].removeprefix("8I64T2") #eliminate the prefix so we can use isolate the rest of the model number
-            
-            if strPartition[2][2] == 'X':
-                swChangesRequired = True #software changes needed
-                anySuccessor = True
-                directSuccessor = False
-                nonDirectMsg = "Transition to P66."
-            else:
-                situationalMsg = 'The material numbered entered is the base module for the ACOPOS inverter and is still in production. Please enter the 8I64T2xxxxx.00X-1 material number.'
+            materialOutput = "8I64T2%s.0X-000 + 8I66T2%s.00-000" % (workerStr, workerStr) #generate the successor model numbers for base device and communication card
+            anySuccessor = True
+            directSuccessor = True
+            situationalMsg = 'The base device and communication card %s must be ordered together.' % (materialOutput)
+
+
+            #if strPartition[2][2] == 'X':
+            #    swChangesRequired = True #software changes needed
+            #    anySuccessor = True
+            #    directSuccessor = False
+            #    nonDirectMsg = "Transition to P66."
+            #else:
+            #    situationalMsg = 'The material numbered entered is the base module for the ACOPOS inverter and is still in production. Please enter the 8I64T2xxxxx.00X-1 material number.'
 
         # X64 T4
         matchResult = re.match(r"^8I64T4.+\.00[X|0]-1$", materialInput) #match if string starts with 8I64T4*.00X-1
@@ -113,28 +115,22 @@ def getSuccessor(materialInput):
             matchFound = True
             strPartition =  materialInput.partition(".") #break the string into pre-seperator, seperator, and post-seperator (seperator is ".")
             workerStr = strPartition[0].removeprefix("8I64T4") #eliminate the prefix so we can use isolate the rest of the model number
-            if strPartition[2][2] == 'X':
-                materialOutput = "8I64T4%s.0X-000" % (workerStr) #generate the successor model number
-                swChangesRequired = False #software changes not needed
-                anySuccessor = True
-                directSuccessor = True
-            else:
-                situationalMsg = 'The material numbered entered is the base module for the ACOPOS inverter and is still in production. Please enter the 8I64T4xxxxx.00X-1 material number.'
-
+            materialOutput = "8I64T4%s.0X-000 + 8I66T4%s.00-000" % (workerStr, workerStr) #generate the successor model numbers for base device and communication card
+            anySuccessor = True
+            directSuccessor = True
+            situationalMsg = 'The base device and communication card %s must be ordered together.' % (materialOutput)
+            
+            
         # P74 S2
         matchResult = re.match(r"^8I74S2.+\.01[P|0]-1$", materialInput) #match if string matches format 8I74S2*.00X-1
         if matchResult != None: #if match object is not None (meaning there is at least one match)
             matchFound = True
             strPartition =  materialInput.partition(".") #break the string into pre-seperator, seperator, and post-seperator (seperator is ".")
             workerStr = strPartition[0].removeprefix("8I74S2") #eliminate the prefix so we can use isolate the rest of the model number
-            if strPartition[2][2] == 'P':
-                materialOutput = "8I74S2%s.0P-000" % (workerStr) #generate the successor model number
-                swChangesRequired = False #software changes not needed
-                anySuccessor = True
-                directSuccessor = True
-            else:
-                situationalMsg = 'The material numbered entered is the base module for the ACOPOS inverter and is still in production. Please enter the 8I74S2xxxxx.01P-1 material number.'
-
+            materialOutput = "8I74S2%s.0X-000 + 8I76S2%s.00-000" % (workerStr, workerStr) #generate the successor model numbers for base device and communication card
+            anySuccessor = True
+            directSuccessor = True
+            situationalMsg = 'The base device and communication card %s must be ordered together.' % (materialOutput)
 
         # P74 T4
         matchResult = re.match(r"^8I74T4.+\.01[P|0]-1$", materialInput) #match if string matches format 8I74T4*.00X-1
@@ -142,13 +138,10 @@ def getSuccessor(materialInput):
             matchFound = True
             strPartition =  materialInput.partition(".") #break the string into pre-seperator, seperator, and post-seperator (seperator is ".")
             workerStr = strPartition[0].removeprefix("8I74T4") #eliminate the prefix so we can use isolate the rest of the model number
-            if strPartition[2][2] == 'P':
-                materialOutput = "8I74T4%s.0P-000" % (workerStr) #generate the successor model number
-                swChangesRequired = False #software changes not needed
-                anySuccessor = True
-                directSuccessor = True
-            else:
-                situationalMsg = 'The material numbered entered is the base module for the ACOPOS inverter and is still in production. Please enter the 8I74T4xxxxx.01P-1 material number.'
+            materialOutput = "8I74S2%s.0X-000 + 8I76S2%s.00-000" % (workerStr, workerStr) #generate the successor model numbers for base device and communication card
+            anySuccessor = True
+            directSuccessor = True
+            situationalMsg = 'The base device and communication card %s must be ordered together.' % (materialOutput)
 
         # P84 T2
         matchResult = re.match(r"^8I84T2.+\.01[P|0]-1$", materialInput) #match if string matches format 8I64T2*.00X-1
@@ -156,15 +149,11 @@ def getSuccessor(materialInput):
             matchFound = True
             strPartition =  materialInput.partition(".") #break the string into pre-seperator, seperator, and post-seperator (seperator is ".")
             workerStr = strPartition[0].removeprefix("8I84T2") #eliminate the prefix so we can use isolate the rest of the model number
-            
-            if strPartition[2][2] == 'P':
-                swChangesRequired = True #software changes needed
-                anySuccessor = True
-                directSuccessor = False
-                nonDirectMsg = "Transition to P66."
-            else:
-                situationalMsg = 'The material numbered entered is the base module for the ACOPOS inverter and is still in production. Please enter the 8I84T2xxxxx.01P-1 material number.'
-
+            swChangesRequired = True #software changes needed
+            anySuccessor = True
+            directSuccessor = False
+            nonDirectMsg = "Transition to P66."
+           
 
         # P84 T4
         matchResult = re.match(r"^8I84T4.+\.01[P|0]-1$", materialInput) #match if string matches format 8I64T2*.00X-1
@@ -172,15 +161,11 @@ def getSuccessor(materialInput):
             matchFound = True
             strPartition =  materialInput.partition(".") #break the string into pre-seperator, seperator, and post-seperator (seperator is ".")
             workerStr = strPartition[0].removeprefix("8I64T2") #eliminate the prefix so we can use isolate the rest of the model number
+            swChangesRequired = True #software changes needed
+            anySuccessor = True
+            directSuccessor = False
+            nonDirectMsg = "Transition to P66 or P86 depending on performance needed."
             
-            if strPartition[2][2] == 'P':
-                swChangesRequired = True #software changes needed
-                anySuccessor = True
-                directSuccessor = False
-                nonDirectMsg = "Transition to P66 or P86 depending on performance needed."
-            else:
-                situationalMsg = 'The material numbered entered is the base module for the ACOPOS inverter and is still in production. Please enter the 8I84T4xxxxx.01P-1 material number.'
-
 
         # ACOPOS 8V
         matchResult = re.match(r"^8V1\d{3}\.\d{2}-\d", materialInput) #match if string matches format 8I64T2*.00X-1
