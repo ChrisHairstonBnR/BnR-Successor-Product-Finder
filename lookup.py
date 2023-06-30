@@ -68,7 +68,7 @@ def getSuccessor(materialInput):
         # Check if material is custom
         hyphenFindResult = str(materialInput).find('-')
         if hyphenFindResult != -1:
-            if str(materialInput).split('-')[1][0] == 'K':
+            if str(materialInput).split('-')[1][0] == 'K' or str(materialInput).split('-')[1][0] == 'C':
                 customMaterial = True
         else: 
             pass
@@ -470,7 +470,7 @@ def getSuccessor(materialInput):
             directSuccessor = False
             swChangesRequired = True #software changes needed
             validInput = True
-            nonDirectMsg = "Look into the appropriate interfaces for the system you are upgrading to."
+            nonDirectMsg = "Look into the appropriate interfaces for the system you are upgrading to. Speak with a sales representative to determine the best upgrade for the application."
 
         # PP65 (device)
         matchResult = re.match(r"^4PP065\.\d{4}-.{3}", materialInput) #match if string matches format*
@@ -489,7 +489,7 @@ def getSuccessor(materialInput):
             directSuccessor = False
             swChangesRequired = True #software changes needed
             validInput = True
-            nonDirectMsg = "Look into the appropriate interfaces for the system you are upgrading to."
+            nonDirectMsg = "Look into the appropriate interfaces for the system you are upgrading to. Speak with a sales representative to determine the best upgrade for the application."
 
 
         ### HMI ###
@@ -588,7 +588,7 @@ def getSuccessor(materialInput):
             swChangesRequired = True #software changes needed
             anySuccessor = True
             directSuccessor = False
-            nonDirectMsg = "The possibilities for use of the MP7100 must be checked individually."
+            nonDirectMsg = "The possibilities for use of the MP7100 must be checked individually.Speak with a sales representative to determine the best upgrade for the application."
 
 
 
@@ -650,7 +650,7 @@ def getSuccessor(materialInput):
             anySuccessor = True
             directSuccessor = False
             swChangesRequired = True
-            nonDirectMsg = "Look into the appropriate interfaces for the system you are upgrading to."
+            nonDirectMsg = "Look into the appropriate interfaces for the system you are upgrading to. Speak with a sales representative to determine the best upgrade for the application."
 
         # PC5xx I/O
         matchResult = re.match(r"^5PP5IO\.G[M|N]AC-00", materialInput) #match if string matches format*
@@ -659,7 +659,7 @@ def getSuccessor(materialInput):
             anySuccessor = True
             directSuccessor = False
             swChangesRequired = True
-            nonDirectMsg = "Changing over the I/O board is dependent on the interfaces used."
+            nonDirectMsg = "Changing over the I/O board is dependent on the interfaces used. Speak with a sales representative to determine the best upgrade for the application."
 
                 
 
@@ -747,28 +747,28 @@ def getSuccessor(materialInput):
             directSuccessor = False
             dotSplit = str(materialInput).split('.')
             if dotSplit[1][0:2] == 'HS':
-                nonDirectMsg = "The appropriate heatsink will be associated with the successor PC."
+                nonDirectMsg = "The appropriate heatsink will be associated with the successor PC. Speak with a sales representative to determine the best upgrade for the application."
                 swChangesRequired = False
             elif dotSplit[1][0:3] == 'HDD':
-                nonDirectMsg = "The appropriate hard drive is dependent on the successor PC."
+                nonDirectMsg = "The appropriate hard drive is dependent on the successor PC. Speak with a sales representative to determine the best upgrade for the application."
                 swChangesRequired = False
             elif dotSplit[1][0:3] == 'SSD':
-                nonDirectMsg = "The appropriate solid state drive is dependent on the successor PC."
+                nonDirectMsg = "The appropriate solid state drive is dependent on the successor PC. Speak with a sales representative to determine the best upgrade for the application."
                 swChangesRequired = False
             elif dotSplit[1][0:2] == 'DV':
-                nonDirectMsg = "The appropriate DVD drive will be associated with the successor PC."
+                nonDirectMsg = "The appropriate DVD drive will be associated with the successor PC. Speak with a sales representative to determine the best upgrade for the application."
                 swChangesRequired = False
             elif dotSplit[1][0:2] == 'FA':
-                nonDirectMsg = "The appropriate fan will be associated with the successor PC."
+                nonDirectMsg = "The appropriate fan will be associated with the successor PC. Speak with a sales representative to determine the best upgrade for the application."
                 swChangesRequired = False
             elif dotSplit[1][1:4] == 'RAM':
-                nonDirectMsg = "'The appropriate memory option is dependent on the successor PC."
+                nonDirectMsg = "'The appropriate memory option is dependent on the successor PC. Speak with a sales representative to determine the best upgrade for the application."
                 swChangesRequired = False
             elif dotSplit[1][3] == 'X':
-                nonDirectMsg = "'The appropriate labels are dependent on the successor PC."
+                nonDirectMsg = "'The appropriate labels are dependent on the successor PC. Speak with a sales representative to determine the best upgrade for the application."
                 swChangesRequired = False
             else:
-                nonDirectMsg = 'The appropriate successor is dependent on the successor PC.'
+                nonDirectMsg = 'The appropriate successor is dependent on the successor PC. Speak with a sales representative to determine the best upgrade for the application.'
                 swChangesRequired = True
 
             # OLD CODE    
@@ -789,7 +789,13 @@ def getSuccessor(materialInput):
             # else:
             #     anySuccessor = False
             #     directSuccessor = False
-                
+
+        ### PC Configurations ###
+        matchResult = re.match(r"^5[A-Z].{12}-\d{3}", materialInput) #match if string matches format 8I64T2*.00X-1
+        if matchResult != None: #if match object is not None (meaning there is at least one match)
+            matchFound = True
+            situationalMsg = "The material number entered was for a configuration. Speak with a sales representative to determine the best upgrade for the application."
+        
 
         ### Safety PLCs ###
         # X20SL80xx
@@ -841,7 +847,7 @@ def getSuccessor(materialInput):
                     nonDirectMsg = "The Compact-S PLC series is the ideal successor."
                 elif materialInput == "X20CP1301" or materialInput == "X20CP1381" or materialInput == "X20CP1382" or materialInput == "X20CP1381-RT" or materialInput == "X20CP1382-RT":
                     anySuccessor = True
-                    nonDirectMsg = "Look at X20 PLCs for the appropriate successor."
+                    nonDirectMsg = "Look at X20 PLCs for the appropriate successor. Speak with a sales representative to determine the best fit for the application."
 
         # X67 Umbrella
         matchResult = re.match(r"^X67.+", materialInput) #match if string matches format*
@@ -894,46 +900,63 @@ def getSuccessor(materialInput):
         matchResult = re.match(r"^7.{2}\d{3}\.\d", materialInput) #match if string matches format 8I64T2*.00X-1
         if matchResult != None: #if match object is not None (meaning there is at least one match)
             matchFound = True
-            anySuccessor = True
+            anySuccessor = False
             directSuccessor = False
-            nonDirectMsg = "The B&R 2003 system is too outdated to provide a comparable successor. Projects should be changed over to X20."
+            situationalMsg = "The B&R 2003 system is too outdated to provide a comparable successor. Projects should be changed over to X20."
 
         matchResult = re.match(r"^7.{2}\d{3}\.\d{2}-\d", materialInput) #match if string matches format 8I64T2*.00X-1
         if matchResult != None: #if match object is not None (meaning there is at least one match)
             matchFound = True
-            anySuccessor = True
+            anySuccessor = False
             directSuccessor = False
-            nonDirectMsg = "The B&R 2003 system is too outdated to provide a comparable successor. Projects should be changed over to X20."
+            situationalMsg = "The B&R 2003 system is too outdated to provide a comparable successor. Projects should be changed over to X20."
 
         # B&R 2005
         matchResult = re.match(r"^3.{2}\d{3}\.\d", materialInput) #match if string matches format 8I64T2*.00X-1
         if matchResult != None: #if match object is not None (meaning there is at least one match)
             matchFound = True
-            anySuccessor = True
+            anySuccessor = False
             directSuccessor = False
-            nonDirectMsg = "The B&R 2005 system is too outdated to provide a comparable successor. Projects should be changed over to X20."
+            situationalMsg = "The B&R 2005 system is too outdated to provide a comparable successor. Projects should be changed over to X20."
 
         matchResult = re.match(r"^3.{2}\d{3}\.\d{2}-\d", materialInput) #match if string matches format 8I64T2*.00X-1
         if matchResult != None: #if match object is not None (meaning there is at least one match)
             matchFound = True
-            anySuccessor = True
+            anySuccessor = False
             directSuccessor = False
-            nonDirectMsg = "The B&R 2005 system is too outdated to provide a comparable successor. Projects should be changed over to X20."
+            situationalMsg = "The B&R 2005 system is too outdated to provide a comparable successor. Projects should be changed over to X20."
 
         # B&R 2010
         matchResult = re.match(r"^2.{2}\d{3}\.\d", materialInput) #match if string matches format 8I64T2*.00X-1
         if matchResult != None: #if match object is not None (meaning there is at least one match)
             matchFound = True
-            anySuccessor = True
+            anySuccessor = False
             directSuccessor = False
-            nonDirectMsg = "The B&R 2010 system is too outdated to provide a comparable successor. Projects should be changed over to X20."
+            situationalMsg = "The B&R 2010 system is too outdated to provide a comparable successor. Projects should be changed over to X20."
 
         matchResult = re.match(r"^2.{2}\d{3}\.\d{2}-\d", materialInput) #match if string matches format 8I64T2*.00X-1
         if matchResult != None: #if match object is not None (meaning there is at least one match)
             matchFound = True
-            anySuccessor = True
+            anySuccessor = False
             directSuccessor = False
-            nonDirectMsg = "The B&R 2010 system is too outdated to provide a comparable successor. Projects should be changed over to X20."
+            situationalMsg = "The B&R 2010 system is too outdated to provide a comparable successor. Projects should be changed over to X20."
+
+        # PROVIT
+        matchResult = re.match(r"^5C2\d{3}\.\d{2}", materialInput) #match if string matches format 8I64T2*.00X-1
+        if matchResult != None: #if match object is not None (meaning there is at least one match)
+            matchFound = True
+            anySuccessor = False
+            directSuccessor = False
+            situationalMsg = "The PROVIT system is too outdated to provide a comparable successor. Projects should be changed over to X20."
+
+        matchResult = re.match(r"^5C3\d{3}\.\d", materialInput) #match if string matches format 8I64T2*.00X-1
+        if matchResult != None: #if match object is not None (meaning there is at least one match)
+            matchFound = True
+            anySuccessor = False
+            directSuccessor = False
+            situationalMsg = "The PROVIT system is too outdated to provide a comparable successor. Projects should be changed over to X20."
+
+
 
         # Interfaces (must go after 2003, 2005 and 2010 so that it can overwrite)
         matchResult = re.match(r"^.IF\d{3}\.\d", materialInput) #match if string matches format 8I64T2*.00X-1
@@ -941,7 +964,7 @@ def getSuccessor(materialInput):
             matchFound = True
             anySuccessor = True
             directSuccessor = False
-            nonDirectMsg = "Look into the appropriate interfaces for the system you are upgrading to."
+            nonDirectMsg = "Look into the appropriate interfaces for the system you are upgrading to. Speak with a sales representative to determine the best fit for the application."
             
         ### MISC ###
         # When no other regex matches, check the misc table

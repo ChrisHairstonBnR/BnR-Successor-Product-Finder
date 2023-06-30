@@ -27,16 +27,12 @@ def closeApp():
     root.quit()
 
 
-
 def syncScroll(*args):
     #entry_obsolete_part.yview(*args)
     entry_obsolete_part.yview('moveto', args[0])
     text_successor_output.yview('moveto', args[0])
     text_sw_changes_required.yview('moveto', args[0])
     text_successor_notes.yview('moveto', args[0])
-
-
-
 
 
 def openAbout():
@@ -154,8 +150,6 @@ initSettings = settings.appSettings()
 root = ThemedTk(theme=initSettings.defaultTheme, toplevel= True, themebg=True)
 root.title("BnR SPF v%s" % sofwareVersion)
 
-
-
 #get and sort themes
 optionTheme = tk.StringVar(value=initSettings.defaultTheme)
 optionThemeList = root.get_themes()
@@ -222,8 +216,6 @@ root.columnconfigure(index=0, weight=0)
 root.columnconfigure(index=1, weight=0)
 root.columnconfigure(index=2, weight=0)
 root.columnconfigure(index=3, weight=1)
-
-
 
 
 # Position the widgets using the grid geometry manager
