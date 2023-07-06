@@ -78,6 +78,7 @@
 - [x] B&R 2003
 - [x] B&R 2005
 - [x] B&R 2010
+- [x] PROVIT
 
 ## Misc
 - [x] RFID modules
