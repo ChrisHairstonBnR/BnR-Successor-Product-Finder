@@ -19,16 +19,17 @@ hasDevVersion = False
 
 
 def selectTheme():
+    # Because root is ThemedTk, changing the theme is simple
     root.set_theme(theme_name=optionTheme.get(), themebg= True, toplevel= True)
-    button_github_link.config(bg= root['background'], fg= invertHexColor(root['background']))
-    initSettings.setDefaultTheme(optionTheme.get())
+    button_github_link.config(bg= root['background'], fg= invertHexColor(root['background'])) #manually change the issue link text colors
+    initSettings.setDefaultTheme(optionTheme.get()) #change setting in settings.ini file
 
 def closeApp():
     root.quit()
 
 
 def syncScroll(*args):
-    #entry_obsolete_part.yview(*args)
+    #Syncronizes the scroll between the 4 panes
     entry_obsolete_part.yview('moveto', args[0])
     text_successor_output.yview('moveto', args[0])
     text_sw_changes_required.yview('moveto', args[0])
@@ -43,7 +44,7 @@ def openAbout():
     def clickUpdate():
         webbrowser.open_new_tab(u.latestVersionLink)
 
-
+    #Define and place "About" window elements
     child_about = tk.Toplevel(root)
     child_about.title("About BnR SPF")
     child_about.grab_set()
@@ -57,7 +58,6 @@ def openAbout():
     aboutTextBot = 'Created By: Chris Hairston \nhttps://github.com/ChrisHairstonBnR/Python-Successor-Finder/'
     label_child_bot = ttk.Label(child_about, text=aboutTextBot)
     label_child_bot.grid(row=1, column=0, columnspan=2,  padx=5, pady=5, sticky='w')
-    
     button_close_child = ttk.Button(child_about, text='OK', command=closeAbout)
     button_close_child.grid(row=2, column=0, columnspan=2, padx=5, pady=5)
     button_update_child = ttk.Button(child_about, text="Download Update", command=clickUpdate)
@@ -68,7 +68,7 @@ def openAbout():
     
 
 def clearAll(clearEntry: bool):
-
+    #Used to clear all output panes (and optionally input pane)
     if clearEntry:
         entry_obsolete_part.delete('1.0', tk.END)
 
