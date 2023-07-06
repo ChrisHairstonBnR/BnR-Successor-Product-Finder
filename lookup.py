@@ -813,13 +813,13 @@ def getSuccessor(materialInput):
         matchResult = re.match(r"^5SWW.+", materialInput) #match if string matches format 8I64T2*.00X-1
         if matchResult != None: #if match object is not None (meaning there is at least one match)
             matchFound = True
-            situationalMsg = "The material number entered was for a Windows operating system. It's successor operating system is dependent on the compatibility of the target PC."
+            situationalMsg = "The material number entered was for a Windows operating system. It's successor operating system is dependent on the compatibility of the successor target PC."
 
         # Linux
         matchResult = re.match(r"^5SWLIN.+", materialInput) #match if string matches format 8I64T2*.00X-1
         if matchResult != None: #if match object is not None (meaning there is at least one match)
             matchFound = True
-            situationalMsg = "The material number entered was for a Linux operating system. It's successor operating system is dependent on the compatibility of the target PC."
+            situationalMsg = "The material number entered was for a Linux operating system. It's successor operating system is dependent on the compatibility of the successor target PC."
 
         ### X2X ###
         # X20 Umbrella

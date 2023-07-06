@@ -1,16 +1,28 @@
 import configparser, os
 
 config = configparser.ConfigParser()
+appDataPath = os.getenv('LOCALAPPDATA')
+settingsPath = appDataPath + '\BnR SPF\settings.ini'
 
 class appSettings:
 
     def __init__(self):
-        config.read(os.path.join(os.path.dirname(__file__), 'settings.ini'))
+        if os.path.exists(settingsPath):
+           config.read(settingsPath)
+        else:
+            self.defaultSettings()   
+
         #DEFAULT
         self.defaultTheme = config['DEFAULT']['DefaultTheme']
 
     def setDefaultTheme(self, theme):
         config['DEFAULT']['DefaultTheme'] = theme
-        with open('settings.ini', 'w') as configfile:
+        with open(settingsPath, 'w') as configfile:
             config.write(configfile)
         self.defaultTheme = theme
+
+    def defaultSettings(self):
+        config['DEFAULT'] = {'DefaultTheme' : 'default'}
+        os.makedirs(os.path.dirname(settingsPath), exist_ok=True)
+        with open(settingsPath, 'w') as configfile:
+            config.write(configfile)
