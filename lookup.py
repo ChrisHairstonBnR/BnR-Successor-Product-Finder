@@ -235,9 +235,16 @@ def getSuccessor(materialInput):
             matchFound = True
             strPartition =  materialInput.partition("-") #break the string into pre-seperator, seperator, and post-seperator (seperator is "-")
             materialOutput = strPartition[0] + "-3"
+            if materialOutput[7:9] == 'R0':
+                if materialOutput[4] != '2' and  materialOutput[4] != 'A':
+                    #materialOutput[7:9] = 'R2'
+                    materialOutput = materialOutput[0:7] + 'R2' + materialOutput[9:]
+
             swChangesRequired = True #software changes needed
             anySuccessor = True
             directSuccessor = True
+            situationalMsg = "Confirm this is the correct successor with the Support. Send an email to support.us@br-automation.com."
+        
 
         # 8LSC gen 0 -> 3
         matchResult = re.match(r"^8LSC.+-0$", materialInput) #match if string matches format 8LSC*-0
@@ -245,9 +252,13 @@ def getSuccessor(materialInput):
             matchFound = True
             strPartition =  materialInput.partition("-") #break the string into pre-seperator, seperator, and post-seperator (seperator is ".")
             materialOutput = strPartition[0] + "-3"
+            if materialOutput[7:9] == 'R0':
+                materialOutput = materialOutput[0:7] + 'R2' + materialOutput[9:]
             swChangesRequired = True #software changes needed
             anySuccessor = True
             directSuccessor = True
+            situationalMsg = "Confirm this is the correct successor with the Support. Send an email to support.us@br-automation.com."
+        
 
         # 8MSA
         matchResult = re.match(r"^8MSA.+", materialInput) #match if string matches format 8MSA*

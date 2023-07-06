@@ -11,7 +11,7 @@ from update import *
 
 
 #----- VERSION -----#
-sofwareVersion = '0.82b'
+sofwareVersion = '0.83b'
 updateAvailable = False
 offlineMode = False
 hasLatestVersion = False
@@ -138,8 +138,6 @@ def on_button_click():
     text_successor_notes.config(state= 'disabled')
 
 
-
-
 def on_github_link_click():
     webbrowser.open_new_tab('https://github.com/ChrisHairstonBnR/Python-Successor-Finder/issues/new/choose')
 
@@ -159,8 +157,6 @@ optionThemeList.sort()
 icon = tk.PhotoImage(file= 'assets\BnR SPF Logo.png')
 root.wm_iconphoto(True, icon)
 
-#test
-
 # Menu Setup
 menubar = tk.Menu(root)
 optionMenu = tk.Menu(menubar, tearoff=0)
@@ -174,7 +170,6 @@ optionMenu.add_separator()
 optionMenu.add_command(label="Exit", command=closeApp)
 
 menubar.add_cascade(label="Options", menu=optionMenu)
-
 
 # Create the GUI widgets
 label_obsolete_part = ttk.Label(root, text="Obsolete Part Number(s):")
@@ -191,7 +186,6 @@ label_sw_changes_required = ttk.Label(root, text= "Software Changes Required?")
 text_sw_changes_required = tk.Text(root, height= 10, width= 25, bg='#D3D3D3')
 button_clearOutputs = ttk.Button(root, text="Clear Outputs", command=lambda: clearAll(False))
 button_clearAll = ttk.Button(root, text="Clear All", command=lambda: clearAll(True))
-
 
 #Widget configuration
 text_successor_notes.config(xscrollcommand=notes_scrollbar.set, wrap="none", state= 'disabled', yscrollcommand=syncScroll)
