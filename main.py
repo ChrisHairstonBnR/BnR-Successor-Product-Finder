@@ -34,6 +34,11 @@ def syncScroll(*args):
     text_successor_output.yview('moveto', args[0])
     text_sw_changes_required.yview('moveto', args[0])
     text_successor_notes.yview('moveto', args[0])
+    #entry_obsolete_part.yview(*args)
+    #text_successor_output.yview(*args)
+    #text_sw_changes_required.yview(*args)
+    #text_successor_notes.yview(*args)
+    vertical_scrollbar.set(*args)
 
 
 def openAbout():
@@ -186,6 +191,7 @@ label_sw_changes_required = ttk.Label(root, text= "Software Changes Required?")
 text_sw_changes_required = tk.Text(root, height= 10, width= 25, bg='#D3D3D3')
 button_clearOutputs = ttk.Button(root, text="Clear Outputs", command=lambda: clearAll(False))
 button_clearAll = ttk.Button(root, text="Clear All", command=lambda: clearAll(True))
+vertical_scrollbar = ttk.Scrollbar(root, orient='vertical')
 
 #Widget configuration
 text_successor_notes.config(xscrollcommand=notes_scrollbar.set, wrap="none", state= 'disabled', yscrollcommand=syncScroll)
@@ -194,9 +200,9 @@ text_sw_changes_required.config(state='disabled', wrap='none', yscrollcommand=sy
 entry_obsolete_part.config(wrap='none', yscrollcommand=syncScroll)
 notes_scrollbar.config(command=text_successor_notes.xview)
 output_scrollbar.config(command=text_successor_output.xview)
-button_github_link.config()
 menubar.config(bg=root['background'], fg= invertHexColor(root['background']))
 root.config(menu= menubar)
+vertical_scrollbar.config(command=syncScroll)
 
 #Grid configuration
 #rows
@@ -227,7 +233,7 @@ label_sw_changes_required.grid(row=0, column=2, padx=5, pady=5)
 text_sw_changes_required.grid(row=1, column=2, padx=5, pady=5, sticky='ns')
 button_clearOutputs.grid(row=3, column=0, padx=5, pady=5, sticky= 'e')
 button_clearAll.grid(row=3, column=0, padx=5, pady=5, sticky= 'w')
-
+vertical_scrollbar.grid(row=1, column=4, padx=5, pady=5, sticky='ns')
 
 #Check for Update
 u = Updater()
