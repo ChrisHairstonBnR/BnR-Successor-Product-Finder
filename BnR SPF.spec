@@ -8,7 +8,7 @@ a = Analysis(
     ['main.py'],
     pathex=[],
     binaries=[],
-    datas=[('SuccessorProductDB.db','.'), ('settings.ini', '.'), ('assets/BnR SPF Logo.png', 'assets')],
+    datas=[('SuccessorProductDB.db','.'), ('assets/BnR SPF Logo.png', 'assets')],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},
