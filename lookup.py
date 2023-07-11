@@ -568,6 +568,16 @@ def getSuccessor(materialInput):
                 anySuccessor = False
                 directSuccessor = False
 
+        # AP800
+        matchResult = re.match(r"^5AP820.1505-00", materialInput) #match if string matches format*
+        if matchResult != None: #if match object is not None (meaning there is at least one match)
+            matchFound = True
+            materialOutput = "5AP5120.1505-000 + 5DLSDL.1001-00"
+            swChangesRequired = True #software changes needed
+            anySuccessor = True
+            directSuccessor = True
+            situationalMsg = "Software changes are not necessary if the panel is connected to an APC via SDL."
+
         # MP712x
         matchResult = re.match(r"^5MP712[0|1]\..{4}-000", materialInput) #match if string matches format*
         if matchResult != None: #if match object is not None (meaning there is at least one match)

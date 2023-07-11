@@ -11,7 +11,7 @@ from update import *
 
 
 #----- VERSION -----#
-sofwareVersion = '0.83b'
+sofwareVersion = '0.84b'
 updateAvailable = False
 offlineMode = False
 hasLatestVersion = False
@@ -34,10 +34,7 @@ def syncScroll(*args):
     text_successor_output.yview('moveto', args[0])
     text_sw_changes_required.yview('moveto', args[0])
     text_successor_notes.yview('moveto', args[0])
-    #entry_obsolete_part.yview(*args)
-    #text_successor_output.yview(*args)
-    #text_sw_changes_required.yview(*args)
-    #text_successor_notes.yview(*args)
+
     vertical_scrollbar.set(*args)
 
 
