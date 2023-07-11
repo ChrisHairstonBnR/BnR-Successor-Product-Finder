@@ -112,12 +112,9 @@ def on_button_click():
         #Output Note
         outputNote = getNotes(materialInput, lookupResult)
 
-        #Sw changes required output
-        #if materialOutput == 'N/A' and (lookupResult.nonDirectMsg == '' or lookupResult.nonDirectMsg == None) :
         if materialOutput == 'N/A' and not lookupResult.swChangesRequired :
             outputSwChanges = '%s: N/A' % materialInput
-        #elif lookupResult.nonDirectMsg != '' and lookupResult.nonDirectMsg != None:
-        #    outputSwChanges = '%s: yes' % materialInput
+
         elif lookupResult.swChangesRequired:
             outputSwChanges = '%s: yes' % materialInput
         else:

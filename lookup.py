@@ -8,12 +8,12 @@ dbCursor = dbConnection.cursor()
 dbResult = None #query result variable
 
 class Lookup:
-    def __init__(self, materialOutput, nonDirectMsg, situationalMsg, matchFound, directSuccessor, anySuccessor, validInput, swChangesRequired, customMaterial):
+    def __init__(self, materialOutput, nonDefinedMsg, situationalMsg, matchFound, definedSuccessor, anySuccessor, validInput, swChangesRequired, customMaterial):
         self.materialOutput = materialOutput
-        self.nonDirectMsg = nonDirectMsg
-        self.situationalMsg = situationalMsg
         self.matchFound = matchFound
-        self.directSuccessor = directSuccessor
+        self.definedSuccessor = definedSuccessor
+        self.nonDefinedMsg = nonDefinedMsg
+        self.situationalMsg = situationalMsg
         self.anySuccessor = anySuccessor
         self.validInput = validInput
         self.swChangesRequired = swChangesRequired
@@ -29,10 +29,10 @@ def getNotes(materialInput, l: Lookup):
     elif l.customMaterial:
         noteText += "The input material is custom, please speak with the machine manufacturer for upgrade options."
     elif l.anySuccessor == True: #If any successor is available
-        if l.directSuccessor == True: #if direct successor was found
+        if l.definedSuccessor == True: #if a listed successor was found
             pass
         else:
-            noteText += "No direct successor. %s" % (l.nonDirectMsg)
+            noteText += "No specific successor listed. %s" % (l.nonDefinedMsg)
     else:
         if l.validInput:
             noteText += "The input material is valid. However, there unfortunately is no successor product."
@@ -56,10 +56,10 @@ def getSuccessor(materialInput):
         
         #Reset variables for new loop
         materialOutput = '' 
-        nonDirectMsg = '' 
+        nonDefinedMsg = '' 
         situationalMsg = '' 
         matchFound = False 
-        directSuccessor = False 
+        definedSuccessor = False 
         anySuccessor = False 
         validInput = False
         swChangesRequired = False
@@ -86,7 +86,7 @@ def getSuccessor(materialInput):
             workerStr = strPartition[0].removeprefix("8I64S2") #eliminate the prefix so we can use isolate the rest of the model number
             materialOutput = "8I64S2%s.0X-000 + 8I66S2%s.00-000" % (workerStr, workerStr) #generate the successor model numbers for base device and communication card
             anySuccessor = True
-            directSuccessor = True
+            definedSuccessor = True
             situationalMsg = 'The base device and communication card %s must be ordered together.' % (materialOutput)
 
         # X64 T2
@@ -97,15 +97,15 @@ def getSuccessor(materialInput):
             workerStr = strPartition[0].removeprefix("8I64T2") #eliminate the prefix so we can use isolate the rest of the model number
             materialOutput = "8I64T2%s.0X-000 + 8I66T2%s.00-000" % (workerStr, workerStr) #generate the successor model numbers for base device and communication card
             anySuccessor = True
-            directSuccessor = True
+            definedSuccessor = True
             situationalMsg = 'The base device and communication card %s must be ordered together.' % (materialOutput)
 
 
             #if strPartition[2][2] == 'X':
             #    swChangesRequired = True #software changes needed
             #    anySuccessor = True
-            #    directSuccessor = False
-            #    nonDirectMsg = "Transition to P66."
+            #    definedSuccessor = False
+            #    nonDefinedMsg = "Transition to P66."
             #else:
             #    situationalMsg = 'The material numbered entered is the base module for the ACOPOS inverter and is still in production. Please enter the 8I64T2xxxxx.00X-1 material number.'
 
@@ -117,7 +117,7 @@ def getSuccessor(materialInput):
             workerStr = strPartition[0].removeprefix("8I64T4") #eliminate the prefix so we can use isolate the rest of the model number
             materialOutput = "8I64T4%s.0X-000 + 8I66T4%s.00-000" % (workerStr, workerStr) #generate the successor model numbers for base device and communication card
             anySuccessor = True
-            directSuccessor = True
+            definedSuccessor = True
             situationalMsg = 'The base device and communication card %s must be ordered together.' % (materialOutput)
             
             
@@ -129,7 +129,7 @@ def getSuccessor(materialInput):
             workerStr = strPartition[0].removeprefix("8I74S2") #eliminate the prefix so we can use isolate the rest of the model number
             materialOutput = "8I74S2%s.0X-000 + 8I76S2%s.00-000" % (workerStr, workerStr) #generate the successor model numbers for base device and communication card
             anySuccessor = True
-            directSuccessor = True
+            definedSuccessor = True
             situationalMsg = 'The base device and communication card %s must be ordered together.' % (materialOutput)
 
         # P74 T4
@@ -140,7 +140,7 @@ def getSuccessor(materialInput):
             workerStr = strPartition[0].removeprefix("8I74T4") #eliminate the prefix so we can use isolate the rest of the model number
             materialOutput = "8I74S2%s.0X-000 + 8I76S2%s.00-000" % (workerStr, workerStr) #generate the successor model numbers for base device and communication card
             anySuccessor = True
-            directSuccessor = True
+            definedSuccessor = True
             situationalMsg = 'The base device and communication card %s must be ordered together.' % (materialOutput)
 
         # P84 T2
@@ -151,8 +151,8 @@ def getSuccessor(materialInput):
             workerStr = strPartition[0].removeprefix("8I84T2") #eliminate the prefix so we can use isolate the rest of the model number
             swChangesRequired = True #software changes needed
             anySuccessor = True
-            directSuccessor = False
-            nonDirectMsg = "Transition to P66."
+            definedSuccessor = False
+            nonDefinedMsg = "Transition to P66."
            
 
         # P84 T4
@@ -163,8 +163,8 @@ def getSuccessor(materialInput):
             workerStr = strPartition[0].removeprefix("8I64T2") #eliminate the prefix so we can use isolate the rest of the model number
             swChangesRequired = True #software changes needed
             anySuccessor = True
-            directSuccessor = False
-            nonDirectMsg = "Transition to P66 or P86 depending on performance needed."
+            definedSuccessor = False
+            nonDefinedMsg = "Transition to P66 or P86 depending on performance needed."
             
 
         # ACOPOS 8V
@@ -174,8 +174,8 @@ def getSuccessor(materialInput):
         
             swChangesRequired = True #software changes needed
             anySuccessor = True
-            directSuccessor = False
-            nonDirectMsg = "Transition to the ACOPOS P3 or ACOPOSmulti series."
+            definedSuccessor = False
+            nonDefinedMsg = "Transition to the ACOPOS P3 or ACOPOSmulti series."
         
         #ACOPOS Plug in Cards
         matchResult = re.match(r"^8AC\d{3}\.\d{2}-\d", materialInput) #match if string matches format*
@@ -192,10 +192,10 @@ def getSuccessor(materialInput):
             swChangesRequired = True #software changes needed
             if materialOutput != None and materialOutput != '': #if a direct replacement was found
                 anySuccessor = True
-                directSuccessor = True
+                definedSuccessor = True
             else:
                 anySuccessor = False
-                directSuccessor = False
+                definedSuccessor = False
         
         # ACOPOSmulti
         matchResult = re.match(r"^8BVI\d{4}H.{3}\.\d{3}-1", materialInput) #match if string matches format*
@@ -213,10 +213,10 @@ def getSuccessor(materialInput):
             swChangesRequired = False #software changes not needed, check SN20/2020
             if materialOutput != None and materialOutput != '': #if a direct replacement was found
                 anySuccessor = True
-                directSuccessor = True
+                definedSuccessor = True
             else:
                 anySuccessor = False
-                directSuccessor = False
+                definedSuccessor = False
         
         # ACOPOSinverter Plugin
         matchResult = re.match(r"^8I0AC123\.\d{3}-\d", materialInput) #match if string matches format 8I64T2*.00X-1
@@ -225,8 +225,8 @@ def getSuccessor(materialInput):
             
             swChangesRequired = True #software changes needed
             anySuccessor = True
-            directSuccessor = False
-            nonDirectMsg = "The appropriate successor will be one of the P86 8I0IFENC.xxx-1 encoder interfaces."
+            definedSuccessor = False
+            nonDefinedMsg = "The appropriate successor will be one of the P86 8I0IFENC.xxx-1 encoder interfaces."
 
         ### Motors ###
         # 8LSA gen 0 -> 3
@@ -242,7 +242,7 @@ def getSuccessor(materialInput):
 
             swChangesRequired = True #software changes needed
             anySuccessor = True
-            directSuccessor = True
+            definedSuccessor = True
             situationalMsg = "Confirm this is the correct successor with the Support. Send an email to support.us@br-automation.com."
         
 
@@ -256,7 +256,7 @@ def getSuccessor(materialInput):
                 materialOutput = materialOutput[0:7] + 'R2' + materialOutput[9:]
             swChangesRequired = True #software changes needed
             anySuccessor = True
-            directSuccessor = True
+            definedSuccessor = True
             situationalMsg = "Confirm this is the correct successor with the Support. Send an email to support.us@br-automation.com."
         
 
@@ -267,8 +267,8 @@ def getSuccessor(materialInput):
 
             swChangesRequired = True #software changes needed
             anySuccessor = True
-            directSuccessor = False
-            nonDirectMsg = "Go to Y:\Application\Support Team\KnowledgeBase\Hardware\Motors\MotorConversions\MSA Motor Lookup v01.1.xlsx"
+            definedSuccessor = False
+            nonDefinedMsg = "Go to Y:\Application\Support Team\KnowledgeBase\Hardware\Motors\MotorConversions\MSA Motor Lookup v01.1.xlsx"
         
         ### Other Motion ###
         # 8B0F0160H000.A00-1
@@ -278,7 +278,7 @@ def getSuccessor(materialInput):
             materialOutput = "8B0F0160H000.000-1"
             swChangesRequired = True #software changes needed
             anySuccessor = True
-            directSuccessor = True
+            definedSuccessor = True
 
         
 
@@ -298,10 +298,10 @@ def getSuccessor(materialInput):
             swChangesRequired = False #software changes needed
             if materialOutput != None and materialOutput != '': #if a direct replacement was found
                 anySuccessor = True
-                directSuccessor = True
+                definedSuccessor = True
             else:
                 anySuccessor = False
-                directSuccessor = False
+                definedSuccessor = False
 
         # 5CFCRD.xxxx-03
         matchResult = re.match(r"^5CFCRD\..{4}-03", materialInput) #match if string matches format
@@ -318,10 +318,10 @@ def getSuccessor(materialInput):
             swChangesRequired = False #software changes needed
             if materialOutput != None and materialOutput != '': #if a direct replacement was found
                 anySuccessor = True
-                directSuccessor = True
+                definedSuccessor = True
             else:
                 anySuccessor = False
-                directSuccessor = False
+                definedSuccessor = False
 
         # 5CFCRD.xxxx-04
         matchResult = re.match(r"^5CFCRD\..{4}-04", materialInput) #match if string matches format
@@ -332,7 +332,7 @@ def getSuccessor(materialInput):
             materialOutput = workerStr + "-06" #replace with "-06"
             swChangesRequired = False #software changes needed
             anySuccessor = True
-            directSuccessor = True
+            definedSuccessor = True
 
         # 5CFCRD.xxxx-06
         matchResult = re.match(r"^5CFCRD\..{4}-06", materialInput) #match if string matches format
@@ -349,10 +349,10 @@ def getSuccessor(materialInput):
             swChangesRequired = False #software changes needed
             if materialOutput != None and materialOutput != '': #if a direct replacement was found
                 anySuccessor = True
-                directSuccessor = True
+                definedSuccessor = True
             else:
                 anySuccessor = False
-                directSuccessor = False
+                definedSuccessor = False
         
 
         # 0CFCRD.xxxx.02
@@ -370,10 +370,10 @@ def getSuccessor(materialInput):
             swChangesRequired = False #software changes needed
             if materialOutput != None and materialOutput != '': #if a direct replacement was found
                 anySuccessor = True
-                directSuccessor = True
+                definedSuccessor = True
             else:
                 anySuccessor = False
-                directSuccessor = False
+                definedSuccessor = False
 
         ### Memory ###
         matchResult = re.match(r"^5MMDDR\.\d{4}-0\d", materialInput) #match if string matches format*
@@ -390,10 +390,10 @@ def getSuccessor(materialInput):
             swChangesRequired = False #software changes needed
             if materialOutput != None and materialOutput != '': #if a direct replacement was found
                 anySuccessor = True
-                directSuccessor = True
+                definedSuccessor = True
             else:
                 anySuccessor = False
-                directSuccessor = False
+                definedSuccessor = False
 
         ### Power Panels ###
         # PP300 panels
@@ -411,14 +411,14 @@ def getSuccessor(materialInput):
             swChangesRequired = True #software changes needed
             if materialOutput != None and materialOutput != '': #if a direct replacement was found
                 anySuccessor = True
-                directSuccessor = True
+                definedSuccessor = True
             else:
                 anySuccessor = False
-                directSuccessor = False
+                definedSuccessor = False
 
                 if materialInput == "4PP352.0571-35":
                     anySuccessor = True
-                    nonDirectMsg = "No 1:1 replacement available because of very low demand. Changeover recommendation: 5AP1151.0573-000\n"
+                    nonDefinedMsg = "No 1:1 replacement available because of very low demand. Changeover recommendation: 5AP1151.0573-000\n"
 
         # PP400 panels
         matchResult = re.match(r"^4PP4.+", materialInput) #match if string matches format*
@@ -435,10 +435,10 @@ def getSuccessor(materialInput):
             swChangesRequired = True #software changes needed
             if materialOutput != None and materialOutput != '': #if a direct replacement was found
                 anySuccessor = True
-                directSuccessor = True
+                definedSuccessor = True
             else:
                 anySuccessor = False
-                directSuccessor = False
+                definedSuccessor = False
 
         # PP500 panels (display), cpus and interfaces
         matchResult = re.match(r"^5PP5.+", materialInput) #match if string matches format*
@@ -455,52 +455,52 @@ def getSuccessor(materialInput):
             swChangesRequired = True #software changes needed
             if materialOutput != None and materialOutput != '': #if a direct replacement was found
                 anySuccessor = True
-                directSuccessor = True
+                definedSuccessor = True
             else:
                 anySuccessor = False
-                directSuccessor = False
+                definedSuccessor = False
 
                 if materialInput == "5PP552.0573-00":
                     anySuccessor = True
-                    nonDirectMsg = "No 1:1 replacement available because of very low demand. Changeover recommendation: 5AP1151.0573-000\n"
+                    nonDefinedMsg = "No 1:1 replacement available because of very low demand. Changeover recommendation: 5AP1151.0573-000\n"
 
         # PP45 (device)
         matchResult = re.match(r"^4PP045\.\d{4}-.+", materialInput) #match if string matches format*
         if matchResult != None: #if match object is not None (meaning there is at least one match)
             matchFound = True
             anySuccessor = True
-            directSuccessor = False
+            definedSuccessor = False
             swChangesRequired = True #software changes needed
-            nonDirectMsg = 'The listed successor is the Power Panel 65 series. However, that series is also obsolete. Transition to a Power Panel C-Series device or a Power Panel T30 with a X20CP Compact-S depending on demands of the application. See sales notice 38/2021.'
+            nonDefinedMsg = 'The listed successor is the Power Panel 65 series. However, that series is also obsolete. Transition to a Power Panel C-Series device or a Power Panel T30 with a X20CP Compact-S depending on demands of the application. See sales notice 38/2021.'
 
         # PP45 (interfaces)
         matchResult = re.match(r"^4PP045\.IF.+", materialInput) #match if string matches format*
         if matchResult != None: #if match object is not None (meaning there is at least one match)
             matchFound = True
             anySuccessor = True
-            directSuccessor = False
+            definedSuccessor = False
             swChangesRequired = True #software changes needed
             validInput = True
-            nonDirectMsg = "Look into the appropriate interfaces for the system you are upgrading to. Speak with a sales representative to determine the best upgrade for the application."
+            nonDefinedMsg = "Look into the appropriate interfaces for the system you are upgrading to. Speak with a sales representative to determine the best upgrade for the application."
 
         # PP65 (device)
         matchResult = re.match(r"^4PP065\.\d{4}-.{3}", materialInput) #match if string matches format*
         if matchResult != None: #if match object is not None (meaning there is at least one match)
             matchFound = True
             anySuccessor = True
-            directSuccessor = False
+            definedSuccessor = False
             swChangesRequired = True #software changes needed
-            nonDirectMsg = 'Transition to a Power Panel C-Series device or a Power Panel T30 with a X20CP Compact-S depending on demands of the application. See sales notice 38/2021.'
+            nonDefinedMsg = 'Transition to a Power Panel C-Series device or a Power Panel T30 with a X20CP Compact-S depending on demands of the application. See sales notice 38/2021.'
 
         # PP65 (interfaces)
         matchResult = re.match(r"^4PP065\.IF\d{2}-1", materialInput) #match if string matches format*
         if matchResult != None: #if match object is not None (meaning there is at least one match)
             matchFound = True
             anySuccessor = True
-            directSuccessor = False
+            definedSuccessor = False
             swChangesRequired = True #software changes needed
             validInput = True
-            nonDirectMsg = "Look into the appropriate interfaces for the system you are upgrading to. Speak with a sales representative to determine the best upgrade for the application."
+            nonDefinedMsg = "Look into the appropriate interfaces for the system you are upgrading to. Speak with a sales representative to determine the best upgrade for the application."
 
 
         ### HMI ###
@@ -520,11 +520,11 @@ def getSuccessor(materialInput):
             swChangesRequired = True #software changes needed
             if materialOutput != None and materialOutput != '': #if a direct replacement was found
                 anySuccessor = True
-                directSuccessor = True
+                definedSuccessor = True
                 situationalMsg = "Software changes are not necessary if the panel is connected to an APC via SDL."
             else:
                 anySuccessor = False
-                directSuccessor = False
+                definedSuccessor = False
 
         # AP9xD Handles 
         matchResult = re.match(r"^5AC903\.HDL0-0\d", materialInput) #match if string matches format*
@@ -541,10 +541,10 @@ def getSuccessor(materialInput):
             swChangesRequired = False #software changes needed
             if materialOutput != None and materialOutput != '': #if a direct replacement was found
                 anySuccessor = True
-                directSuccessor = True
+                definedSuccessor = True
             else:
                 anySuccessor = False
-                directSuccessor = False
+                definedSuccessor = False
 
         # AP900
         matchResult = re.match(r"^5AP9\d{2}\.\d{4}-01", materialInput) #match if string matches format*
@@ -562,11 +562,11 @@ def getSuccessor(materialInput):
             swChangesRequired = True #software changes needed
             if materialOutput != None and materialOutput != '': #if a direct replacement was found
                 anySuccessor = True
-                directSuccessor = True
+                definedSuccessor = True
                 situationalMsg = "Software changes are not necessary if the panel is connected to an APC via SDL."
             else:
                 anySuccessor = False
-                directSuccessor = False
+                definedSuccessor = False
 
         # AP800
         matchResult = re.match(r"^5AP820.1505-00", materialInput) #match if string matches format*
@@ -575,7 +575,7 @@ def getSuccessor(materialInput):
             materialOutput = "5AP5120.1505-000 + 5DLSDL.1001-00"
             swChangesRequired = True #software changes needed
             anySuccessor = True
-            directSuccessor = True
+            definedSuccessor = True
             situationalMsg = "Software changes are not necessary if the panel is connected to an APC via SDL."
 
         # MP712x
@@ -584,7 +584,7 @@ def getSuccessor(materialInput):
             matchFound = True
             swChangesRequired = True #software changes needed
             anySuccessor = False
-            directSuccessor = False
+            definedSuccessor = False
             validInput = True
             #materialOutput = ''
 
@@ -594,7 +594,7 @@ def getSuccessor(materialInput):
             matchFound = True
             swChangesRequired = True #software changes needed
             anySuccessor = False
-            directSuccessor = False
+            definedSuccessor = False
             validInput = True
             #materialOutput = ''
 
@@ -608,8 +608,8 @@ def getSuccessor(materialInput):
             
             swChangesRequired = True #software changes needed
             anySuccessor = True
-            directSuccessor = False
-            nonDirectMsg = "The possibilities for use of the MP7100 must be checked individually.Speak with a sales representative to determine the best upgrade for the application."
+            definedSuccessor = False
+            nonDefinedMsg = "The possibilities for use of the MP7100 must be checked individually.Speak with a sales representative to determine the best upgrade for the application."
 
 
 
@@ -621,7 +621,7 @@ def getSuccessor(materialInput):
             materialOutput = "5PPC2100.BY01-000"
             swChangesRequired = True #software changes needed
             anySuccessor = True
-            directSuccessor = True
+            definedSuccessor = True
 
         # PC5xx (system units)
         matchResult = re.match(r"^5PC51[0|1]\.SX01-00", materialInput) #match if string matches format*
@@ -638,10 +638,10 @@ def getSuccessor(materialInput):
             swChangesRequired = True
             if materialOutput != None and materialOutput != '': #if a direct replacement was found
                 anySuccessor = True
-                directSuccessor = True
+                definedSuccessor = True
             else:
                 anySuccessor = False
-                directSuccessor = False
+                definedSuccessor = False
                 
         # PC5xx (cpus)
         matchResult = re.match(r"^5PP5CP\.US15-\d{2}", materialInput) #match if string matches format*
@@ -658,10 +658,10 @@ def getSuccessor(materialInput):
             swChangesRequired = True
             if materialOutput != None and materialOutput != '': #if a direct replacement was found
                 anySuccessor = True
-                directSuccessor = True
+                definedSuccessor = True
             else:
                 anySuccessor = False
-                directSuccessor = False
+                definedSuccessor = False
 
 
         # PC5xx Interfaces
@@ -669,18 +669,18 @@ def getSuccessor(materialInput):
         if matchResult != None: #if match object is not None (meaning there is at least one match)
             matchFound = True
             anySuccessor = True
-            directSuccessor = False
+            definedSuccessor = False
             swChangesRequired = True
-            nonDirectMsg = "Look into the appropriate interfaces for the system you are upgrading to. Speak with a sales representative to determine the best upgrade for the application."
+            nonDefinedMsg = "Look into the appropriate interfaces for the system you are upgrading to. Speak with a sales representative to determine the best upgrade for the application."
 
         # PC5xx I/O
         matchResult = re.match(r"^5PP5IO\.G[M|N]AC-00", materialInput) #match if string matches format*
         if matchResult != None: #if match object is not None (meaning there is at least one match)
             matchFound = True
             anySuccessor = True
-            directSuccessor = False
+            definedSuccessor = False
             swChangesRequired = True
-            nonDirectMsg = "Changing over the I/O board is dependent on the interfaces used. Speak with a sales representative to determine the best upgrade for the application."
+            nonDefinedMsg = "Changing over the I/O board is dependent on the interfaces used. Speak with a sales representative to determine the best upgrade for the application."
 
                 
 
@@ -699,10 +699,10 @@ def getSuccessor(materialInput):
             swChangesRequired = True
             if materialOutput != None and materialOutput != '': #if a direct replacement was found
                 anySuccessor = True
-                directSuccessor = True
+                definedSuccessor = True
             else:
                 anySuccessor = False
-                directSuccessor = False
+                definedSuccessor = False
 
         # PC7xx
         matchResult = re.match(r"^5PC7\d{2}\..{4}-\d{2}", materialInput) #match if string matches format*
@@ -720,13 +720,13 @@ def getSuccessor(materialInput):
             swChangesRequired = True #software changes needed
             if materialOutput != None and materialOutput != '': #if a direct replacement was found
                 anySuccessor = True
-                directSuccessor = True
+                definedSuccessor = True
             else:
                 anySuccessor = False
-                directSuccessor = False
+                definedSuccessor = False
                 if materialInput == "5PC725.1505-00" or materialInput == "5PC725.1505-01":
                     anySuccessor = True
-                    nonDirectMsg = "Panel PC 725 units can be replaced by the combination of the support arm variant of the Automation Panel 900 and the new Panel PC based on Intel Bay Trail technology."
+                    nonDefinedMsg = "Panel PC 725 units can be replaced by the combination of the support arm variant of the Automation Panel 900 and the new Panel PC based on Intel Bay Trail technology."
 
 
         # PC8xx
@@ -745,10 +745,10 @@ def getSuccessor(materialInput):
             swChangesRequired = True #software changes needed
             if materialOutput != None and materialOutput != '': #if a direct replacement was found
                 anySuccessor = True
-                directSuccessor = True
+                definedSuccessor = True
             else:
                 anySuccessor = False
-                directSuccessor = False
+                definedSuccessor = False
 
         # PC9xx
         matchResult = re.match(r"^5PC900\.TS77-\d{2}", materialInput) #match if string matches format 8I64T2*.00X-1
@@ -757,39 +757,39 @@ def getSuccessor(materialInput):
             
             swChangesRequired = True #software changes needed
             anySuccessor = True
-            directSuccessor = False
-            nonDirectMsg = "Transition to the appropriate TS17 (5PC900.TS17-xx) CPU board depending on performance needed."
+            definedSuccessor = False
+            nonDefinedMsg = "Transition to the appropriate TS17 (5PC900.TS17-xx) CPU board depending on performance needed."
 
         # PC 6xx+ Accessories
         matchResult = re.match(r"^5AC\d{3}\..{4}-\d{2}", materialInput) #match if string matches format*
         if matchResult != None: #if match object is not None (meaning there is at least one match)
             matchFound = True
             anySuccessor = True
-            directSuccessor = False
+            definedSuccessor = False
             dotSplit = str(materialInput).split('.')
             if dotSplit[1][0:2] == 'HS':
-                nonDirectMsg = "The appropriate heatsink will be associated with the successor PC. Speak with a sales representative to determine the best upgrade for the application."
+                nonDefinedMsg = "The appropriate heatsink will be associated with the successor PC. Speak with a sales representative to determine the best upgrade for the application."
                 swChangesRequired = False
             elif dotSplit[1][0:3] == 'HDD':
-                nonDirectMsg = "The appropriate hard drive is dependent on the successor PC. Speak with a sales representative to determine the best upgrade for the application."
+                nonDefinedMsg = "The appropriate hard drive is dependent on the successor PC. Speak with a sales representative to determine the best upgrade for the application."
                 swChangesRequired = False
             elif dotSplit[1][0:3] == 'SSD':
-                nonDirectMsg = "The appropriate solid state drive is dependent on the successor PC. Speak with a sales representative to determine the best upgrade for the application."
+                nonDefinedMsg = "The appropriate solid state drive is dependent on the successor PC. Speak with a sales representative to determine the best upgrade for the application."
                 swChangesRequired = False
             elif dotSplit[1][0:2] == 'DV':
-                nonDirectMsg = "The appropriate DVD drive will be associated with the successor PC. Speak with a sales representative to determine the best upgrade for the application."
+                nonDefinedMsg = "The appropriate DVD drive will be associated with the successor PC. Speak with a sales representative to determine the best upgrade for the application."
                 swChangesRequired = False
             elif dotSplit[1][0:2] == 'FA':
-                nonDirectMsg = "The appropriate fan will be associated with the successor PC. Speak with a sales representative to determine the best upgrade for the application."
+                nonDefinedMsg = "The appropriate fan will be associated with the successor PC. Speak with a sales representative to determine the best upgrade for the application."
                 swChangesRequired = False
             elif dotSplit[1][1:4] == 'RAM':
-                nonDirectMsg = "'The appropriate memory option is dependent on the successor PC. Speak with a sales representative to determine the best upgrade for the application."
+                nonDefinedMsg = "'The appropriate memory option is dependent on the successor PC. Speak with a sales representative to determine the best upgrade for the application."
                 swChangesRequired = False
             elif dotSplit[1][3] == 'X':
-                nonDirectMsg = "'The appropriate labels are dependent on the successor PC. Speak with a sales representative to determine the best upgrade for the application."
+                nonDefinedMsg = "'The appropriate labels are dependent on the successor PC. Speak with a sales representative to determine the best upgrade for the application."
                 swChangesRequired = False
             else:
-                nonDirectMsg = 'The appropriate successor is dependent on the successor PC. Speak with a sales representative to determine the best upgrade for the application.'
+                nonDefinedMsg = 'The appropriate successor is dependent on the successor PC. Speak with a sales representative to determine the best upgrade for the application.'
                 swChangesRequired = True
 
             # OLD CODE    
@@ -803,13 +803,13 @@ def getSuccessor(materialInput):
             # swChangesRequired = False
             # if materialOutput != None and materialOutput != '': #if a direct replacement was found
             #     anySuccessor = True
-            #     directSuccessor = True
+            #     definedSuccessor = True
             #     if materialOutput == '5AC901.HS00-01':
             #         situationalMsg = 'This successor is intended for the TS-17 (QM170/HM170) system units.'
 
             # else:
             #     anySuccessor = False
-            #     directSuccessor = False
+            #     definedSuccessor = False
 
         ### PC Configurations ###
         matchResult = re.match(r"^5[A-Z].{12}-\d{3}", materialInput) #match if string matches format 8I64T2*.00X-1
@@ -827,7 +827,7 @@ def getSuccessor(materialInput):
             materialOutput = "X20SL81%s" % (strPartition[2]) #generate the successor P64new model number
             swChangesRequired = True #software changes needed
             anySuccessor = True
-            directSuccessor = True
+            definedSuccessor = True
         
         ### GPOS ####
         # Windows
@@ -859,16 +859,16 @@ def getSuccessor(materialInput):
             swChangesRequired = True #software changes needed
             if materialOutput != None and materialOutput != '': #if a direct replacement was found
                 anySuccessor = True
-                directSuccessor = True
+                definedSuccessor = True
             else:
                 anySuccessor = False
-                directSuccessor = False
+                definedSuccessor = False
                 if materialInput == "X20CP1483":
                     anySuccessor = True
-                    nonDirectMsg = "The Compact-S PLC series is the ideal successor."
+                    nonDefinedMsg = "The Compact-S PLC series is the ideal successor."
                 elif materialInput == "X20CP1301" or materialInput == "X20CP1381" or materialInput == "X20CP1382" or materialInput == "X20CP1381-RT" or materialInput == "X20CP1382-RT":
                     anySuccessor = True
-                    nonDirectMsg = "Look at X20 PLCs for the appropriate successor. Speak with a sales representative to determine the best fit for the application."
+                    nonDefinedMsg = "Look at X20 PLCs for the appropriate successor. Speak with a sales representative to determine the best fit for the application."
 
         # X67 Umbrella
         matchResult = re.match(r"^X67.+", materialInput) #match if string matches format*
@@ -886,10 +886,10 @@ def getSuccessor(materialInput):
             swChangesRequired = True #software changes needed
             if materialOutput != None and materialOutput != '': #if a direct replacement was found
                 anySuccessor = True
-                directSuccessor = True
+                definedSuccessor = True
             else:
                 anySuccessor = False
-                directSuccessor = False
+                definedSuccessor = False
 
 
         
@@ -911,10 +911,10 @@ def getSuccessor(materialInput):
             swChangesRequired = True #software changes needed
             if materialOutput != None and materialOutput != '': #if a direct replacement was found
                 anySuccessor = True
-                directSuccessor = True
+                definedSuccessor = True
             else:
                 anySuccessor = False
-                directSuccessor = False
+                definedSuccessor = False
 
         ### Other Systems ###
         # B&R 2003
@@ -922,14 +922,14 @@ def getSuccessor(materialInput):
         if matchResult != None: #if match object is not None (meaning there is at least one match)
             matchFound = True
             anySuccessor = False
-            directSuccessor = False
+            definedSuccessor = False
             situationalMsg = "The B&R 2003 system is too outdated to provide a comparable successor. Projects should be changed over to X20."
 
         matchResult = re.match(r"^7.{2}\d{3}\.\d{2}-\d", materialInput) #match if string matches format 8I64T2*.00X-1
         if matchResult != None: #if match object is not None (meaning there is at least one match)
             matchFound = True
             anySuccessor = False
-            directSuccessor = False
+            definedSuccessor = False
             situationalMsg = "The B&R 2003 system is too outdated to provide a comparable successor. Projects should be changed over to X20."
 
         # B&R 2005
@@ -937,14 +937,14 @@ def getSuccessor(materialInput):
         if matchResult != None: #if match object is not None (meaning there is at least one match)
             matchFound = True
             anySuccessor = False
-            directSuccessor = False
+            definedSuccessor = False
             situationalMsg = "The B&R 2005 system is too outdated to provide a comparable successor. Projects should be changed over to X20."
 
         matchResult = re.match(r"^3.{2}\d{3}\.\d{2}-\d", materialInput) #match if string matches format 8I64T2*.00X-1
         if matchResult != None: #if match object is not None (meaning there is at least one match)
             matchFound = True
             anySuccessor = False
-            directSuccessor = False
+            definedSuccessor = False
             situationalMsg = "The B&R 2005 system is too outdated to provide a comparable successor. Projects should be changed over to X20."
 
         # B&R 2010
@@ -952,14 +952,14 @@ def getSuccessor(materialInput):
         if matchResult != None: #if match object is not None (meaning there is at least one match)
             matchFound = True
             anySuccessor = False
-            directSuccessor = False
+            definedSuccessor = False
             situationalMsg = "The B&R 2010 system is too outdated to provide a comparable successor. Projects should be changed over to X20."
 
         matchResult = re.match(r"^2.{2}\d{3}\.\d{2}-\d", materialInput) #match if string matches format 8I64T2*.00X-1
         if matchResult != None: #if match object is not None (meaning there is at least one match)
             matchFound = True
             anySuccessor = False
-            directSuccessor = False
+            definedSuccessor = False
             situationalMsg = "The B&R 2010 system is too outdated to provide a comparable successor. Projects should be changed over to X20."
 
         # PROVIT
@@ -967,14 +967,14 @@ def getSuccessor(materialInput):
         if matchResult != None: #if match object is not None (meaning there is at least one match)
             matchFound = True
             anySuccessor = False
-            directSuccessor = False
+            definedSuccessor = False
             situationalMsg = "The PROVIT system is too outdated to provide a comparable successor. Projects should be changed over to X20."
 
         matchResult = re.match(r"^5C3\d{3}\.\d", materialInput) #match if string matches format 8I64T2*.00X-1
         if matchResult != None: #if match object is not None (meaning there is at least one match)
             matchFound = True
             anySuccessor = False
-            directSuccessor = False
+            definedSuccessor = False
             situationalMsg = "The PROVIT system is too outdated to provide a comparable successor. Projects should be changed over to X20."
 
 
@@ -984,8 +984,8 @@ def getSuccessor(materialInput):
         if matchResult != None: #if match object is not None (meaning there is at least one match)
             matchFound = True
             anySuccessor = True
-            directSuccessor = False
-            nonDirectMsg = "Look into the appropriate interfaces for the system you are upgrading to. Speak with a sales representative to determine the best fit for the application."
+            definedSuccessor = False
+            nonDefinedMsg = "Look into the appropriate interfaces for the system you are upgrading to. Speak with a sales representative to determine the best fit for the application."
             
         ### MISC ###
         # When no other regex matches, check the misc table
@@ -1002,13 +1002,13 @@ def getSuccessor(materialInput):
             swChangesRequired = True #software changes needed
             if materialOutput != None and materialOutput != '': #if a direct replacement was found
                 anySuccessor = True
-                directSuccessor = True
+                definedSuccessor = True
             else:
                 anySuccessor = False
-                directSuccessor = False
+                definedSuccessor = False
 
                 #if materialInput == "5PP552.0573-00":
                 #    anySuccessor = True
-                #    nonDirectMsg = "No 1:1 replacement available because of very low demand. Changeover recommendation: 5AP1151.0573-000\n"
+                #    nonDefinedMsg = "No 1:1 replacement available because of very low demand. Changeover recommendation: 5AP1151.0573-000\n"
 
-        return Lookup(materialOutput, nonDirectMsg, situationalMsg, matchFound, directSuccessor, anySuccessor, validInput, swChangesRequired, customMaterial)
+        return Lookup(materialOutput, nonDefinedMsg, situationalMsg, matchFound, definedSuccessor, anySuccessor, validInput, swChangesRequired, customMaterial)
