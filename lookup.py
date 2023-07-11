@@ -19,8 +19,7 @@ class Lookup:
         self.swChangesRequired = swChangesRequired
         self.customMaterial = customMaterial
 
-def getNotes(materialInput, l: Lookup):
-    #notePrefix = "%s: " % materialInput   
+def getNotes(l: Lookup):
     noteText = ''
 
     #----- Wrap Up and Output -----#
@@ -43,7 +42,6 @@ def getNotes(materialInput, l: Lookup):
     if noteText == '' or noteText == None:
         outputNotes = ''
     else:
-        #outputNotes = notePrefix + noteText
         outputNotes = noteText
         
 

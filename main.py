@@ -18,6 +18,7 @@ hasLatestVersion = False
 hasDevVersion = False
 
 
+
 def selectTheme():
     # Because root is ThemedTk, changing the theme is simple
     root.set_theme(theme_name=optionTheme.get(), themebg= True, toplevel= True)
