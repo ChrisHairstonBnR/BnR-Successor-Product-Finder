@@ -112,7 +112,7 @@ def on_button_click():
         outputSuccessor = materialOutput
 
         #Output Note
-        outputNote = getNotes(materialInput, lookupResult)
+        outputNote = getNotes(lookupResult)
         notePrefix = '%s: ' % materialInput
         if outputNote == '' or outputNote == None:
             formatNote = ''
