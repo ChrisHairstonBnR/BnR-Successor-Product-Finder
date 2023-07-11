@@ -107,18 +107,25 @@ def on_button_click():
             materialOutput = 'N/A'
 
         #format the output to clearly show input and successor
-        outputSuccessor = '%s -> %s' % (materialInput, materialOutput)
+        #outputSuccessor = '%s -> %s' % (materialInput, materialOutput)
+        outputSuccessor = materialOutput
 
         #Output Note
         outputNote = getNotes(materialInput, lookupResult)
+        notePrefix = '%s: ' % materialInput
+        if outputNote == '' or outputNote == None:
+            formatNote = ''
+        else:
+            formatNote = notePrefix + outputNote
 
         if materialOutput == 'N/A' and not lookupResult.swChangesRequired :
-            outputSwChanges = '%s: N/A' % materialInput
+            #outputSwChanges = '%s: N/A' % materialInput
+            outputSwChanges = 'N/A'
 
         elif lookupResult.swChangesRequired:
-            outputSwChanges = '%s: yes' % materialInput
+            outputSwChanges = 'yes'
         else:
-            outputSwChanges = '%s: no' % materialInput
+            outputSwChanges = 'no'
 
         #append text outputs
         text_successor_output.config(state= 'normal')
@@ -126,9 +133,10 @@ def on_button_click():
         text_successor_output.config(state= 'disabled')
         text_sw_changes_required.config(state= 'normal')
         text_sw_changes_required.insert(tk.END, outputSwChanges + '\n')
+        text_sw_changes_required.tag_add("center_text",'1.0', 'end' )
         text_sw_changes_required.config(state= 'disabled')
         text_successor_notes.config(state= 'normal')
-        text_successor_notes.insert(tk.END, outputNote + '\n')
+        text_successor_notes.insert(tk.END, formatNote + '\n')
         text_successor_notes.config(state= 'disabled')
     
     #final note to append
@@ -177,19 +185,19 @@ button_search = ttk.Button(root, text="Search", command=on_button_click)
 label_successor_part = ttk.Label(root, text="Successor Part Number(s):")
 text_successor_output = tk.Text(root, height= 10, width= 40, bg='#D3D3D3')
 label_successor_notes = ttk.Label(root, text= "Notes:")
-text_successor_notes = tk.Text(root, height = 10, width= 50, bg="#FFFDD0")
+text_successor_notes = tk.Text(root, height = 10, width= 75, bg="#FFFDD0")
 button_github_link = tk.Button(root, text= "To report a bug or missing material, or to request a feature or note, create an issue at https://github.com/ChrisHairstonBnR/Python-Successor-Finder/issues or click here.", command=on_github_link_click, border=0, bg=root['background'], fg=invertHexColor(root['background']))
 notes_scrollbar = ttk.Scrollbar(root, orient='horizontal')
 output_scrollbar = ttk.Scrollbar(root, orient='horizontal')
-label_sw_changes_required = ttk.Label(root, text= "Software Changes Required?")
-text_sw_changes_required = tk.Text(root, height= 10, width= 25, bg='#D3D3D3')
+label_sw_changes_required = ttk.Label(root, text= "SW Changes Required?")
+text_sw_changes_required = tk.Text(root, height= 10, width= 15, bg='#D3D3D3')
 button_clearOutputs = ttk.Button(root, text="Clear Outputs", command=lambda: clearAll(False))
 button_clearAll = ttk.Button(root, text="Clear All", command=lambda: clearAll(True))
 vertical_scrollbar = ttk.Scrollbar(root, orient='vertical')
 
 #Widget configuration
 text_successor_notes.config(xscrollcommand=notes_scrollbar.set, wrap="none", state= 'disabled', yscrollcommand=syncScroll)
-text_successor_output.config(xscrollcommand=output_scrollbar.set, state= 'disabled', wrap='none', yscrollcommand=syncScroll) #Set text boxes as read only
+text_successor_output.config(xscrollcommand=output_scrollbar.set, state= 'disabled', wrap='none', yscrollcommand=syncScroll, ) #Set text boxes as read only
 text_sw_changes_required.config(state='disabled', wrap='none', yscrollcommand=syncScroll)
 entry_obsolete_part.config(wrap='none', yscrollcommand=syncScroll)
 notes_scrollbar.config(command=text_successor_notes.xview)
@@ -210,6 +218,9 @@ root.columnconfigure(index=0, weight=0)
 root.columnconfigure(index=1, weight=0)
 root.columnconfigure(index=2, weight=0)
 root.columnconfigure(index=3, weight=1)
+
+# Text "tag" configuration
+text_sw_changes_required.tag_configure("center_text", justify='center')
 
 
 # Position the widgets using the grid geometry manager

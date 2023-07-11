@@ -20,7 +20,7 @@ class Lookup:
         self.customMaterial = customMaterial
 
 def getNotes(materialInput, l: Lookup):
-    notePrefix = "%s: " % materialInput   
+    #notePrefix = "%s: " % materialInput   
     noteText = ''
 
     #----- Wrap Up and Output -----#
@@ -43,7 +43,9 @@ def getNotes(materialInput, l: Lookup):
     if noteText == '' or noteText == None:
         outputNotes = ''
     else:
-        outputNotes = notePrefix + noteText
+        #outputNotes = notePrefix + noteText
+        outputNotes = noteText
+        
 
     return outputNotes
 
