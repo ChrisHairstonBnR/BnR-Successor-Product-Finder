@@ -11,7 +11,7 @@ from update import *
 
 
 #----- VERSION -----#
-sofwareVersion = '0.84b'
+sofwareVersion = '0.85b'
 updateAvailable = False
 offlineMode = False
 hasLatestVersion = False
@@ -24,6 +24,22 @@ def selectTheme():
     root.set_theme(theme_name=optionTheme.get(), themebg= True, toplevel= True)
     button_github_link.config(bg= root['background'], fg= invertHexColor(root['background'])) #manually change the issue link text colors
     initSettings.setDefaultTheme(optionTheme.get()) #change setting in settings.ini file
+
+def resetDefaults():
+    #Simply call the default settings function
+    resetResponse = messagebox.showwarning ('Reset All Setting to Default?', 'Are you sure you would like to restore all settings to default?', type = 'yesno')
+    if resetResponse == True or resetResponse == 'yes':
+        initSettings.restoreDefaultSettings()
+        root.set_theme(theme_name=initSettings.defaultTheme, themebg= True, toplevel= True)
+        button_github_link.config(bg= root['background'], fg= invertHexColor(root['background'])) #manually change the issue link text colors
+        root.update()
+    else:
+        pass
+
+def prefChange():
+    initSettings.showInputInOutput = menuShowInputInOutput.get()
+    initSettings.showInputInNotes = menuShowInputInNotes.get()
+    initSettings.saveSettings()
 
 def closeApp():
     root.quit()
@@ -108,21 +124,28 @@ def on_button_click():
             materialOutput = 'N/A'
 
         #format the output to clearly show input and successor
-        #outputSuccessor = '%s -> %s' % (materialInput, materialOutput)
-        outputSuccessor = materialOutput
+        if initSettings.showInputInOutput:
+            outputSuccessor = '%s -> %s' % (materialInput, materialOutput)
+        else:
+            outputSuccessor = materialOutput
 
         #Output Note
         outputNote = getNotes(lookupResult)
-        notePrefix = '%s: ' % materialInput
-        if outputNote == '' or outputNote == None:
-            formatNote = ''
+        if initSettings.showInputInNotes:
+            notePrefix = '%s: ' % materialInput
+            if outputNote == '' or outputNote == None:
+                formatNote = ''
+            else:
+                formatNote = notePrefix + outputNote
         else:
-            formatNote = notePrefix + outputNote
+            if outputNote == '' or outputNote == None:
+                formatNote = ''
+            else:
+                formatNote = outputNote
 
         if materialOutput == 'N/A' and not lookupResult.swChangesRequired :
             #outputSwChanges = '%s: N/A' % materialInput
             outputSwChanges = 'N/A'
-
         elif lookupResult.swChangesRequired:
             outputSwChanges = 'yes'
         else:
@@ -142,6 +165,7 @@ def on_button_click():
     
     #final note to append
     text_successor_notes.config(state= 'normal')
+    text_successor_notes.insert(tk.END, '-----------------------------------------------------\n')
     text_successor_notes.insert(tk.END, 'Please ensure successor(s) is (are) not obsolete too.')
     text_successor_notes.config(state= 'disabled')
 
@@ -156,10 +180,17 @@ initSettings = settings.appSettings()
 root = ThemedTk(theme=initSettings.defaultTheme, toplevel= True, themebg=True)
 root.title("BnR SPF v%s" % sofwareVersion)
 
-#get and sort themes
+#get themes
 optionTheme = tk.StringVar(value=initSettings.defaultTheme)
 optionThemeList = root.get_themes()
-optionThemeList.sort()
+#exclude broken themes
+optionThemeList.remove('radiance')
+optionThemeList.remove('ubuntu')
+optionThemeList.remove('xpnative')
+optionThemeList.remove('winnative')
+#sort list
+optionThemeList.sort() 
+
 
 # Application Icon
 icon = tk.PhotoImage(file= 'assets\BnR SPF Logo.png')
@@ -172,7 +203,18 @@ themeMenu = tk.Menu(optionMenu, tearoff=0)
 for theme in optionThemeList:
     themeMenu.add_radiobutton(label=theme.capitalize(), variable=optionTheme, value=theme, command=selectTheme)
 
-optionMenu.add_cascade(label="Theme", menu=themeMenu)
+#Menu Variables
+menuShowInputInOutput = tk.BooleanVar(value=initSettings.showInputInOutput)
+menuShowInputInNotes = tk.BooleanVar(value=initSettings.showInputInNotes)
+
+prefMenu = tk.Menu(optionMenu,tearoff=0)
+prefMenu.add_cascade(label="Theme", menu=themeMenu)
+prefMenu.add_checkbutton(label="Include Input In Output", variable=menuShowInputInOutput, onvalue=1, offvalue=0, command=prefChange)
+prefMenu.add_checkbutton(label="Include Input In Notes", variable=menuShowInputInNotes, onvalue=1, offvalue=0, command=prefChange)
+prefMenu.add_cascade(label="Reset Default Settings", command=resetDefaults)
+
+optionMenu.add_cascade(label="Preferences", menu=prefMenu)
+#optionMenu.add_separator()
 optionMenu.add_command(label="About", command=openAbout)
 optionMenu.add_separator()
 optionMenu.add_command(label="Exit", command=closeApp)
@@ -181,7 +223,7 @@ menubar.add_cascade(label="Options", menu=optionMenu)
 
 # Create the GUI widgets
 label_obsolete_part = ttk.Label(root, text="Obsolete Part Number(s):")
-entry_obsolete_part = tk.Text(root, height= 10, width= 20)
+entry_obsolete_part = tk.Text(root, height= 10, width= 25)
 button_search = ttk.Button(root, text="Search", command=on_button_click)
 label_successor_part = ttk.Label(root, text="Successor Part Number(s):")
 text_successor_output = tk.Text(root, height= 10, width= 40, bg='#D3D3D3')
