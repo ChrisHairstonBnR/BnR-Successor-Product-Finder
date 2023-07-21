@@ -211,6 +211,7 @@ prefMenu = tk.Menu(optionMenu,tearoff=0)
 prefMenu.add_cascade(label="Theme", menu=themeMenu)
 prefMenu.add_checkbutton(label="Include Input In Output", variable=menuShowInputInOutput, onvalue=1, offvalue=0, command=prefChange)
 prefMenu.add_checkbutton(label="Include Input In Notes", variable=menuShowInputInNotes, onvalue=1, offvalue=0, command=prefChange)
+prefMenu.add_separator()
 prefMenu.add_cascade(label="Reset Default Settings", command=resetDefaults)
 
 optionMenu.add_cascade(label="Preferences", menu=prefMenu)
