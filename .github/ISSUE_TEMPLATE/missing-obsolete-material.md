@@ -8,5 +8,7 @@ assignees: ChrisHairstonBnR
 
 ---
 
+*Please ensure you are using the latest version before submitting a missing obsolete material.*
+
 **Obsolete Material:** 
 **Suggested Successor:**
