@@ -8,6 +8,8 @@ assignees: ChrisHairstonBnR
 
 ---
 
+*Please ensure you are using the latest version before submitting a note request.*
+
 **Material/Series:**
 **Current Note:** (If empty type "N/A")
 **Suggested Change:**

@@ -2,12 +2,13 @@
 name: Wrong Successor Given
 about: Suggest an idea for this project
 title: Wrong Successor Given - [Input Material]
-labels: wrong_successor
+labels: ''
 assignees: ''
 
 ---
 
-**BnR SPF Version:** 
+*Please ensure you are using the latest version before submitting an incorrect successor output.*
+
 **Input Material:**
 **Incorrect Output Material:**
 
