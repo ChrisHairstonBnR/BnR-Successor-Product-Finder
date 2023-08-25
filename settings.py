@@ -18,19 +18,28 @@ class appSettings:
         try: 
             self.defaultTheme = config['DEFAULT']['DefaultTheme'] #save setting as member
         except:
-            config['DEFAULT']['DefaultTheme'] = 'default'
-
+            self.defaultTheme = 'default'
+            config['DEFAULT'] = {'DefaultTheme' : 'default'} 
         #Show input material in output
         try:
-            self.showInputInOutput = config['Display']['ShowInputInOutput']
+            self.showInputInOutput = eval(config['Display']['ShowInputInOutput'].lower().capitalize()) #Shoud be "True" or "False"
         except:
-            config['Display']['ShowInputInOutput'] = 'true'
-
+            #config['Display']['ShowInputInOutput'] = 'true'
+            self.showInputInOutput = True
+            if config.has_section("Display"):
+                config['Display']['ShowInputInOutput'] = 'true'
+            else:
+                config['Display'] = {'ShowInputInOutput' : 'true', 'ShowInputInNotes' : 'true'}
+                
         #Show input material in notes
         try:
-            self.showInputInNotes = config['Display']['ShowInputInNotes']
+            self.showInputInNotes = eval(config['Display']['ShowInputInNotes'].lower().capitalize()) #Shoud be "True" or "False"
         except:
-            config['Display']['ShowInputInNotes'] = 'true'
+            self.showInputInNotes = True
+            if config.has_section("Display"):
+                config['Display']['ShowInputInNotes'] = 'true'
+            else:
+                config['Display'] = {'ShowInputInOutput' : 'true', 'ShowInputInNotes' : 'true'}
 
 
         self.saveSettings()

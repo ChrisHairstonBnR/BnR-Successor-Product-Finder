@@ -823,11 +823,11 @@ def getSuccessor(materialInput):
         matchResult = re.match(r"^X20SL80.{2}$", materialInput) #match if matches format X20SL80xx
         if matchResult != None: #if match object is not None (meaning there is at least one match)
             matchFound = True
-            strPartition =  materialInput.partition("80") #break the string into pre-seperator, seperator, and post-seperator (seperator is ".")
-            materialOutput = "X20SL81%s" % (strPartition[2]) #generate the successor P64new model number
+            materialOutput = "X20SL8100" #As a replacement, the 8100 covers all the 8000 models
             swChangesRequired = True #software changes needed
             anySuccessor = True
             definedSuccessor = True
+            situationalMsg = "Please discuss upgrade with sales person. A license will also need to be purchased depending on planned operation."
         
         ### GPOS ####
         # Windows
