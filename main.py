@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import ttk
+from tkinter import ttk, font
 from tkinter import messagebox
 from ttkthemes import ThemedTk
 import numpy as np
@@ -11,7 +11,7 @@ from update import *
 
 
 #----- VERSION -----#
-sofwareVersion = '0.86b'
+sofwareVersion = '0.87b'
 updateAvailable = False
 offlineMode = False
 hasLatestVersion = False
@@ -191,6 +191,9 @@ optionThemeList.remove('winnative')
 #sort list
 optionThemeList.sort() 
 
+#Styles/Fonts
+s = ttk.Style()
+s.configure('Header.TLabel', font=('Segoe UI', 10, 'bold'))
 
 # Application Icon
 icon = tk.PhotoImage(file= 'assets\BnR SPF Logo.png')
@@ -222,22 +225,24 @@ optionMenu.add_command(label="Exit", command=closeApp)
 
 menubar.add_cascade(label="Options", menu=optionMenu)
 
+
 # Create the GUI widgets
-label_obsolete_part = ttk.Label(root, text="Obsolete Part Number(s):")
+label_obsolete_part = ttk.Label(root, text="Obsolete Part Number(s):", style='Header.TLabel')
 entry_obsolete_part = tk.Text(root, height= 10, width= 25)
 button_search = ttk.Button(root, text="Search", command=on_button_click)
-label_successor_part = ttk.Label(root, text="Successor Part Number(s):")
+label_successor_part = ttk.Label(root, text="Successor Part Number(s):", style='Header.TLabel')
 text_successor_output = tk.Text(root, height= 10, width= 40, bg='#D3D3D3')
-label_successor_notes = ttk.Label(root, text= "Notes:")
+label_successor_notes = ttk.Label(root, text= "Notes:", style='Header.TLabel')
 text_successor_notes = tk.Text(root, height = 10, width= 75, bg="#FFFDD0")
 button_github_link = tk.Button(root, text= "To report a bug or missing material, or to request a feature or note, create an issue at https://github.com/ChrisHairstonBnR/Python-Successor-Finder/issues or click here.", command=on_github_link_click, border=0, bg=root['background'], fg=invertHexColor(root['background']))
 notes_scrollbar = ttk.Scrollbar(root, orient='horizontal')
 output_scrollbar = ttk.Scrollbar(root, orient='horizontal')
-label_sw_changes_required = ttk.Label(root, text= "SW Changes Required?")
-text_sw_changes_required = tk.Text(root, height= 10, width= 15, bg='#D3D3D3')
+label_sw_changes_required = ttk.Label(root, text= "SW Changes Required?", style='Header.TLabel')
+text_sw_changes_required = tk.Text(root, height= 10, width= 20, bg='#D3D3D3')
 button_clearOutputs = ttk.Button(root, text="Clear Outputs", command=lambda: clearAll(False))
 button_clearAll = ttk.Button(root, text="Clear All", command=lambda: clearAll(True))
 vertical_scrollbar = ttk.Scrollbar(root, orient='vertical')
+label_disclaimer = ttk.Label(root, text='Disclaimer: The outputs of this tool are not guaranteed to be correct and should be checked for accuracy.', font=('Segoe UI', 12, 'italic'))
 
 #Widget configuration
 text_successor_notes.config(xscrollcommand=notes_scrollbar.set, wrap="none", state= 'disabled', yscrollcommand=syncScroll)
@@ -253,8 +258,8 @@ vertical_scrollbar.config(command=syncScroll)
 #Grid configuration
 #rows
 root.rowconfigure(index=0, weight=0)
-root.rowconfigure(index=1, weight=1)
-root.rowconfigure(index=2, weight=0)
+root.rowconfigure(index=1, weight=0)
+root.rowconfigure(index=2, weight=1)
 root.rowconfigure(index=3, weight=0)
 
 #columns
@@ -268,21 +273,22 @@ text_sw_changes_required.tag_configure("center_text", justify='center')
 
 
 # Position the widgets using the grid geometry manager
-label_obsolete_part.grid(row=0, column=0, padx=5, pady=5)
-entry_obsolete_part.grid(row=1, column=0, padx=5, pady=5, sticky='ns')
-button_search.grid(row=2, column=0, padx=5, pady=5)
-label_successor_part.grid(row=0, column=1, padx=5, pady=5)
-text_successor_output.grid(row=1, column=1, padx=5, pady=5, sticky='ns')
-label_successor_notes.grid(row=0, column=3, padx=5, pady=5)
-text_successor_notes.grid(row=1, column=3, padx=5, pady=5, sticky='news')
-button_github_link.grid(row=3, column=0, columnspan=4, padx=5, pady=5, sticky='e')
-notes_scrollbar.grid(row=2, column=3, sticky='ew')
-output_scrollbar.grid(row=2, column=1, sticky='ew')
-label_sw_changes_required.grid(row=0, column=2, padx=5, pady=5)
-text_sw_changes_required.grid(row=1, column=2, padx=5, pady=5, sticky='ns')
-button_clearOutputs.grid(row=3, column=0, padx=5, pady=5, sticky= 'e')
-button_clearAll.grid(row=3, column=0, padx=5, pady=5, sticky= 'w')
-vertical_scrollbar.grid(row=1, column=4, padx=5, pady=5, sticky='ns')
+label_obsolete_part.grid(row=1, column=0, padx=5, pady=5)
+entry_obsolete_part.grid(row=2, column=0, padx=5, pady=5, sticky='ns')
+button_search.grid(row=3, column=0, padx=5, pady=5)
+label_successor_part.grid(row=1, column=1, padx=5, pady=5)
+text_successor_output.grid(row=2, column=1, padx=5, pady=5, sticky='ns')
+label_successor_notes.grid(row=1, column=3, padx=5, pady=5)
+text_successor_notes.grid(row=2, column=3, padx=5, pady=5, sticky='news')
+button_github_link.grid(row=4, column=0, columnspan=4, padx=5, pady=5, sticky='e')
+notes_scrollbar.grid(row=3, column=3, sticky='ew')
+output_scrollbar.grid(row=3, column=1, sticky='ew')
+label_sw_changes_required.grid(row=1, column=2, padx=5, pady=5)
+text_sw_changes_required.grid(row=2, column=2, padx=5, pady=5, sticky='ns')
+button_clearOutputs.grid(row=4, column=0, padx=5, pady=5, sticky= 'e')
+button_clearAll.grid(row=4, column=0, padx=5, pady=5, sticky= 'w')
+vertical_scrollbar.grid(row=2, column=4, padx=5, pady=5, sticky='ns')
+label_disclaimer.grid(row=0, column=0, columnspan=5, padx=5, pady=5, sticky='ew')
 
 #Check for Update
 u = Updater()
