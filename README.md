@@ -1,4 +1,4 @@
-# Python Successor Finder
+# Successor Product Finder
 **Enter obsolete materials to receive a successor.**
 
 ## Dependencies
