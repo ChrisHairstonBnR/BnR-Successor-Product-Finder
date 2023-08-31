@@ -10,7 +10,7 @@ class appSettings:
         if os.path.exists(settingsPath): #If the file already exists, read the settings
            config.read(settingsPath)
         else:
-            self.defaultSettings()   #if not set up defaults
+            self.restoreDefaultSettings()   #if not set up defaults
 
         #try to pull setting but if that doesn't work (i.e. the ini file was wrongly manipulated) just set defaults
         #this should be done individually for each setting 
