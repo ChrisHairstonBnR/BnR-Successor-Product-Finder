@@ -1,6 +1,0 @@
-build/
-dist/
-releases/
-__pycache__/
-SuccessorProductDB.db-journal
-testing/~$SPF Tests.xlsx
