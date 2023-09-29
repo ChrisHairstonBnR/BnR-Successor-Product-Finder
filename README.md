@@ -2,6 +2,11 @@
 
 **Enter obsolete materials to receive a successor.**
 
+## For B&R Employees
+Source Code Repository: https://bitbucket.br-automation.com/projects/JUNF/repos/bnr-successor-product-finder/
+
+Jira Project: https://jira.br-automation.com/projects/JUNF/summary
+
 ## Usage
 ### Updating the Application
 Everytime the application starts, it will attempt to check the GitHub repository to see if there is a newer release version. If so, a message will appear asking if you would like to download the latest version. If the application is unable to establish a connection you will enter "Offline Mode" (see below). Answering "OK" will bring you to the direct download link for the zip file containing the release. If you answer "Cancel" you can still choose to update the application later by going to Options->About and clicking the "Download Update" button. If you already have the latest release version, "(Latest)" will appear next to you're version number and the "Download Update" button will be disabled.
